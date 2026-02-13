@@ -1,0 +1,116 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">Axon Ivy Chatbot</ui:define>
+    <ui:define name="content">
+
+      <h:outputStylesheet library="css" name="chatbot.css" />
+      <h:outputScript library="js" name="chat.js" />
+
+      <h:form id="chatForm">
+        <p:ajaxStatus onstart="return false;" style="display:none !important;">
+          <f:facet name="start"><span style="display:none;"></span></f:facet>
+          <f:facet name="complete"><span style="display:none;"></span></f:facet>
+        </p:ajaxStatus>
+
+        <div class="chat-container flex flex-column">
+
+          <!-- Messages Area -->
+          <div class="messages-area flex-1 overflow-auto p-3 md:p-4 lg:px-6" id="chatMessagesContainer">
+            <div class="chat-content chat-content-wrapper mx-auto">
+
+              <!-- Welcome Message -->
+              <h:panelGroup rendered="#{empty data.messages}" layout="block">
+                <div class="welcome-area flex flex-column align-items-center justify-content-center">
+                  <div class="welcome-icon flex align-items-center justify-content-center border-circle mb-3">
+                    <i class="pi pi-comments text-white"></i>
+                  </div>
+                  <div class="text-2xl font-semibold text-color mb-2">Hello, how can I help you?</div>
+                  <p class="text-center text-color-secondary m-0 line-height-3">
+                    Ask me anything and I'll do my best to assist you.
+                  </p>
+                </div>
+              </h:panelGroup>
+
+              <ui:repeat value="#{data.messages}" var="message">
+                <!-- User Message -->
+                <h:panelGroup rendered="#{message.role eq 'USER'}" layout="block"
+                              styleClass="flex justify-content-end mb-3">
+                  <div class="user-bubble">
+                    <div class="user-bubble-content p-3 border-round-xl text-white">
+                      <h:outputText value="#{message.content}" />
+                    </div>
+                  </div>
+                </h:panelGroup>
+
+                <!-- AI Message -->
+                <h:panelGroup rendered="#{message.role eq 'AI'}" layout="block" styleClass="mb-3">
+                  <div class="flex align-items-start gap-2">
+                    <div class="avatar flex align-items-center justify-content-center border-circle flex-shrink-0">
+                      <i class="pi pi-comments text-white"></i>
+                    </div>
+                    <div class="assistant-content flex-1">
+                      <div class="text-sm font-semibold text-color mb-1">Assistant</div>
+                      <div class="p-3">
+                        <h:outputText value="#{message.content}" escape="false" />
+                      </div>
+                    </div>
+                  </div>
+                </h:panelGroup>
+              </ui:repeat>
+
+              <!-- Thinking Indicator -->
+              <div class="mb-3" id="thinkingIndicator" style="display: none;">
+                <div class="flex align-items-start gap-2">
+                  <div class="avatar flex align-items-center justify-content-center border-circle flex-shrink-0">
+                    <i class="pi pi-comments text-white"></i>
+                  </div>
+                  <div class="assistant-content flex-1">
+                    <div class="text-sm font-semibold text-color mb-1">Assistant</div>
+                    <div class="p-3">
+                      <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span class="typing-text text-color-secondary">Thinking...</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Input Area -->
+          <div class="surface-0 border-top-1 surface-border p-3">
+            <div class="input-wrapper mx-auto flex align-items-end gap-2">
+              <div class="flex-1">
+                <p:inputTextarea id="chatInput"
+                                value="#{data.message}"
+                                rows="1"
+                                autoResize="true"
+                                maxlength="2000"
+                                styleClass="w-full"
+                                placeholder="Type your message..."
+                                onkeydown="handleChatInputKeydown(event)" />
+              </div>
+              <p:commandButton id="sendBtn" icon="pi pi-send" styleClass="p-button-rounded">
+                <p:ajax event="click" listener="#{logic.chat}"
+                  process="chatInput" update="chatForm" global="false"
+                  onstart="showThinking();"
+                  oncomplete="onChatComplete();" />
+              </p:commandButton>
+            </div>
+          </div>
+
+        </div>
+      </h:form>
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

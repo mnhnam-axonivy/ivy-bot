@@ -1,0 +1,17 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/data-class/13.2.0/data-class.json",
+  "simpleName" : "ChatBotData",
+  "namespace" : "ivy.bot.ChatBot",
+  "fields" : [ {
+    "name" : "messages",
+    "type" : "List<entity.Message>",
+    "modifiers" : [ ]
+  }, {
+    "name" : "message",
+    "modifiers" : [ ]
+  }, {
+    "name" : "answer",
+    "type" : "entity.Message",
+    "modifiers" : [ ]
+  } ]
+}

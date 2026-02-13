@@ -1,0 +1,15 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/data-class/13.2.0/data-class.json",
+  "simpleName" : "ChatAgentData",
+  "namespace" : "ivy.bot.agent",
+  "fields" : [ {
+    "name" : "query",
+    "comment" : "The user query to send to the AI agent",
+    "modifiers" : [ ]
+  }, {
+    "name" : "answer",
+    "type" : "entity.Message",
+    "comment" : "The AI agent response result",
+    "modifiers" : [ ]
+  } ]
+}

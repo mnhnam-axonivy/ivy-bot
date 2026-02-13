@@ -1,0 +1,14 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/data-class/13.2.0/data-class.json",
+  "simpleName" : "Message",
+  "namespace" : "entity",
+  "fields" : [ {
+    "name" : "role",
+    "comment" : "always \"AI\"",
+    "modifiers" : [ ]
+  }, {
+    "name" : "content",
+    "comment" : "The message text content",
+    "modifiers" : [ ]
+  } ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/13.2.0/process.json",
+  "id" : "19C4F999088CFA12",
+  "kind" : "CALLABLE_SUB",
+  "config" : {
+    "data" : "ivy.bot.agent.ChatAgentData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "CallSubStart",
+      "name" : "chat(String)",
+      "config" : {
+        "signature" : "chat",
+        "input" : {
+          "params" : [
+            { "name" : "query", "type" : "String", "desc" : "The user message to send to the AI agent" }
+          ],
+          "map" : {
+            "out.query" : "param.query"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "answer", "type" : "entity.Message", "desc" : "The AI agent response" }
+          ],
+          "map" : {
+            "result.answer" : "in.answer"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 208 }
+      },
+      "connect" : [
+        { "id" : "f6", "to" : "f5" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 528, "y" : 208 }
+      }
+    }, {
+      "id" : "f5",
+      "type" : "ProgramInterface",
+      "name" : "AI Agent",
+      "config" : {
+        "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
+        "userConfig" : {
+          "system" : "you are Axon Ivy AI Assistant, please answer user message",
+          "resultType" : "entity.Message.class",
+          "resultMapping" : "in.answer",
+          "query" : "<%= in.query %>"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 304, "y" : 208 }
+      },
+      "connect" : [
+        { "id" : "f7", "to" : "f1" }
+      ]
+    } ]
+}

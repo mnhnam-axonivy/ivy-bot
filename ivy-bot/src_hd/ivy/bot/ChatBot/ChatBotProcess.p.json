@@ -1,0 +1,168 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/13.2.0/process.json",
+  "id" : "19C4F9678DAC6CF5",
+  "kind" : "HTML_DIALOG",
+  "config" : {
+    "data" : "ivy.bot.ChatBot.ChatBotData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "HtmlDialogStart",
+      "name" : "start()",
+      "config" : {
+        "signature" : "start",
+        "guid" : "19C4F9678DAC03EB"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f11", "to" : "f17" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      }
+    }, {
+      "id" : "f2",
+      "type" : "HtmlDialogEventStart",
+      "name" : "close",
+      "config" : {
+        "guid" : "19C4F9678DB90A8A"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 160 }
+      },
+      "connect" : [
+        { "id" : "f12", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f3",
+      "type" : "HtmlDialogExit",
+      "visual" : {
+        "at" : { "x" : 224, "y" : 160 }
+      }
+    }, {
+      "id" : "f4",
+      "type" : "HtmlDialogMethodStart",
+      "name" : "chat()",
+      "config" : {
+        "signature" : "chat",
+        "guid" : "19C4F9678DB90B01"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 256 }
+      },
+      "connect" : [
+        { "id" : "f13", "to" : "f5" }
+      ]
+    }, {
+      "id" : "f5",
+      "type" : "Script",
+      "name" : "Add user message",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import entity.Message;",
+            "",
+            "Message msg = new Message();",
+            "msg.setRole(\"USER\");",
+            "msg.setContent(in.message);",
+            "",
+            "in.messages.add(msg);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 256, "y" : 256 }
+      },
+      "connect" : [
+        { "id" : "f14", "to" : "f6" }
+      ]
+    }, {
+      "id" : "f6",
+      "type" : "SubProcessCall",
+      "name" : "Chat Agent",
+      "config" : {
+        "processCall" : "ivy/bot/agent/ChatAgent:chat(String)",
+        "call" : {
+          "map" : {
+            "param.query" : "in.message"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.answer" : "result.answer"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 432, "y" : 256 },
+        "size" : { "width" : 128 }
+      },
+      "connect" : [
+        { "id" : "f19", "to" : "f20" }
+      ]
+    }, {
+      "id" : "f8",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 936, "y" : 256 }
+      }
+    }, {
+      "id" : "f17",
+      "type" : "Script",
+      "name" : "Init message list",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import java.util.ArrayList;",
+            "",
+            "in.messages = new ArrayList();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f18", "to" : "f1", "color" : "default" }
+      ]
+    }, {
+      "id" : "f20",
+      "type" : "Script",
+      "name" : "Add agent message",
+      "config" : {
+        "output" : {
+          "code" : [
+            "in.answer.setRole(\"AI\");",
+            "in.messages.add(in.answer);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 616, "y" : 256 }
+      },
+      "connect" : [
+        { "id" : "f21", "to" : "f22", "color" : "default" }
+      ]
+    }, {
+      "id" : "f22",
+      "type" : "Script",
+      "name" : "Clear textbox",
+      "config" : {
+        "output" : {
+          "code" : "in.message = \"\";"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 784, "y" : 256 }
+      },
+      "connect" : [
+        { "id" : "f23", "to" : "f8", "color" : "default" }
+      ]
+    } ]
+}
