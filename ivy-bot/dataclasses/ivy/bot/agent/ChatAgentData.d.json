@@ -11,5 +11,9 @@
     "type" : "entity.Message",
     "comment" : "The AI agent response result",
     "modifiers" : [ ]
+  }, {
+    "name" : "retrievedPolicies",
+    "comment" : "Temporary storage for HR policy content retrieved from PolicyRetriever",
+    "modifiers" : [ ]
   } ]
 }

@@ -47,7 +47,8 @@
       "config" : {
         "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
         "userConfig" : {
-          "system" : "you are Axon Ivy AI Assistant, please answer user message",
+          "system" : "You are Axon Ivy AI Assistant. You help employees with their questions and provide information about company policies.\n\nYou have access to the following tools:\n- retrievePolicies: Use this tool when the user asks about company policies, including but not limited to:\n  - Benefits (health insurance, dental, vision, 401k, life insurance, disability, wellness programs)\n  - Leave policies (vacation, sick leave, FMLA, parental leave, bereavement)\n  - General HR policies (code of conduct, dress code, work hours, attendance, workplace safety, confidentiality)\n- casualAnswer: Use this tool when the user's message is informal, casual, or not related to Axon Ivy or company policies. This includes greetings, jokes, off-topic questions, or any request outside your scope.\n\nWhen a user asks about company policies:\n1. Call the retrievePolicies tool with the user's question\n2. Use the returned policy content to provide an accurate, helpful answer\n3. Format the response clearly and cite specific policy details\n\nWhen a user sends an informal or off-topic message:\n1. Call the casualAnswer tool with the user's message\n2. Use the returned message to respond politely",
+          "tools" : "[\"retrievePolicies\",\"casualAnswer\"]",
           "resultType" : "entity.Message.class",
           "resultMapping" : "in.answer",
           "query" : "<%= in.query %>"
@@ -59,5 +60,129 @@
       "connect" : [
         { "id" : "f7", "to" : "f1" }
       ]
-    } ]
+    }, {
+      "id" : "f8",
+      "type" : "CallSubStart",
+      "name" : "retrievePolicies(String)",
+      "config" : {
+        "signature" : "retrievePolicies",
+        "input" : {
+          "params" : [
+            { "name" : "query", "type" : "String", "desc" : "The HR policy question or query from the user" }
+          ],
+          "map" : {
+            "out.query" : "param.query"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "retrievedPolicies", "type" : "String", "desc" : "Formatted HR policy content relevant to the query" }
+          ],
+          "map" : {
+            "result.retrievedPolicies" : "in.retrievedPolicies"
+          }
+        }
+      },
+      "tags" : [
+        "tool"
+      ],
+      "visual" : {
+        "at" : { "x" : 96, "y" : 400 },
+        "description" : "Use this tool when the user is asking about company policies, including benefits, leave, HR rules, dress code, work hours, code of conduct, or any workplace-related policy questions"
+      },
+      "connect" : [
+        { "id" : "f11", "to" : "f9" }
+      ]
+    }, {
+      "id" : "f9",
+      "type" : "SubProcessCall",
+      "name" : "Call PolicyRetriever",
+      "config" : {
+        "processCall" : "hr/knowledge/base/PolicyRetriever:retrievePolicies(String)",
+        "call" : {
+          "map" : {
+            "param.query" : "in.query"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.retrievedPolicies" : "result.formattedPolicies"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 304, "y" : 400 }
+      },
+      "connect" : [
+        { "id" : "f12", "to" : "f10" }
+      ]
+    }, {
+      "id" : "f10",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 528, "y" : 400 }
+      }
+    }, {
+      "id" : "f13",
+      "type" : "CallSubStart",
+      "name" : "casualAnswer(String)",
+      "config" : {
+        "signature" : "casualAnswer",
+        "input" : {
+          "params" : [
+            { "name" : "query", "type" : "String", "desc" : "The informal or off-topic user message" }
+          ],
+          "map" : {
+            "out.query" : "param.query"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "casualResponse", "type" : "String", "desc" : "A polite response for informal or off-topic messages" }
+          ],
+          "map" : {
+            "result.casualResponse" : "in.retrievedPolicies"
+          }
+        }
+      },
+      "tags" : [
+        "tool"
+      ],
+      "visual" : {
+        "at" : { "x" : 96, "y" : 512 },
+        "description" : "Use this tool when the user's message is informal, casual, or not related to Axon Ivy or company policies, such as greetings, jokes, or off-topic questions"
+      },
+      "connect" : [
+        { "id" : "f16", "to" : "f14" }
+      ]
+    }, {
+      "id" : "f14",
+      "type" : "Script",
+      "name" : "build casual response",
+      "config" : {
+        "output" : {
+          "code" : "in.retrievedPolicies = \"I appreciate your message! However, I'm the Axon Ivy AI Assistant, and I'm best suited to help with company policies and Axon Ivy-related questions. Feel free to ask me about benefits, leave policies, HR rules, or anything related to our workplace. How can I help you today?\";"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 304, "y" : 512 }
+      },
+      "connect" : [
+        { "id" : "f17", "to" : "f15" }
+      ]
+    }, {
+      "id" : "f15",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 528, "y" : 512 }
+      }
+    } ],
+  "layout" : {
+    "lanes" : [ {
+        "name" : "Tools of Chat Agent",
+        "offset" : 320,
+        "size" : 312
+      } ]
+  }
 }

@@ -42,6 +42,20 @@ function setInputEnabled(enabled) {
 }
 
 // ---------------------------------------------------------------------------
+// Markdown rendering
+// ---------------------------------------------------------------------------
+
+function renderMarkdown() {
+  if (typeof marked === 'undefined') { return; }
+  document.querySelectorAll('.ai-markdown-content').forEach(function (el) {
+    if (el.dataset.rendered) { return; }
+    var raw = el.textContent;
+    el.innerHTML = marked.parse(raw);
+    el.dataset.rendered = 'true';
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Thinking indicator
 // ---------------------------------------------------------------------------
 
@@ -116,6 +130,7 @@ function showThinking() {
 function onChatComplete() {
   setThinkingVisible(false);
   removeTempMessages();
+  renderMarkdown();
   setInputEnabled(true);
 
   var input = getChatInput();
@@ -145,6 +160,7 @@ function handleChatInputKeydown(event) {
 // Init
 // ---------------------------------------------------------------------------
 $(document).ready(function () {
+  renderMarkdown();
   scrollToBottom();
   var input = getChatInput();
   if (input) { input.focus(); }
