@@ -47,7 +47,7 @@
       "config" : {
         "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
         "userConfig" : {
-          "system" : "you are Axon Ivy AI Assistant, please answer user message",
+          "system" : "Axon Ivy AI Assistant. Please answer the user's questions helpfully and accurately.",
           "resultType" : "entity.Message.class",
           "resultMapping" : "in.answer",
           "query" : "<%= in.query %>"
