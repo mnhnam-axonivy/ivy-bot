@@ -9,7 +9,10 @@
       "type" : "RequestStart",
       "name" : "ivyBot",
       "config" : {
-        "signature" : "ivyBot"
+        "signature" : "ivyBot",
+        "request" : {
+          "name" : "My Chatbot"
+        }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 }
