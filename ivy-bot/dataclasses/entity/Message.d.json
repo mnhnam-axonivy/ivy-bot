@@ -4,7 +4,7 @@
   "namespace" : "entity",
   "fields" : [ {
     "name" : "role",
-    "comment" : "always \"AI\"",
+    "comment" : "Role of the guy who create the message",
     "modifiers" : [ ]
   }, {
     "name" : "content",
