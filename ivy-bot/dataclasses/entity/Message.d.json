@@ -1,10 +1,10 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/data-class/13.2.0/data-class.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
   "simpleName" : "Message",
   "namespace" : "entity",
   "fields" : [ {
     "name" : "role",
-    "comment" : "always \"AI\"",
+    "comment" : "Role of the guy who create the message",
     "modifiers" : [ ]
   }, {
     "name" : "content",
