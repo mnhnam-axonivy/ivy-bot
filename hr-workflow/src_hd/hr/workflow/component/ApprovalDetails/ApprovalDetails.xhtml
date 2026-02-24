@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="request" type="hr.workflow.LeaveRequest" />
+  <cc:attribute name="decision" type="java.lang.String" />
+  <cc:attribute name="readOnly" type="java.lang.Boolean" />
+</cc:interface>
+<cc:implementation>
+  <div class="surface-card border-round-xl shadow-1 p-4 mb-4">
+    <div class="flex align-items-center gap-2 mb-4">
+      <i class="si si-check-1 text-primary text-xl" />
+      <h:outputText value="Approval Decision" styleClass="text-xl font-semibold text-color" />
+    </div>
+
+    <div class="grid p-fluid">
+      <!-- Decision -->
+      <div class="col-12">
+        <h:outputText value="Decision" styleClass="block font-medium text-color-secondary mb-2" />
+        <h:panelGroup rendered="#{data.readOnly}">
+          <h:panelGroup styleClass="inline-block px-3 py-1 border-round-lg font-semibold #{data.request.status eq 'APPROVED' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+            <h:panelGroup rendered="#{data.request.status eq 'APPROVED'}"><i class="si si-check-1 mr-1" /></h:panelGroup>
+            <h:panelGroup rendered="#{data.request.status ne 'APPROVED'}"><i class="si si-delete-1 mr-1" /></h:panelGroup>
+            <h:outputText id="decision-ro" value="#{data.request.status}" />
+          </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{not data.readOnly}">
+          <p:selectOneRadio id="decision" value="#{cc.attrs.decision}" layout="responsive" columns="2"
+                            required="true" requiredMessage="Please select a decision">
+            <f:selectItem itemLabel="Approve" itemValue="APPROVED" />
+            <f:selectItem itemLabel="Reject" itemValue="REJECTED" />
+            <p:ajax process="@(this)" global="false" />
+          </p:selectOneRadio>
+        </h:panelGroup>
+      </div>
+
+      <!-- Comment -->
+      <div class="col-12">
+        <h:outputText value="Manager Comment" styleClass="block font-medium text-color-secondary mb-2" />
+        <h:panelGroup rendered="#{data.readOnly}">
+          <h:outputText id="comment-ro" value="#{data.request.approverComment}" styleClass="block text-color font-semibold"
+                        rendered="#{not empty data.request.approverComment}" />
+          <h:outputText id="no-comment" value="No comment provided" styleClass="block text-color-secondary font-italic"
+                        rendered="#{empty data.request.approverComment}" />
+        </h:panelGroup>
+        <h:panelGroup rendered="#{not data.readOnly}">
+          <p:inputTextarea id="approver-comment" value="#{data.request.approverComment}" rows="3" styleClass="w-full"
+                           placeholder="Add an optional comment about your decision" />
+        </h:panelGroup>
+      </div>
+    </div>
+  </div>
+
+</cc:implementation>
+</html>

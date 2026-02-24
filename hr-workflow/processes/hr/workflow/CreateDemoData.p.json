@@ -1,0 +1,49 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "19C8481A4BB89375",
+  "config" : {
+    "data" : "hr.workflow.CreateDemoDataData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "Create demo data",
+      "config" : {
+        "signature" : "createDemoData",
+        "request" : {
+          "name" : "Create demo data"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 360, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "name" : "Create employee data",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import hr.workflow.util.EmployeeDataInitializer;",
+            "",
+            "EmployeeDataInitializer.init();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 232, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f1", "color" : "default" }
+      ]
+    } ]
+}

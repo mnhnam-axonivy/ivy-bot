@@ -1,0 +1,17 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "ApproveLeaveRequestData",
+  "namespace" : "hr.workflow.ApproveLeaveRequest",
+  "fields" : [ {
+    "name" : "request",
+    "type" : "hr.workflow.LeaveRequest",
+    "comment" : "The leave request under review"
+  }, {
+    "name" : "decision",
+    "comment" : "APPROVED or REJECTED - radio button value"
+  }, {
+    "name" : "employee",
+    "type" : "hr.workflow.model.Employee",
+    "comment" : "The employee who submitted the leave request, looked up from request.employeeName"
+  } ]
+}

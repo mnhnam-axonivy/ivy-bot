@@ -1,0 +1,41 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "192A0004000A0001",
+  "kind" : "HTML_DIALOG",
+  "config" : {
+    "data" : "hr.workflow.component.LeaveRequestDetails.LeaveRequestDetailsData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "HtmlDialogStart",
+      "name" : "start(hr.workflow.LeaveRequest,hr.workflow.model.Employee,Boolean)",
+      "config" : {
+        "signature" : "start",
+        "input" : {
+          "params" : [
+            { "name" : "request", "type" : "hr.workflow.LeaveRequest", "desc" : "" },
+            { "name" : "employee", "type" : "hr.workflow.model.Employee", "desc" : "" },
+            { "name" : "readOnly", "type" : "Boolean", "desc" : "" }
+          ],
+          "map" : {
+            "out.request" : "param.request",
+            "out.employee" : "param.employee",
+            "out.readOnly" : "param.readOnly"
+          }
+        },
+        "guid" : "192A0004000A0002"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 256, "y" : 64 }
+      }
+    } ]
+}

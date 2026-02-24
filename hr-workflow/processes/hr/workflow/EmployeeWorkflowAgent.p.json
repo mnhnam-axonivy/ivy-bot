@@ -1,0 +1,233 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "19C8D589FE48312E",
+  "kind" : "CALLABLE_SUB",
+  "config" : {
+    "data" : "hr.workflow.EmployeeWorkflowAgentData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "CallSubStart",
+      "name" : "start",
+      "config" : {
+        "signature" : "start",
+        "input" : {
+          "params" : [
+            { "name" : "query", "type" : "String", "desc" : "The user query about employee information or leave requests" },
+            { "name" : "username", "type" : "String", "desc" : "Ivy session login name of the employee sending the query" },
+            { "name" : "pastConversation", "type" : "String", "desc" : "Previous conversation history from the top-level chat agent" }
+          ],
+          "map" : {
+            "out.query" : "param.query",
+            "out.username" : "param.username",
+            "out.pastConversation" : "param.pastConversation"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "result", "type" : "String", "desc" : "Agent response to the query" }
+          ],
+          "map" : {
+            "result.result" : "in.result"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 120, "y" : 72 }
+      },
+      "connect" : [
+        { "id" : "f10", "to" : "f20" }
+      ]
+    }, {
+      "id" : "f20",
+      "type" : "Script",
+      "name" : "Set Today",
+      "config" : {
+        "output" : {
+          "code" : "in.today = java.time.LocalDate.now().toString();"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 240, "y" : 72 }
+      },
+      "connect" : [
+        { "id" : "f21", "to" : "f2" }
+      ]
+    }, {
+      "id" : "f2",
+      "type" : "ProgramInterface",
+      "name" : "Employee Workflow Agent",
+      "config" : {
+        "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
+        "userConfig" : {
+          "model" : "\"gpt-4o\"",
+          "system" : "Today's date: <%= in.today %>.\r\n\r\nYou are an HR AI Agent assisting the employee with username '<%= in.username %>'.\r\n\r\nAlways validate all required fields before using a tool.",
+          "resultType" : "",
+          "tools" : "[\"findEmployee\",\"createLeaveRequest\"]",
+          "resultMapping" : "in.result",
+          "query" : "Past conversation:\r\n<%= in.pastConversation %>\r\n\r\nCurrent request: <%= in.query %>"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 416, "y" : 72 },
+        "size" : { "width" : 128 }
+      },
+      "connect" : [
+        { "id" : "f11", "to" : "f1", "color" : "default" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 568, "y" : 72 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "CallSubStart",
+      "name" : "findEmployee",
+      "config" : {
+        "signature" : "findEmployee",
+        "input" : {
+          "params" : [
+            { "name" : "username", "type" : "String", "desc" : "The username of the employee to look up" }
+          ],
+          "map" : {
+            "out.username" : "param.username"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "employee", "type" : "hr.workflow.model.Employee", "desc" : "The found employee object, or null if not found" }
+          ],
+          "map" : {
+            "result.employee" : "in.employee"
+          }
+        }
+      },
+      "tags" : [
+        "tool"
+      ],
+      "visual" : {
+        "at" : { "x" : 96, "y" : 296 },
+        "description" : "Find and return the employee record for the given username. Always call this first before any leave-related action."
+      },
+      "connect" : [
+        { "id" : "f12", "to" : "f4" }
+      ]
+    }, {
+      "id" : "f4",
+      "type" : "Script",
+      "name" : "Lookup Employee",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import hr.workflow.repository.EmployeeRepository;",
+            "in.employee = EmployeeRepository.getInstance().findByUsername(in.username);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 264, "y" : 296 }
+      },
+      "connect" : [
+        { "id" : "f13", "to" : "f6" }
+      ]
+    }, {
+      "id" : "f6",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 432, "y" : 296 }
+      }
+    }, {
+      "id" : "f7",
+      "type" : "CallSubStart",
+      "name" : "createLeaveRequest",
+      "config" : {
+        "signature" : "createLeaveRequest",
+        "input" : {
+          "params" : [
+            { "name" : "username", "type" : "String", "desc" : "Username of the employee requesting the leave" },
+            { "name" : "leaveType", "type" : "String", "desc" : "Type of leave. Must be exactly one of: Vacation, Sick Leave, Personal, Parental, Bereavement" },
+            { "name" : "startDate", "type" : "String", "desc" : "First day of leave as ISO date string (yyyy-MM-dd), e.g. 2025-03-01" },
+            { "name" : "endDate", "type" : "String", "desc" : "Last day of leave as ISO date string (yyyy-MM-dd), e.g. 2025-03-05" },
+            { "name" : "reason", "type" : "String", "desc" : "Reason for the leave request" }
+          ],
+          "map" : {
+            "out.username" : "param.username",
+            "out.leaveType" : "param.leaveType",
+            "out.startDate" : "param.startDate",
+            "out.endDate" : "param.endDate",
+            "out.reason" : "param.reason"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "confirmationMessage", "type" : "String", "desc" : "Confirmation message for the submitted leave request" }
+          ],
+          "map" : {
+            "result.confirmationMessage" : "in.confirmationMessage"
+          }
+        }
+      },
+      "tags" : [
+        "tool"
+      ],
+      "visual" : {
+        "at" : { "x" : 96, "y" : 408 },
+        "description" : "Create a new leave request for the employee. Requires leaveType, startDate, endDate, and reason. If there is no information about the employee, call to find employee info first."
+      },
+      "connect" : [
+        { "id" : "f15", "to" : "f8" }
+      ]
+    }, {
+      "id" : "f8",
+      "type" : "TriggerCall",
+      "name" : "Trigger Leave Request",
+      "config" : {
+        "processCall" : "hr/workflow/BusinessProcess:createLeaveRequest(hr.workflow.enums.LeaveType,java.time.LocalDate,java.time.LocalDate,String,String)",
+        "call" : {
+          "map" : {
+            "param.leaveType" : "hr.workflow.enums.LeaveType.fromString(in.leaveType)",
+            "param.startDate" : "java.time.LocalDate.parse(in.startDate)",
+            "param.endDate" : "java.time.LocalDate.parse(in.endDate)",
+            "param.reason" : "in.reason",
+            "param.username" : "in.username"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 288, "y" : 408 }
+      },
+      "connect" : [
+        { "id" : "f19", "to" : "f18" }
+      ]
+    }, {
+      "id" : "f18",
+      "type" : "Script",
+      "name" : "Set Confirmation",
+      "config" : {
+        "output" : {
+          "code" : "in.confirmationMessage = \"Your leave request for \" + in.leaveType + \" from \" + in.startDate + \" to \" + in.endDate + \" has been submitted. It will appear in your task list for review and confirmation.\";"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 448, "y" : 408 }
+      },
+      "connect" : [
+        { "id" : "f16", "to" : "f9" }
+      ]
+    }, {
+      "id" : "f9",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 608, "y" : 408 }
+      }
+    } ],
+  "layout" : {
+    "lanes" : [ {
+        "name" : "Tools of Employee Workflow Agent",
+        "offset" : 224,
+        "size" : 256
+      } ]
+  }
+}

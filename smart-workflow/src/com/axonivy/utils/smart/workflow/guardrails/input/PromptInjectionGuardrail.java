@@ -26,7 +26,8 @@ public class PromptInjectionGuardrail implements SmartWorkflowInputGuardrail {
   // Pattern for control characters that can be used to hide malicious content
   // Examples: "malicious\x00hidden" (null byte injection),
   // "\x1B[2J" (ANSI escape codes to clear screen)
-  private static final Pattern CONTROL_CHARS = Pattern.compile("[\\x00-\\x1F\\x7F]");
+  // Excludes \t (0x09), \n (0x0A), \r (0x0D) which are normal text characters
+  private static final Pattern CONTROL_CHARS = Pattern.compile("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]");
 
   @Override
   public GuardrailResult evaluate(String message) {

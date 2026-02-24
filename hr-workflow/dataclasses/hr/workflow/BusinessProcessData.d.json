@@ -1,0 +1,30 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "BusinessProcessData",
+  "namespace" : "hr.workflow",
+  "fields" : [ {
+    "name" : "request",
+    "type" : "hr.workflow.LeaveRequest",
+    "comment" : "The leave request data shared across all steps"
+  }, {
+    "name" : "username",
+    "type" : "String",
+    "comment" : "Username of the employee who initiated the leave request"
+  }, {
+    "name" : "leaveType",
+    "type" : "hr.workflow.enums.LeaveType",
+    "comment" : "Type of leave"
+  }, {
+    "name" : "startDate",
+    "type" : "java.time.LocalDate",
+    "comment" : "First day of leave"
+  }, {
+    "name" : "endDate",
+    "type" : "java.time.LocalDate",
+    "comment" : "Last day of leave"
+  }, {
+    "name" : "reason",
+    "type" : "String",
+    "comment" : "Reason for the leave request"
+  } ]
+}

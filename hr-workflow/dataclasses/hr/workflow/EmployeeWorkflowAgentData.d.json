@@ -1,0 +1,50 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "EmployeeWorkflowAgentData",
+  "namespace" : "hr.workflow",
+  "fields" : [ {
+    "name" : "query",
+    "type" : "String",
+    "comment" : "The user query about employee information or leave requests"
+  }, {
+    "name" : "today",
+    "type" : "String",
+    "comment" : "Today's date in ISO format (yyyy-MM-dd), used to anchor date calculations in the agent"
+  }, {
+    "name" : "pastConversation",
+    "type" : "String",
+    "comment" : "Past conversation history passed from the top-level chat agent"
+  }, {
+    "name" : "result",
+    "type" : "String",
+    "comment" : "Agent response to the query"
+  }, {
+    "name" : "username",
+    "type" : "String",
+    "comment" : "Employee username to look up"
+  }, {
+    "name" : "employee",
+    "type" : "hr.workflow.model.Employee",
+    "comment" : "Found employee, or null"
+  }, {
+    "name" : "leaveType",
+    "type" : "String",
+    "comment" : "Type of leave as provided by the AI agent"
+  }, {
+    "name" : "startDate",
+    "type" : "String",
+    "comment" : "First day of leave as ISO date string (yyyy-MM-dd)"
+  }, {
+    "name" : "endDate",
+    "type" : "String",
+    "comment" : "Last day of leave as ISO date string (yyyy-MM-dd)"
+  }, {
+    "name" : "reason",
+    "type" : "String",
+    "comment" : "Reason for the leave request"
+  }, {
+    "name" : "confirmationMessage",
+    "type" : "String",
+    "comment" : "Confirmation message returned by createLeaveRequest tool"
+  } ]
+}

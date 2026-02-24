@@ -1,0 +1,17 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "ApprovalDetailsData",
+  "namespace" : "hr.workflow.component.ApprovalDetails",
+  "fields" : [ {
+    "name" : "request",
+    "type" : "hr.workflow.LeaveRequest",
+    "comment" : "The leave request (contains approverComment and status)"
+  }, {
+    "name" : "decision",
+    "comment" : "The approval decision: APPROVED or REJECTED"
+  }, {
+    "name" : "readOnly",
+    "type" : "Boolean",
+    "comment" : "If true, show read-only decision result; if false, show editable radio + comment"
+  } ]
+}

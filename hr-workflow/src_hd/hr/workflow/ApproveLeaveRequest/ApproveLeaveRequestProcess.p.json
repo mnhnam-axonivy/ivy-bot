@@ -1,0 +1,98 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "192A0002000A0001",
+  "kind" : "HTML_DIALOG",
+  "config" : {
+    "data" : "hr.workflow.ApproveLeaveRequest.ApproveLeaveRequestData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "HtmlDialogStart",
+      "name" : "start(hr.workflow.LeaveRequest)",
+      "config" : {
+        "signature" : "start",
+        "input" : {
+          "params" : [
+            { "name" : "request", "type" : "hr.workflow.LeaveRequest", "desc" : "The leave request to review" }
+          ],
+          "map" : {
+            "out.request" : "param.request"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "request", "type" : "hr.workflow.LeaveRequest", "desc" : "The reviewed leave request with decision" }
+          ],
+          "map" : {
+            "result.request" : "in.request"
+          }
+        },
+        "guid" : "192A0002000A0002"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f5", "to" : "f8" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 416, "y" : 64 }
+      }
+    }, {
+      "id" : "f2",
+      "type" : "HtmlDialogMethodStart",
+      "name" : "submitDecision()",
+      "config" : {
+        "signature" : "submitDecision",
+        "guid" : "192A0002000A0003"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 160 }
+      },
+      "connect" : [
+        { "id" : "f6", "to" : "f4" }
+      ]
+    }, {
+      "id" : "f4",
+      "type" : "Script",
+      "name" : "Apply Decision",
+      "config" : {
+        "output" : {
+          "code" : "in.request.setStatus(in.decision);"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 256, "y" : 160 }
+      },
+      "connect" : [
+        { "id" : "f7", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f3",
+      "type" : "HtmlDialogExit",
+      "visual" : {
+        "at" : { "x" : 416, "y" : 160 }
+      }
+    }, {
+      "id" : "f8",
+      "type" : "Script",
+      "name" : "Lookup Employee",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import hr.workflow.repository.EmployeeRepository;",
+            "in.employee = EmployeeRepository.getInstance().findByUsername(in.request.getEmployeeName());"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 256, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f9", "to" : "f1", "color" : "default" }
+      ]
+    } ]
+}

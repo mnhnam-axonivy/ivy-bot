@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:ic="http://ivyteam.ch/jsf/component">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">Leave Request Result</ui:define>
+    <ui:define name="content">
+
+      <h:outputStylesheet library="css" name="leave-request.css" />
+
+      <div class="card">
+        <div class="text-center mb-4">
+          <h:outputText value="Leave Request Result" styleClass="text-3xl font-bold text-color" />
+          <p class="text-color-secondary m-0">Your leave request has been reviewed. See the result below.</p>
+        </div>
+
+        <!-- Status Banner -->
+        <h:panelGroup layout="block"
+            styleClass="mb-4 p-4 border-round-xl text-center #{data.request.status eq 'APPROVED' ? 'bg-green-50 border-1 border-green-200' : 'bg-red-50 border-1 border-red-200'}">
+          <h:panelGroup layout="block"
+              styleClass="text-2xl font-bold #{data.request.status eq 'APPROVED' ? 'text-green-700' : 'text-red-700'}">
+            <h:panelGroup rendered="#{data.request.status eq 'APPROVED'}"><i class="si si-check-1 mr-2" /></h:panelGroup>
+            <h:panelGroup rendered="#{data.request.status ne 'APPROVED'}"><i class="si si-delete-1 mr-2" /></h:panelGroup>
+            <h:outputText value="#{data.request.status eq 'APPROVED' ? 'Approved' : 'Rejected'}" />
+          </h:panelGroup>
+        </h:panelGroup>
+
+        <h:form id="result-form" styleClass="grid w-full">
+          <div class="col-12">
+            <ic:hr.workflow.component.LeaveRequestDetails
+                request="#{data.request}" readOnly="#{true}" employee="#{data.employee}" />
+          </div>
+
+          <div class="col-12">
+            <ic:hr.workflow.component.ApprovalDetails
+                request="#{data.request}" decision="#{data.request.status}" readOnly="#{true}" />
+          </div>
+
+          <div class="col-12 mt-3 text-right">
+            <p:commandButton id="done" actionListener="#{logic.close}"
+                             value="Done" icon="si si-check-1"
+                             styleClass="ui-button-primary" />
+          </div>
+        </h:form>
+      </div>
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

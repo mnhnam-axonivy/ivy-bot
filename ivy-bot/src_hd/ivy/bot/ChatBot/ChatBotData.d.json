@@ -13,5 +13,9 @@
     "name" : "answer",
     "type" : "entity.Message",
     "modifiers" : [ ]
+  }, {
+    "name" : "pastConversation",
+    "comment" : "Serialized past conversation to pass to ChatAgent",
+    "modifiers" : [ ]
   } ]
 }

@@ -8,15 +8,17 @@
   "elements" : [ {
       "id" : "f0",
       "type" : "CallSubStart",
-      "name" : "chat(String)",
+      "name" : "chat(String,String)",
       "config" : {
         "signature" : "chat",
         "input" : {
           "params" : [
-            { "name" : "query", "type" : "String", "desc" : "The user message to send to the AI agent" }
+            { "name" : "query", "type" : "String", "desc" : "The user message to send to the AI agent" },
+            { "name" : "pastConversation", "type" : "String", "desc" : "Previous conversation history" }
           ],
           "map" : {
-            "out.query" : "param.query"
+            "out.query" : "param.query",
+            "out.pastConversation" : "param.pastConversation"
           }
         },
         "result" : {
@@ -47,11 +49,11 @@
       "config" : {
         "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
         "userConfig" : {
-          "system" : "Axon Ivy AI Assistant - helps employees with questions and provides information about company policies. Available tools: (1) retrievePolicies - call this when users ask about company policies including benefits (health insurance, dental, vision, 401k, life insurance, disability, wellness programs), leave policies (vacation, sick leave, FMLA, parental leave, bereavement), or general HR policies (code of conduct, dress code, work hours, attendance, workplace safety, confidentiality). Use the returned policy content to provide accurate, helpful answers with specific policy details. (2) casualAnswer - call this when the user's message is informal, casual, or not related to company policies, such as greetings, jokes, or off-topic questions. Use the returned message to respond politely.",
-          "tools" : "[\"retrievePolicies\",\"casualAnswer\"]",
+          "system" : "You are the Axon Ivy AI Assistant. Help employees with company policy questions and personnel requests.",
+          "tools" : "[\"retrievePolicies\",\"casualAnswer\",\"handleEmployeeWorkflow\"]",
           "resultType" : "entity.Message.class",
           "resultMapping" : "in.answer",
-          "query" : "<%= in.query %>"
+          "query" : "Past conversation:\n<%= in.pastConversation %>\n\nCurrent question: <%= in.query %>"
         }
       },
       "visual" : {
@@ -177,12 +179,79 @@
       "visual" : {
         "at" : { "x" : 528, "y" : 512 }
       }
+    }, {
+      "id" : "f20",
+      "type" : "CallSubStart",
+      "name" : "handleEmployeeWorkflow",
+      "config" : {
+        "signature" : "handleEmployeeWorkflow",
+        "input" : {
+          "params" : [
+            { "name" : "query", "type" : "String", "desc" : "The user's HR workflow request (e.g. look up employee info or create a leave request)" },
+            { "name" : "pastConversation", "type" : "String", "desc" : "Previous conversation history to provide context for multi-turn interactions" }
+          ],
+          "map" : {
+            "out.query" : "param.query",
+            "out.pastConversation" : "param.pastConversation"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "workflowResult", "type" : "String", "desc" : "The result of the HR workflow action" }
+          ],
+          "map" : {
+            "result.workflowResult" : "in.retrievedPolicies"
+          }
+        }
+      },
+      "tags" : [
+        "tool"
+      ],
+      "visual" : {
+        "at" : { "x" : 96, "y" : 624 },
+        "description" : "Use when the user has a request related to personnel"
+      },
+      "connect" : [
+        { "id" : "f18", "to" : "f21" }
+      ]
+    }, {
+      "id" : "f21",
+      "type" : "SubProcessCall",
+      "name" : "Call EmployeeWorkflowAgent",
+      "config" : {
+        "processCall" : "hr/workflow/EmployeeWorkflowAgent:start(String,String,String)",
+        "call" : {
+          "map" : {
+            "param.query" : "in.query",
+            "param.username" : "ivy.session.getSessionUserName()",
+            "param.pastConversation" : "in.pastConversation"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out.retrievedPolicies" : "result.result"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 324, "y" : 625 },
+        "size" : { "width" : 152, "height" : 62 }
+      },
+      "connect" : [
+        { "id" : "f19", "to" : "f22" }
+      ]
+    }, {
+      "id" : "f22",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 528, "y" : 624 }
+      }
     } ],
   "layout" : {
     "lanes" : [ {
         "name" : "Tools of Chat Agent",
         "offset" : 320,
-        "size" : 312
+        "size" : 424
       } ]
   }
 }

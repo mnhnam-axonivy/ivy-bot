@@ -15,5 +15,9 @@
     "name" : "retrievedPolicies",
     "comment" : "Temporary storage for HR policy content retrieved from PolicyRetriever",
     "modifiers" : [ ]
+  }, {
+    "name" : "pastConversation",
+    "comment" : "Past conversation history for context",
+    "modifiers" : [ ]
   } ]
 }

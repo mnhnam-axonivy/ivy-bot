@@ -1,0 +1,14 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "LeaveRequestResultData",
+  "namespace" : "hr.workflow.LeaveRequestResult",
+  "fields" : [ {
+    "name" : "request",
+    "type" : "hr.workflow.LeaveRequest",
+    "comment" : "The completed leave request with final decision"
+  }, {
+    "name" : "employee",
+    "type" : "hr.workflow.model.Employee",
+    "comment" : "The employee who submitted the leave request, looked up from request.employeeName"
+  } ]
+}

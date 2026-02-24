@@ -1,0 +1,41 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "192A0007000A0001",
+  "kind" : "HTML_DIALOG",
+  "config" : {
+    "data" : "hr.workflow.component.EmployeeDetails.EmployeeDetailsData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "HtmlDialogStart",
+      "name" : "start(hr.workflow.model.Employee,String,Boolean)",
+      "config" : {
+        "signature" : "start",
+        "input" : {
+          "params" : [
+            { "name" : "employee", "type" : "hr.workflow.model.Employee", "desc" : "The employee to display" },
+            { "name" : "header", "type" : "String", "desc" : "Label for the fieldset legend; defaults to 'Employee Details' when empty" },
+            { "name" : "collapsed", "type" : "Boolean", "desc" : "Whether the fieldset is initially collapsed" }
+          ],
+          "map" : {
+            "out.employee" : "param.employee",
+            "out.header" : "param.header",
+            "out.collapsed" : "param.collapsed"
+          }
+        },
+        "guid" : "192A0007000A0002"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 256, "y" : 64 }
+      }
+    } ]
+}

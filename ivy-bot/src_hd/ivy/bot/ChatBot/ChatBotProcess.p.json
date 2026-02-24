@@ -56,7 +56,53 @@
         "at" : { "x" : 96, "y" : 256 }
       },
       "connect" : [
-        { "id" : "f13", "to" : "f5" }
+        { "id" : "f13", "to" : "f26" }
+      ]
+    }, {
+      "id" : "f26",
+      "type" : "Alternative",
+      "name" : "Has history?",
+      "config" : {
+        "conditions" : {
+          "f27" : "!in.messages.isEmpty()"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 176, "y" : 256 },
+        "labelOffset" : { "y" : -16 }
+      },
+      "connect" : [
+        { "id" : "f27", "to" : "f24" },
+        { "id" : "f28", "to" : "f5", "via" : [ { "x" : 176, "y" : 336 }, { "x" : 472, "y" : 336 } ] }
+      ]
+    }, {
+      "id" : "f24",
+      "type" : "Script",
+      "name" : "Build past conversation",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import entity.Message;",
+            "",
+            "StringBuilder sb = new StringBuilder();",
+            "for (Message msg : in.messages) {",
+            "    if (sb.length() > 0) {",
+            "        sb.append(\"\\n\");",
+            "    }",
+            "    sb.append(msg.getRole()).append(\": \").append(msg.getContent());",
+            "}",
+            "in.pastConversation = sb.toString();",
+            "",
+            "ivy.log.error(in.pastConversation);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 304, "y" : 256 },
+        "size" : { "width" : 128, "height" : 62 }
+      },
+      "connect" : [
+        { "id" : "f25", "to" : "f5" }
       ]
     }, {
       "id" : "f5",
@@ -76,7 +122,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 256, "y" : 256 }
+        "at" : { "x" : 480, "y" : 256 }
       },
       "connect" : [
         { "id" : "f14", "to" : "f6" }
@@ -86,10 +132,11 @@
       "type" : "SubProcessCall",
       "name" : "Chat Agent",
       "config" : {
-        "processCall" : "ivy/bot/agent/ChatAgent:chat(String)",
+        "processCall" : "ivy/bot/agent/ChatAgent:chat(String,String)",
         "call" : {
           "map" : {
-            "param.query" : "in.message"
+            "param.query" : "in.message",
+            "param.pastConversation" : "in.pastConversation"
           }
         },
         "output" : {
@@ -100,7 +147,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 432, "y" : 256 },
+        "at" : { "x" : 656, "y" : 256 },
         "size" : { "width" : 128 }
       },
       "connect" : [
@@ -110,7 +157,7 @@
       "id" : "f8",
       "type" : "HtmlDialogEnd",
       "visual" : {
-        "at" : { "x" : 936, "y" : 256 }
+        "at" : { "x" : 1160, "y" : 256 }
       }
     }, {
       "id" : "f17",
@@ -144,7 +191,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 616, "y" : 256 }
+        "at" : { "x" : 840, "y" : 256 }
       },
       "connect" : [
         { "id" : "f21", "to" : "f22", "color" : "default" }
@@ -159,7 +206,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 784, "y" : 256 }
+        "at" : { "x" : 1008, "y" : 256 }
       },
       "connect" : [
         { "id" : "f23", "to" : "f8", "color" : "default" }

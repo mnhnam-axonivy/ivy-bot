@@ -1,0 +1,18 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "EmployeeDetailsData",
+  "namespace" : "hr.workflow.component.EmployeeDetails",
+  "fields" : [ {
+    "name" : "employee",
+    "type" : "hr.workflow.model.Employee",
+    "comment" : "The employee whose details are displayed"
+  }, {
+    "name" : "header",
+    "type" : "String",
+    "comment" : "Label for the fieldset legend; defaults to 'Employee Details' when empty"
+  }, {
+    "name" : "collapsed",
+    "type" : "Boolean",
+    "comment" : "Whether the fieldset is initially collapsed"
+  } ]
+}

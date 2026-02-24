@@ -1,0 +1,82 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+  xmlns:ic="http://ivyteam.ch/jsf/component">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="request" type="hr.workflow.LeaveRequest" />
+  <cc:attribute name="employee" type="hr.workflow.model.Employee" />
+  <cc:attribute name="readOnly" type="java.lang.Boolean" />
+</cc:interface>
+<cc:implementation>
+
+  <ic:hr.workflow.component.EmployeeDetails employee="#{data.employee}" />
+
+  <div class="surface-card border-round-xl shadow-1 p-4 mb-4">
+    <div class="flex align-items-center gap-2 mb-4">
+      <i class="si si-calendar-1 text-primary text-xl" />
+      <h:outputText value="Leave Request Details" styleClass="text-xl font-semibold text-color" />
+    </div>
+
+    <div class="grid p-fluid">
+      <!-- Leave Type -->
+      <div class="col-12 md:col-3">
+        <h:outputText value="Leave Type" styleClass="block font-medium text-color-secondary mb-2" />
+        <h:panelGroup layout="block" rendered="#{data.readOnly}">
+          <h:outputText id="leave-type-ro" value="#{data.request.leaveType.displayName}" styleClass="block text-color" />
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{not data.readOnly}" styleClass="w-full">
+          <p:selectOneMenu id="leave-type" value="#{data.request.leaveType}" styleClass="w-full"
+                           required="true" requiredMessage="Leave type is required">
+            <f:selectItem itemLabel="-- Select Leave Type --" itemValue="" noSelectionOption="true" />
+            <f:selectItems value="#{leaveRequestDetailsBean.leaveTypes}" var="type" itemValue="#{type}" itemLabel="#{type.displayName}" />
+          </p:selectOneMenu>
+        </h:panelGroup>
+      </div>
+
+      <!-- Empty spacer -->
+      <div class="col-12 md:col-9"></div>
+
+      <!-- Start Date -->
+      <div class="col-12 md:col-6">
+        <h:outputText value="Start Date" styleClass="block font-medium text-color-secondary mb-2" />
+        <h:panelGroup layout="block" rendered="#{data.readOnly}">
+          <h:outputText id="start-date-ro" value="#{data.request.startDate}" styleClass="block text-color" />
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{not data.readOnly}" styleClass="w-full">
+          <p:datePicker id="start-date" value="#{data.request.startDate}" pattern="yyyy-MM-dd"
+                        styleClass="w-full" required="true" requiredMessage="Start date is required"
+                        showIcon="true" />
+        </h:panelGroup>
+      </div>
+
+      <!-- End Date -->
+      <div class="col-12 md:col-6">
+        <h:outputText value="End Date" styleClass="block font-medium text-color-secondary mb-2" />
+        <h:panelGroup layout="block" rendered="#{data.readOnly}">
+          <h:outputText id="end-date-ro" value="#{data.request.endDate}" styleClass="block text-color" />
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{not data.readOnly}" styleClass="w-full">
+          <p:datePicker id="end-date" value="#{data.request.endDate}" pattern="yyyy-MM-dd"
+                        styleClass="w-full" required="true" requiredMessage="End date is required"
+                        showIcon="true" />
+        </h:panelGroup>
+      </div>
+
+      <!-- Reason -->
+      <div class="col-12">
+        <h:outputText value="Reason" styleClass="block font-medium text-color-secondary mb-2" />
+        <h:panelGroup layout="block" rendered="#{data.readOnly}">
+          <h:outputText id="reason-ro" value="#{data.request.reason}" styleClass="block text-color" />
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{not data.readOnly}">
+          <p:inputTextarea id="reason" value="#{data.request.reason}" rows="3" styleClass="w-full"
+                           placeholder="Briefly describe the reason for your leave" />
+        </h:panelGroup>
+      </div>
+    </div>
+  </div>
+
+</cc:implementation>
+</html>

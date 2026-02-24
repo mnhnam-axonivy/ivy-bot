@@ -1,0 +1,32 @@
+/* ===== Layout ===== */
+.leave-request-container {
+  max-width: 800px;
+}
+
+/* ===== Status Banner ===== */
+.bg-green-50 {
+  background-color: rgba(34, 197, 94, 0.08);
+}
+
+.bg-red-50 {
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+/* ===== Card Hover Effect ===== */
+.surface-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.surface-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Form Spacing ===== */
+.leave-request-container label {
+  font-size: 0.875rem;
+}
+
+/* ===== Read-only text styling ===== */
+.leave-request-container .font-semibold {
+  padding: 0.5rem 0;
+}

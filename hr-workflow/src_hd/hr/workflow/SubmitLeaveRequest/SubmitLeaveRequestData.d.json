@@ -1,0 +1,14 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "SubmitLeaveRequestData",
+  "namespace" : "hr.workflow.SubmitLeaveRequest",
+  "fields" : [ {
+    "name" : "request",
+    "type" : "hr.workflow.LeaveRequest",
+    "comment" : "The leave request being created"
+  }, {
+    "name" : "employee",
+    "type" : "hr.workflow.model.Employee",
+    "comment" : "The employee submitting the request, looked up from the session username"
+  } ]
+}

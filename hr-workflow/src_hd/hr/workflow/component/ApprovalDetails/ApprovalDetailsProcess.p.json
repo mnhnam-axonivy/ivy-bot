@@ -1,0 +1,41 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "192A0005000A0001",
+  "kind" : "HTML_DIALOG",
+  "config" : {
+    "data" : "hr.workflow.component.ApprovalDetails.ApprovalDetailsData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "HtmlDialogStart",
+      "name" : "start(hr.workflow.LeaveRequest,String,Boolean)",
+      "config" : {
+        "signature" : "start",
+        "input" : {
+          "params" : [
+            { "name" : "request", "type" : "hr.workflow.LeaveRequest", "desc" : "" },
+            { "name" : "decision", "type" : "String", "desc" : "" },
+            { "name" : "readOnly", "type" : "Boolean", "desc" : "" }
+          ],
+          "map" : {
+            "out.request" : "param.request",
+            "out.decision" : "param.decision",
+            "out.readOnly" : "param.readOnly"
+          }
+        },
+        "guid" : "192A0005000A0002"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 416, "y" : 64 }
+      }
+    } ]
+}

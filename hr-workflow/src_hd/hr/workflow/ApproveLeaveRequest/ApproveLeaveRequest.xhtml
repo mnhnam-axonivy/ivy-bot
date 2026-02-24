@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:ic="http://ivyteam.ch/jsf/component">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">Approve Leave Request</ui:define>
+    <ui:define name="content">
+
+      <h:outputStylesheet library="css" name="leave-request.css" />
+
+      <div class="card">
+        <div class="text-center mb-4">
+          <h:outputText value="Leave Request Approval" styleClass="text-3xl font-bold text-color" />
+          <p class="text-color-secondary m-0">Review the request details below and make your decision.</p>
+        </div>
+
+        <h:form id="approval-form" styleClass="grid w-full">
+          <div class="col-12">
+            <p:messages id="form-messages" showDetail="true" closable="true" />
+          </div>
+
+          <div class="col-12">
+            <ic:hr.workflow.component.LeaveRequestDetails
+                employee="#{data.employee}"
+                request="#{data.request}" readOnly="#{true}" />
+          </div>
+
+          <div class="col-12">
+            <ic:hr.workflow.component.ApprovalDetails
+                request="#{data.request}" decision="#{data.decision}" readOnly="#{false}" />
+          </div>
+
+          <div class="col-12 mt-3 text-right">
+            <p:commandButton id="submit-decision" actionListener="#{logic.submitDecision}"
+                             value="Submit Decision" process="approval-form" update="approval-form"
+                             icon="si si-check-1"
+                             styleClass="ui-button-primary" />
+          </div>
+        </h:form>
+      </div>
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

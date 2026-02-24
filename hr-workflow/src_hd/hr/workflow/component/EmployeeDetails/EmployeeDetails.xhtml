@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="employee" type="hr.workflow.model.Employee" />
+  <cc:attribute name="header" type="java.lang.String" />
+  <cc:attribute name="collapsed" type="java.lang.Boolean" />
+</cc:interface>
+<cc:implementation>
+
+  <h:panelGroup rendered="#{data.employee != null}">
+    <p:fieldset legend="#{empty data.header ? 'Employee Details' : data.header}"
+                toggleable="true" collapsed="#{data.collapsed}" styleClass="mb-4">
+      <div class="grid">
+        <div class="col-12 md:col-6">
+          <h:outputText value="Name" styleClass="block font-medium text-color-secondary mb-1" />
+          <h:outputText value="#{data.employee.fullName} (#{data.employee.username})" styleClass="block text-color" />
+        </div>
+        <div class="col-12 md:col-6">
+          <h:outputText value="Email" styleClass="block font-medium text-color-secondary mb-1" />
+          <h:outputText value="#{data.employee.email}" styleClass="block text-color" />
+        </div>
+        <h:panelGroup layout="block" rendered="#{data.employee.position ne null}">
+          <div class="col-12 md:col-6">
+            <h:outputText value="Job Title" styleClass="block font-medium text-color-secondary mb-1" />
+            <h:outputText value="#{data.employee.position.title}" styleClass="block text-color" />
+          </div>
+          <div class="col-12 md:col-6">
+            <h:outputText value="Department" styleClass="block font-medium text-color-secondary mb-1" />
+            <h:outputText value="#{data.employee.position.department}" styleClass="block text-color" />
+          </div>
+        </h:panelGroup>
+      </div>
+    </p:fieldset>
+  </h:panelGroup>
+
+</cc:implementation>
+</html>

@@ -1,0 +1,34 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "LeaveRequest",
+  "namespace" : "hr.workflow",
+  "fields" : [ {
+    "name" : "employeeName",
+    "type" : "String",
+    "comment" : "Full name of the employee submitting the request"
+  }, {
+    "name" : "leaveType",
+    "type" : "hr.workflow.enums.LeaveType",
+    "comment" : "Type of leave"
+  }, {
+    "name" : "startDate",
+    "type" : "java.time.LocalDate",
+    "comment" : "First day of leave"
+  }, {
+    "name" : "endDate",
+    "type" : "java.time.LocalDate",
+    "comment" : "Last day of leave"
+  }, {
+    "name" : "reason",
+    "type" : "String",
+    "comment" : "Reason for the leave request"
+  }, {
+    "name" : "status",
+    "type" : "String",
+    "comment" : "PENDING, APPROVED, or REJECTED"
+  }, {
+    "name" : "approverComment",
+    "type" : "String",
+    "comment" : "Comment from the manager during approval"
+  } ]
+}
