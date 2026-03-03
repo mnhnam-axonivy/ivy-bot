@@ -1,0 +1,452 @@
+/* Simple Business Dialog - Minimal animations for professional look */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Legacy animation styles - kept for backward compatibility but not used in business dialog */
+
+/* Upload Zone */
+.upload-zone {
+  border: 2px dashed var(--primary-color);
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--surface-ground) 0%, var(--surface-card) 100%);
+  transition: all 0.3s ease;
+}
+
+.upload-zone:hover {
+  border-color: var(--primary-500);
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--surface-card) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+/* Stat Cards */
+.stat-card {
+  background: linear-gradient(135deg, var(--surface-card) 0%, var(--surface-hover) 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Candidate Row */
+.candidate-row:hover {
+  background: var(--surface-hover) !important;
+}
+
+/* Skill Badge */
+.skill-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 0.2rem;
+  background: linear-gradient(135deg, var(--primary-100) 0%, var(--primary-50) 100%);
+  color: var(--primary-700);
+  border: 1px solid var(--primary-200);
+}
+
+/* Level Badges */
+.level-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.level-entry { 
+  background: #dbeafe; 
+  color: #1e40af; 
+}
+
+.level-mid { 
+  background: #fef3c7; 
+  color: #92400e; 
+}
+
+.level-senior { 
+  background: #d1fae5; 
+  color: #065f46; 
+}
+
+/* Upload Icon Styles */
+.upload-icon-circle {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Candidates Icon Circle */
+.candidates-icon-circle {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Candidate Avatar */
+.candidate-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+/* Skills Counter Circle */
+.skills-counter {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Dialog Header Gradient */
+.dialog-header-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Dialog Avatar */
+.dialog-avatar {
+  width: 4rem;
+  height: 4rem;
+}
+
+/* AI Summary Card */
+.ai-summary-card {
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+  border-left: 4px solid #667eea;
+}
+
+/* Work History Icon Circle */
+.work-history-icon {
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+}
+
+/* Education Icon Circle */
+.education-icon {
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+}
+
+/* Legacy animation styles removed - using simpler business design */
+
+/* AI Processing Dialog Styles - Business & Simple */
+.ai-processing-dialog .ui-dialog-content {
+  padding: 0 !important;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.ai-processing-dialog .ui-dialog {
+  border-radius: 0 !important;
+  overflow: hidden;
+  box-shadow: none !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  margin: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  border: none !important;
+}
+
+.ai-processing-dialog .ui-dialog-titlebar {
+  display: none !important;
+}
+
+/* Center content vertically in full screen */
+.processing-dialog-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.processing-card {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem 2.5rem;
+  max-width: 550px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Processing Icon */
+.processing-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f4ff;
+  border-radius: 50%;
+}
+
+.processing-icon {
+  font-size: 2rem;
+  color: #667eea;
+}
+
+/* Custom Progress Bar */
+.custom-progressbar {
+  height: 6px;
+  border-radius: 3px;
+  background: #e9ecef;
+  overflow: hidden;
+}
+
+.custom-progressbar .ui-progressbar-value {
+  background: #667eea;
+  border-radius: 3px;
+}
+
+.custom-progressbar .ui-progressbar-label {
+  display: none;
+}
+
+/* Status List */
+.status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  transition: all 0.3s ease;
+}
+
+.status-icon {
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.status-text {
+  font-size: 0.95rem;
+  color: #6c757d;
+  font-weight: 400;
+}
+
+/* Status States */
+.status-item.pending .status-icon {
+  color: #dee2e6;
+}
+
+.status-item.pending .status-text {
+  color: #adb5bd;
+}
+
+.status-item.active .status-icon {
+  color: #667eea;
+}
+
+.status-item.active .status-text {
+  color: #333;
+  font-weight: 500;
+}
+
+.status-item.completed .status-icon {
+  color: #10b981;
+}
+
+.status-item.completed .status-text {
+  color: #6c757d;
+  text-decoration: line-through;
+}
+
+/* Make dialog responsive - Full Screen on all devices */
+@media screen and (max-width: 768px) {
+  .processing-dialog-content {
+    padding: 1rem;
+  }
+
+  .processing-card {
+    padding: 2rem 1.5rem;
+    max-width: 100%;
+  }
+
+  .processing-icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .processing-icon {
+    font-size: 1.5rem;
+  }
+
+  .status-text {
+    font-size: 0.875rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .processing-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .status-item {
+    gap: 0.5rem;
+  }
+
+  .status-text {
+    font-size: 0.813rem;
+  }
+}
+
+/* Contact Info Icons */
+.contact-icon {
+  width: 1.5rem;
+}
+
+/* Responsive styles for the main layout */
+@media screen and (max-width: 992px) {
+  .dialog-avatar {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .ai-status-text {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .upload-zone {
+    padding: 1.5rem !important;
+  }
+
+  .upload-zone i {
+    font-size: 3rem !important;
+  }
+
+  .upload-zone h4 {
+    font-size: 1rem;
+  }
+
+  .skill-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .dialog-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .candidate-dialog {
+    width: 95% !important;
+  }
+}
+
+/* Smooth transitions for all cards */
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Enhanced button hover effects */
+.p-button:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Smooth table row hover */
+.ui-datatable .ui-datatable-data tr:hover {
+  background-color: var(--surface-hover) !important;
+  transition: background-color 0.2s ease;
+}
+
+/* Candidate Action Menu Styles - Portal Design */
+.candidate-action-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.candidate-action-group .p-button {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.candidate-action-group .ui-menu {
+  min-width: 180px;
+}
+
+.candidate-action-group .ui-menuitem-link {
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.candidate-action-group .ui-menuitem-icon {
+  font-size: 1rem;
+  width: 1.25rem;
+}
+
+.candidate-action-group .ui-menuitem-text {
+  flex: 1;
+}
+
+/* Danger/Destroy menu item styling */
+.color-destroy .ui-menuitem-link {
+  color: #dc3545;
+}
+
+.color-destroy .ui-menuitem-link:hover {
+  background-color: #fee;
+  color: #dc3545;
+}
+
+/* Menu item hover effect */
+.candidate-action-group .ui-menuitem-link:hover {
+  background-color: var(--surface-hover);
+}
+
+/* Skills Radar Chart Styles */
+#skillsRadarChart {
+  max-width: 400px;
+  max-height: 300px;
+  margin: 0 auto;
+}
+
+.candidate-dialog {
+  max-width: 1000px;
+}
+
+/* Add scrollbar to dialog content */
+.candidate-dialog .ui-dialog-content {
+  overflow-y: auto !important;
+  max-height: calc(90vh - 150px);
+}
+
+/* Ensure canvas is responsive */
+canvas {
+  display: block;
+  box-sizing: border-box;
+}

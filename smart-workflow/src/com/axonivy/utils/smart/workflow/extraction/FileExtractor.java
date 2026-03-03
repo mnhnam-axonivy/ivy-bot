@@ -1,71 +1,87 @@
 package com.axonivy.utils.smart.workflow.extraction;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
-import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.io.FilenameUtils;
 
 import dev.langchain4j.data.message.Content;
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.PdfFileContent;
-import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatModel;
 
 public class FileExtractor {
 
-  private static final SystemMessage SYSTEM_PROMPT = SystemMessage.from("""
-      Please analyze the attached file and extract relevant information.
-      If the file is a PDF, extract the text content from all pages.
-      The format should be in Markdown, and if the file contains tabular data, please represent it in a markdown table for better readability.
-  """);
-
-  private static final Map<String, String> MIME_TYPES = Map.of(
-      "png", "image/png",
-      "jpg", "image/jpeg",
-      "jpeg", "image/jpeg",
-      "pdf", "application/pdf"
-  );
-
-  private static final String UNSUPPORTED_FILE_TYPE_MSG = "Unsupported file type: %s. Supported types: %s.";
-  private static final String FAILED_TO_READ_FILE_MSG = "Failed to read file: %s";
-
+  private static final byte[] PDF_PREFIX = "%PDF-".getBytes(StandardCharsets.US_ASCII);
+  private static final String UNSUPPORTED_FILE_TYPE_MSG = "Unsupported file type for '%s'. Consider converting to PDF, PNG or JPEG, or open a support request.";
+  private static final String FAILED_TO_READ_FILE_MSG = "Failed to read file '%s'";
   private final ChatModel model;
 
   public FileExtractor(ChatModel model) {
     this.model = model;
   }
 
-  public String extract(File file) {
-    if (file == null) {
+  public String extract(InputStream stream, String fileName) {
+    if (stream == null) {
       return "";
     }
-
-    UserMessage userMessage = UserMessage.from(createFileContent(file));
-    return model.chat(SYSTEM_PROMPT, userMessage).aiMessage().text();
+    String resolvedFilename = Optional.ofNullable(fileName).orElse("unknown file name");
+    try {
+      byte[] bytes = stream.readAllBytes();
+      Content content = createContent(bytes, fileName);
+      if (content != null) {
+        String result = model.chat(UserMessage.from(content)).aiMessage().text();
+        return result;
+      }
+      throw new RuntimeException(String.format(UNSUPPORTED_FILE_TYPE_MSG, resolvedFilename));
+    } catch (IOException e) {
+      throw new RuntimeException(String.format(FAILED_TO_READ_FILE_MSG, resolvedFilename), e);
+    }
   }
 
-  private Content createFileContent(File file) {
-    String extension = FilenameUtils.getExtension(file.getName()).toLowerCase();
+  private static Content createContent(byte[] bytes, String fileName) {
+    String base64 = Base64.getEncoder().encodeToString(bytes);
+    String extension = Optional.ofNullable(fileName)
+        .map(FilenameUtils::getExtension)
+        .map(String::toLowerCase)
+        .or(() -> detectExtension(bytes))
+        .orElse("");
+
     return switch (extension) {
-      case "png", "jpg", "jpeg"
-        -> ImageContent.from(encodeFileToBase64(file), MIME_TYPES.get(extension), ImageContent.DetailLevel.HIGH);
-      case "pdf"
-        -> PdfFileContent.from(encodeFileToBase64(file), MIME_TYPES.get(extension));
-      default
-        -> throw new IllegalArgumentException(String.format(UNSUPPORTED_FILE_TYPE_MSG, file.getName(), MIME_TYPES.keySet()));
+      case "png" -> ImageContent.from(base64, "image/png", ImageContent.DetailLevel.HIGH);
+      case "jpg", "jpeg" -> ImageContent.from(base64, "image/jpeg", ImageContent.DetailLevel.HIGH);
+      case "pdf" -> PdfFileContent.from(base64, "application/pdf");
+      default -> null;
     };
   }
 
-  private String encodeFileToBase64(File file) {
+  private static Optional<String> detectExtension(byte[] data) {
     try {
-      byte[] fileBytes = Files.readAllBytes(file.toPath());
-      return Base64.getEncoder().encodeToString(fileBytes);
+      String mime = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(data));
+      return switch (mime != null ? mime : "") {
+        case "image/png"  -> Optional.of("png");
+        case "image/jpeg" -> Optional.of("jpeg");
+        default -> resolvePdfExtension(data);
+      };
     } catch (IOException e) {
-      throw new RuntimeException(String.format(FAILED_TO_READ_FILE_MSG, file.getName()), e);
+      return Optional.empty();
     }
+  }
+
+  /**
+   * PDF files cannot be reliably detected via URLConnection, so we check the prefix bytes for "%PDF-".
+   */
+  private static Optional<String> resolvePdfExtension(byte[] data) {
+    return data.length >= PDF_PREFIX.length
+        && Arrays.equals(data, 0, PDF_PREFIX.length,
+          PDF_PREFIX, 0, PDF_PREFIX.length)
+        ? Optional.of("pdf") : Optional.empty();
   }
 }

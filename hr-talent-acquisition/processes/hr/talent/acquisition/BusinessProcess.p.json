@@ -1,0 +1,42 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "19BF94BF2BF4CA04",
+  "config" : {
+    "data" : "hr.talent.acquisition.BusinessProcessData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "candidateManagement",
+      "config" : {
+        "signature" : "candidateManagement",
+        "request" : {
+          "name" : "Candidate Management"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 360, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "DialogCall",
+      "config" : {
+        "dialog" : "hr.talent.acquisition.TalentManagement:start()"
+      },
+      "visual" : {
+        "at" : { "x" : 240, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f1", "color" : "default" }
+      ]
+    } ]
+}

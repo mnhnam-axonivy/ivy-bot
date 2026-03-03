@@ -1,0 +1,219 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:ic="http://ivyteam.ch/jsf/component"
+  xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="managedBean" required="true" type="hr.talent.acquisition.bean.TalentManagementBean" />
+</cc:interface>
+
+<cc:implementation>
+
+  <!-- Candidate Details Content -->
+  <p:outputPanel rendered="#{cc.attrs.managedBean.selectedCandidate != null}">
+      <!-- Header with name and level -->
+      <div class="flex align-items-center justify-content-between p-3 mb-3 border-round dialog-header-gradient">
+        <div class="flex align-items-center">
+          <h:graphicImage value="#{cc.attrs.managedBean.getFaceAsDataUri(cc.attrs.managedBean.selectedCandidate)}"
+            rendered="#{not empty cc.attrs.managedBean.selectedCandidate.face}"
+            style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.5);" />
+          <h:panelGroup layout="inline"
+            rendered="#{empty cc.attrs.managedBean.selectedCandidate.face}"
+            styleClass="flex align-items-center justify-content-center border-circle bg-white-alpha-30 text-white font-bold text-2xl dialog-avatar">
+            #{cc.attrs.managedBean.getInitials(cc.attrs.managedBean.selectedCandidate)}
+          </h:panelGroup>
+          <div class="ml-3 text-white">
+            <h2 class="m-0">#{cc.attrs.managedBean.selectedCandidate.fullName}</h2>
+            <p class="m-0 opacity-80">#{cc.attrs.managedBean.selectedCandidate.contactEmail}</p>
+          </div>
+        </div>
+        <span class="px-3 py-2 border-round bg-white-alpha-20 text-white font-semibold">
+          #{cc.attrs.managedBean.selectedCandidate.level} LEVEL
+        </span>
+      </div>
+
+      <!-- Tabbed Content -->
+      <p:tabView styleClass="candidate-tabs">
+
+        <!-- Tab 1: Overview -->
+        <p:tab title="Overview">
+          <div class="grid pt-3">
+        <!-- Contact Info -->
+        <div class="col-12 md:col-6">
+          <div class="card h-full surface-50">
+            <h4 class="mt-0 flex align-items-center">
+              <i class="pi pi-id-card text-primary mr-2"></i>
+              Contact Information
+            </h4>
+            <div class="flex align-items-center mb-2">
+              <i class="pi pi-envelope text-500 mr-2 contact-icon"></i>
+              <span>#{cc.attrs.managedBean.selectedCandidate.contactEmail}</span>
+            </div>
+            <p:outputPanel rendered="#{not empty cc.attrs.managedBean.selectedCandidate.contactPhone}">
+              <div class="flex align-items-center mb-2">
+                <i class="pi pi-phone text-500 mr-2 contact-icon"></i>
+                <span>#{cc.attrs.managedBean.selectedCandidate.contactPhone}</span>
+              </div>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{not empty cc.attrs.managedBean.selectedCandidate.currentLocation}">
+              <div class="flex align-items-center mb-2">
+                <i class="pi pi-map-marker text-500 mr-2 contact-icon"></i>
+                <span>#{cc.attrs.managedBean.selectedCandidate.currentLocation}</span>
+              </div>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{not empty cc.attrs.managedBean.selectedCandidate.linkedInUrl}">
+              <div class="flex align-items-center mb-2">
+                <i class="pi pi-linkedin text-500 mr-2 contact-icon"></i>
+                <h:outputLink value="#{cc.attrs.managedBean.selectedCandidate.linkedInUrl}" target="_blank" styleClass="text-primary">
+                  LinkedIn Profile
+                </h:outputLink>
+              </div>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{not empty cc.attrs.managedBean.selectedCandidate.githubUrl}">
+              <div class="flex align-items-center">
+                <i class="pi pi-github text-500 mr-2 contact-icon"></i>
+                <h:outputLink value="#{cc.attrs.managedBean.selectedCandidate.githubUrl}" target="_blank" styleClass="text-primary">
+                  GitHub Profile
+                </h:outputLink>
+              </div>
+            </p:outputPanel>
+          </div>
+        </div>
+
+        <!-- AI Summary -->
+        <div class="col-12 md:col-6">
+          <div class="card h-full ai-summary-card">
+            <h4 class="mt-0 flex align-items-center">
+              <i class="pi pi-bolt text-primary mr-2"></i>
+              AI-Generated Summary
+            </h4>
+            <p class="text-700 line-height-3 m-0">#{cc.attrs.managedBean.selectedCandidate.aiGeneratedSummary}</p>
+          </div>
+        </div>
+
+        <!-- Professional Summary -->
+        <p:outputPanel styleClass="col-12" rendered="#{not empty cc.attrs.managedBean.selectedCandidate.professionalSummary}">
+          <div class="card">
+            <h4 class="mt-0 flex align-items-center">
+              <i class="pi pi-align-left text-primary mr-2"></i>
+              Professional Summary
+            </h4>
+            <p class="text-700 line-height-3 m-0">#{cc.attrs.managedBean.selectedCandidate.professionalSummary}</p>
+          </div>
+        </p:outputPanel>
+
+      </div>
+    </p:tab>
+
+    <!-- Tab 2: Skills -->
+    <p:tab title="Skills">
+      <div class="grid pt-3">
+        <!-- Technical Skills -->
+        <div class="col-12 md:col-6">
+          <div class="card">
+            <h4 class="mt-0 flex align-items-center">
+              <i class="pi pi-code text-primary mr-2"></i>
+              Technical Skills
+              <p:badge value="#{cc.attrs.managedBean.selectedCandidate.technicalSkills.size()}" severity="info" styleClass="ml-2" />
+            </h4>
+            <div class="flex flex-wrap">
+              <ui:repeat value="#{cc.attrs.managedBean.selectedCandidate.technicalSkills}" var="skill">
+                <span class="skill-badge">
+                  <i class="pi pi-check-circle mr-1 text-xs"></i>
+                  #{skill.skillName}
+                  <span class="ml-2 text-xs opacity-70">(#{skill.score}/10)</span>
+                </span>
+              </ui:repeat>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills Radar Chart -->
+        <div class="col-12 md:col-6">
+          <div class="card">
+            <h4 class="mt-0 flex align-items-center">
+              <i class="pi pi-chart-bar text-primary mr-2"></i>
+              Skills Score Matrix
+            </h4>
+            <div class="flex justify-content-center align-items-center" style="min-height: 300px;">
+              <canvas id="skillsRadarChart" width="400" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </p:tab>
+
+    <!-- Tab 3: Work History -->
+    <p:tab title="Work History">
+      <div class="pt-3">
+        <!-- Work History -->
+        <p:outputPanel styleClass="col-12" rendered="#{not empty cc.attrs.managedBean.selectedCandidate.workHistories}">
+          <div class="card">
+            <h4 class="mt-0 flex align-items-center">
+              <i class="pi pi-briefcase text-primary mr-2"></i>
+              Work History
+            </h4>
+            <ui:repeat value="#{cc.attrs.managedBean.selectedCandidate.workHistories}" var="work" varStatus="status">
+              <p:outputPanel styleClass="#{status.last ? '' : 'border-bottom-1 surface-border pb-3 mb-3'}">
+                <div class="flex align-items-start">
+                  <span class="flex align-items-center justify-content-center border-circle bg-primary-100 text-primary mt-1 work-history-icon">
+                    <i class="pi pi-building text-sm"></i>
+                  </span>
+                  <div class="ml-3 flex-grow-1">
+                    <h5 class="m-0 text-900">#{work.jobTitle}</h5>
+                    <p class="text-primary font-medium mt-1 mb-1">#{work.employer}</p>
+                    <p class="text-500 text-sm m-0">
+                      <i class="pi pi-calendar mr-1"></i>
+                      #{work.periodStart} - #{work.periodEnd != null ? work.periodEnd : 'Present'}
+                      <span class="mx-2">•</span>
+                      <span class="text-xs px-2 py-1 border-round surface-200">#{work.employerCategory}</span>
+                    </p>
+                    <ui:repeat value="#{work.keyDuties}" var="duty">
+                      <p class="text-700 text-sm my-1 ml-2">• #{duty}</p>
+                    </ui:repeat>
+                  </div>
+                </div>
+              </p:outputPanel>
+            </ui:repeat>
+          </div>
+        </p:outputPanel>
+
+      </div>
+    </p:tab>
+
+    <!-- Tab 4: Education -->
+    <p:tab title="Education">
+      <div class="pt-3">
+        <!-- Education -->
+        <p:outputPanel styleClass="col-12" rendered="#{not empty cc.attrs.managedBean.selectedCandidate.educationRecords}">
+          <div class="card">
+            <h4 class="mt-0 flex align-items-center">
+              <i class="pi pi-graduation-cap text-primary mr-2"></i>
+              Education
+            </h4>
+            <ui:repeat value="#{cc.attrs.managedBean.selectedCandidate.educationRecords}" var="edu" varStatus="status">
+              <p:outputPanel styleClass="flex align-items-start #{status.last ? '' : 'mb-3'}">
+                <span class="flex align-items-center justify-content-center border-circle bg-green-100 text-green-600 mt-1 education-icon">
+                  <i class="pi pi-book text-sm"></i>
+                </span>
+                <div class="ml-3">
+                  <h5 class="m-0 text-900">#{edu.qualificationType} in #{edu.studyArea}</h5>
+                  <p class="text-500 mt-1 mb-0">
+                    #{edu.school} • #{edu.completionYear}
+                    <h:outputText value=" • GPA: #{edu.academicScore}" rendered="#{not empty edu.academicScore}" styleClass="text-primary font-medium" />
+                  </p>
+                </div>
+              </p:outputPanel>
+            </ui:repeat>
+          </div>
+        </p:outputPanel>
+
+      </div>
+    </p:tab>
+
+  </p:tabView>
+  </p:outputPanel>
+
+</cc:implementation>
+
+</html>

@@ -1,0 +1,274 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">CV Screening - Talent Management</ui:define>
+    <ui:define name="content">
+
+      <h:outputStylesheet name="talent-management.css" library="css" />
+      <h:outputScript name="talent-management.js" library="js" />
+
+      <!-- Chart.js Library -->
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+      <h:form id="form">
+        <p:messages id="messages" showDetail="true" closable="true" />
+        
+        <div class="grid">
+          <!-- Section 1: Upload CV -->
+          <div class="col-12 lg:col-4">
+            <div class="card h-full">
+              <div class="flex align-items-center mb-4">
+                <div>
+                  <h3 class="m-0 text-900">Upload CV</h3>
+                  <p class="text-500 m-0 text-sm">Add new candidates</p>
+                </div>
+              </div>
+              
+              <div class="upload-zone p-5 text-center">
+                <i class="pi pi-cloud-upload text-primary mb-3 text-6xl"></i>
+                <h4 class="text-700 mt-2 mb-3">Drag &amp; Drop CV Here</h4>
+                <p class="text-500 text-sm mb-4">Supports PDF and Markdown files up to 10MB</p>
+
+                <p:fileUpload id="cvUpload"
+                  listener="#{talentManagementBean.handleCvUpload}"
+                  mode="advanced"
+                  auto="true"
+                  allowTypes="/(\.|\/)(pdf|md)$/i"
+                  sizeLimit="10485760"
+                  fileLimit="1"
+                  label="Select CV File"
+                  chooseIcon="pi pi-file"
+                  skinSimple="true"
+                  update="form:messages form:candidatesPanel"
+                  onstart="startAiProcessing()"
+                  oncomplete="stopAiProcessing();"
+                  styleClass="w-full"  global="false"/>
+              </div>
+              
+              <div class="mt-4 p-3 border-round surface-100">
+                <div class="flex align-items-center mb-2">
+                  <i class="pi pi-bolt text-primary mr-2"></i>
+                  <span class="font-semibold text-700">AI-Powered Parsing</span>
+                </div>
+                <p class="text-500 text-sm m-0">Our AI automatically extracts contact info, skills, work history, and education from CVs.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Section 2: Candidates Table -->
+          <div class="col-12 lg:col-8">
+            <div class="card" style="height: 100%">
+              <h3 class="mb-4">
+                <i class="pi pi-users mr-2"></i>
+                Candidate Profiles
+              </h3>
+              
+              <p:outputPanel id="candidatesPanel">
+                <p:dataTable id="candidatesTable" 
+                  value="#{talentManagementBean.candidates}" 
+                  var="candidate"
+                  rowKey="#{candidate.id}"
+                  emptyMessage="No candidates yet. Upload a CV to get started."
+                  paginator="true"
+                  paginatorAlwaysVisible="false"
+                  rows="10"
+                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords}">
+                  
+                  <p:column headerText="" width="56" styleClass="text-center">
+                    <h:panelGroup>
+                      <h:graphicImage value="#{talentManagementBean.getFaceAsDataUri(candidate)}"
+                        rendered="#{not empty candidate.face}"
+                        style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
+                      <p:avatar label="#{talentManagementBean.getInitials(candidate)}"
+                        shape="circle" size="normal"
+                        rendered="#{empty candidate.face}"
+                        style="width:40px;height:40px;font-size:0.85rem;" />
+                    </h:panelGroup>
+                  </p:column>
+
+                  <p:column headerText="Name" sortBy="#{candidate.fullName}">
+                    <h:outputText value="#{candidate.fullName}" />
+                  </p:column>
+                  
+                  <p:column headerText="Email" sortBy="#{candidate.contactEmail}">
+                    <h:outputText value="#{candidate.contactEmail}" />
+                  </p:column>
+                  
+                  <p:column headerText="Location" sortBy="#{candidate.currentLocation}">
+                    <h:outputText value="#{candidate.currentLocation}" rendered="#{not empty candidate.currentLocation}" />
+                    <h:outputText value="-" rendered="#{empty candidate.currentLocation}" />
+                  </p:column>
+                  
+                  <p:column headerText="Level" sortBy="#{candidate.level}">
+                    <h:outputText value="#{candidate.level}" />
+                  </p:column>
+                  
+                  <p:column headerText="Number of Skills" width="140">
+                    <h:outputText value="#{talentManagementBean.getSkillCount(candidate)}" />
+                  </p:column>
+                  
+                  <p:column headerText="Experience">
+                    <h:outputText value="#{talentManagementBean.getExperienceYears(candidate)}" />
+                  </p:column>
+                  
+                  <p:column headerText="Actions" width="120" styleClass="text-center">
+                    <div class="candidate-action-group">
+                      <h:panelGroup layout="block">
+                        <p:commandButton id="actionBtn"
+                          icon="pi pi-ellipsis-h"
+                          ariaLabel="Actions"
+                          styleClass="p-button-text p-button-rounded"
+                          type="button" />
+                        <p:menu id="actionMenu"
+                          styleClass="w-auto"
+                          overlay="true"
+                          trigger="@previous"
+                          my="right top"
+                          at="right bottom">
+                          <p:menuitem id="viewDetails"
+                            process="@this"
+                            actionListener="#{talentManagementBean.showCandidateDetails(candidate)}"
+                            icon="pi pi-eye"
+                            update="form:detailsDialog"
+                            global="false"
+                            value="View Details"
+                            oncomplete="PF('detailsDialog').show()"
+                            title="View Details" />
+                          <p:menuitem id="removeCandidate"
+                            process="@this"
+                            styleClass="color-destroy"
+                            icon="pi pi-trash"
+                            actionListener="#{talentManagementBean.removeCandidate(candidate)}"
+                            global="false"
+                            update="form:candidatesPanel form:messages"
+                            title="Remove"
+                            value="Remove">
+                            <p:confirm header="Confirm Removal" message="Remove #{candidate.fullName}?" icon="pi pi-exclamation-triangle" />
+                          </p:menuitem>
+                        </p:menu>
+                      </h:panelGroup>
+                    </div>
+                  </p:column>
+                  
+                </p:dataTable>
+              </p:outputPanel>
+            </div>
+          </div>
+        </div>
+
+        <!-- Candidate Details Dialog -->
+        <p:dialog id="detailsDialog"
+          header="Candidate Profile"
+          widgetVar="detailsDialog"
+          modal="true"
+          responsive="true"
+          width="90%"
+          height="90%"
+          closeOnEscape="true"
+          resizable="false"
+          styleClass="candidate-dialog"
+          onShow="initCandidateDialog()">
+
+          <ic:hr.talent.acquisition.component.CandidateDetails id="candidate-details-component"
+            managedBean="#{talentManagementBean}" />
+
+          <f:facet name="footer">
+            <p:commandButton value="Close"
+              icon="pi pi-times"
+              styleClass="p-button-outlined"
+              onclick="PF('detailsDialog').hide()"
+              type="button" />
+          </f:facet>
+        </p:dialog>
+
+        <!-- AI Processing Dialog - Business Style -->
+        <p:dialog widgetVar="statusDialog"
+          modal="true"
+          closable="false"
+          showHeader="false"
+          width="100%"
+          height="100%"
+          styleClass="ai-processing-dialog">
+          <div class="processing-dialog-content">
+            <div class="card processing-card">
+              <!-- Icon -->
+              <div class="flex justify-content-center mb-3">
+                <div class="processing-icon-wrapper">
+                  <i class="pi pi-spin pi-spinner processing-icon"></i>
+                </div>
+              </div>
+
+              <!-- Title -->
+              <h3 class="text-center mb-3 text-900 font-semibold">Processing CV</h3>
+
+              <!-- Progress Bar -->
+              <div class="mb-4">
+                <p:progressBar id="cvProgressBar"
+                  widgetVar="cvProgressBar"
+                  mode="indeterminate"
+                  styleClass="custom-progressbar" />
+              </div>
+
+              <!-- Status List -->
+              <div class="status-list">
+                <div class="status-item" id="statusLine1">
+                  <i class="pi pi-circle-fill status-icon"></i>
+                  <span class="status-text">Extracting contact information</span>
+                </div>
+                <div class="status-item" id="statusLine2">
+                  <i class="pi pi-circle-fill status-icon"></i>
+                  <span class="status-text">Parsing technical skills</span>
+                </div>
+                <div class="status-item" id="statusLine3">
+                  <i class="pi pi-circle-fill status-icon"></i>
+                  <span class="status-text">Analyzing work experience</span>
+                </div>
+                <div class="status-item" id="statusLine4">
+                  <i class="pi pi-circle-fill status-icon"></i>
+                  <span class="status-text">Processing education records</span>
+                </div>
+                <div class="status-item" id="statusLine5">
+                  <i class="pi pi-circle-fill status-icon"></i>
+                  <span class="status-text">Evaluating skill proficiency</span>
+                </div>
+                <div class="status-item" id="statusLine6">
+                  <i class="pi pi-circle-fill status-icon"></i>
+                  <span class="status-text">Generating profile summary</span>
+                </div>
+                <div class="status-item" id="statusLine7">
+                  <i class="pi pi-circle-fill status-icon"></i>
+                  <span class="status-text">Finalizing candidate profile</span>
+                </div>
+                <div class="status-item" id="statusLine8">
+                  <i class="pi pi-circle-fill status-icon"></i>
+                  <span class="status-text">Running validation checks</span>
+                </div>
+              </div>
+
+              <!-- Footer Note -->
+              <div class="mt-4 text-center">
+                <p class="text-600 text-sm m-0">
+                  <i class="pi pi-clock mr-1"></i>
+                  This process typically takes 30-40 seconds
+                </p>
+              </div>
+            </div>
+          </div>
+        </p:dialog>
+        
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+          <p:commandButton value="Yes" type="button" styleClass="p-button-danger" icon="pi pi-check" />
+          <p:commandButton value="No" type="button" styleClass="p-button-outlined" icon="pi pi-times" />
+        </p:confirmDialog>
+        
+      </h:form>
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

@@ -1,0 +1,26 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "TalentManagementData",
+  "namespace" : "hr.talent.acquisition.TalentManagement",
+  "fields" : [ {
+    "name" : "candidates",
+    "type" : "List<hr.talent.acquisition.model.CandidateProfile>",
+    "comment" : "List of all candidates"
+  }, {
+    "name" : "selectedCandidate",
+    "type" : "hr.talent.acquisition.model.CandidateProfile",
+    "comment" : "Currently selected candidate for details view"
+  }, {
+    "name" : "uploadedCvContent",
+    "type" : "String",
+    "comment" : "Content of the uploaded CV file"
+  }, {
+    "name" : "isProcessing",
+    "type" : "Boolean",
+    "comment" : "Flag indicating if CV is being processed"
+  }, {
+    "name" : "statusMessage",
+    "type" : "String",
+    "comment" : "Status message for UI feedback"
+  } ]
+}

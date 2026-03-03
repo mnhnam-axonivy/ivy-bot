@@ -1,0 +1,21 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "CandidateCreatorData",
+  "namespace" : "hr.talent.acquisition.agent",
+  "fields" : [ {
+    "name" : "cvFile",
+    "type" : "java.io.InputStream",
+    "comment" : "CV file as InputStream (PDF, image, etc.)",
+    "modifiers" : [ ]
+  }, {
+    "name" : "candidateProfile",
+    "type" : "hr.talent.acquisition.model.CandidateProfile",
+    "comment" : "Parsed candidate profile"
+  }, {
+    "name" : "error",
+    "type" : "ch.ivyteam.ivy.bpm.error.BpmError",
+    "modifiers" : [ ]
+  }, {
+    "name" : "errorStr"
+  } ]
+}

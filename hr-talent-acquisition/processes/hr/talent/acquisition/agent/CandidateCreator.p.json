@@ -1,0 +1,104 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "19BF93F0576A8686",
+  "kind" : "CALLABLE_SUB",
+  "config" : {
+    "data" : "hr.talent.acquisition.agent.CandidateCreatorData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "CallSubStart",
+      "name" : "createCandidate(java.io.InputStream)",
+      "config" : {
+        "signature" : "createCandidate",
+        "input" : {
+          "params" : [
+            { "name" : "cvFile", "type" : "java.io.InputStream", "desc" : "CV file as InputStream (PDF, image, etc.)" }
+          ],
+          "map" : {
+            "out.cvFile" : "param.cvFile",
+            "out.candidateProfile" : "new hr.talent.acquisition.model.CandidateProfile()"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "candidateProfile", "type" : "hr.talent.acquisition.model.CandidateProfile", "desc" : "Parsed candidate profile" },
+            { "name" : "error", "type" : "String", "desc" : "" }
+          ],
+          "map" : {
+            "result.candidateProfile" : "in.candidateProfile",
+            "result.error" : "in.errorStr"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 560, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "ProgramInterface",
+      "name" : "Parse CV",
+      "config" : {
+        "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
+        "userConfig" : {
+          "system" : "You are a CV parsing assistant. Extract ALL information from the CV in a single pass and populate every field of a CandidateProfile.\n\nCONTACT & PROFILE:\n- fullName: Full name of the candidate\n- contactEmail: Primary email address\n- contactPhone: Phone number (with country code if available)\n- currentLocation: City, State/Country\n- linkedInUrl: LinkedIn profile URL (if mentioned)\n- githubUrl: GitHub profile URL (if mentioned)\n- professionalSummary: Career objective or summary statement (copy verbatim if exists)\n- aiGeneratedSummary: Generate 2-3 sentences highlighting the candidate's key qualifications and strengths\n- level: Developer seniority based on total years of experience:\n  * ENTRY: 0-2 years\n  * MID: 2-5 years\n  * SENIOR: 5+ years\n\nTECHNICAL SKILLS — for each skill create a TechnicalSkill with:\n- skillName: Technology/tool name (e.g., Java, React, PostgreSQL)\n- skillDomain: BACKEND | FRONTEND | DATABASE | CLOUD | DEVOPS | ARCHITECTURE | AI_ML | MLOPS\n- score: Proficiency 1-10 (1-3 basic, 4-6 working knowledge, 7-8 proficient, 9-10 expert)\n- monthsUsed: Estimated total months of experience with this skill\n\nWORK HISTORY — for each position create a WorkHistory with:\n- employer: Company/organisation name\n- employerCategory: FAANG | STARTUP | MIDSIZE_SAAS | ENTERPRISE | CONSULTANCY\n- jobTitle: Position/role title\n- periodStart: Start date (format: \"MMM yyyy\", e.g., \"Jan 2020\")\n- periodEnd: End date or null if current position\n- keyDuties: List of main responsibilities (3-5 items)\n- notableResults: List of achievements/accomplishments with metrics if available\n- techStack: List of technologies used in this role\n\nEDUCATION — for each entry create an EducationRecord with:\n- school: Institution/university name\n- qualificationType: Bachelor's | Master's | PhD | Bootcamp | Associate's | Diploma\n- studyArea: Field of study/major\n- completionYear: Graduation year (integer)\n- academicScore: GPA or grade if mentioned (as string, e.g., \"3.8/4.0\")\n\nADDITIONAL:\n- professionalCertifications: List of certifications (e.g., \"AWS Solutions Architect\", \"CKA\")\n- personalProjects: List of notable personal or open-source projects\n- technicalWritings: List of blog posts, articles, or publications\n\nFACE PHOTO:\n- face: If the CV contains a profile photo or headshot, extract it and return the raw image as a base64-encoded string (JPEG or PNG, no data URI prefix). If no photo is present, omit this field or set it to null.",
+          "tools" : "[]",
+          "resultType" : "hr.talent.acquisition.model.CandidateProfile.class",
+          "resultMapping" : "in.candidateProfile",
+          "query" : "Extract all information from this CV:\n\n<CV>\n<%= in.cvFile %>\n</CV>"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 280, "y" : 64 },
+        "size" : { "width" : 160, "height" : 62 }
+      },
+      "boundaries" : [ {
+          "id" : "f5",
+          "type" : "ErrorBoundaryEvent",
+          "name" : "ivy:error:program:exception",
+          "config" : {
+            "errorCode" : "ivy:error:program:exception",
+            "output" : {
+              "map" : {
+                "out" : "in",
+                "out.error" : "error"
+              }
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 312, "y" : 104 },
+            "labelOffset" : { "x" : -7, "y" : 33 }
+          },
+          "connect" : [
+            { "id" : "f6", "to" : "f4", "via" : [ { "x" : 312, "y" : 200 } ] }
+          ]
+        } ],
+      "connect" : [
+        { "id" : "f7", "to" : "f1", "color" : "default" }
+      ]
+    }, {
+      "id" : "f4",
+      "type" : "Script",
+      "name" : "Parse error",
+      "config" : {
+        "output" : {
+          "code" : "in.errorStr = hr.talent.acquisition.exception.BpmExceptionHandler.logFormattedError(in.error);"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 408, "y" : 200 }
+      },
+      "connect" : [
+        { "id" : "f8", "to" : "f1", "via" : [ { "x" : 560, "y" : 200 } ], "color" : "default" }
+      ]
+    } ]
+}

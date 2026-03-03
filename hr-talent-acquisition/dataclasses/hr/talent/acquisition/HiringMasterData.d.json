@@ -1,0 +1,12 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "HiringMasterData",
+  "namespace" : "hr.talent.acquisition",
+  "fields" : [ {
+    "name" : "data",
+    "type" : "hr.talent.acquisition.model.HiringData"
+  }, {
+    "name" : "temp",
+    "type" : "hr.talent.acquisition.model.HiringData"
+  } ]
+}
