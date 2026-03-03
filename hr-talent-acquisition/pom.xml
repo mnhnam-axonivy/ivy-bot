@@ -23,12 +23,6 @@
       <version>14.0.0-SNAPSHOT</version>
       <type>iar</type>
     </dependency>
-    <dependency>
-      <groupId>hr-core</groupId>
-      <artifactId>hr-core</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-      <type>iar</type>
-    </dependency>
   </dependencies>
   <repositories>
     <repository>
