@@ -9,5 +9,5 @@ public interface Conf {
   String OUTPUT = "resultType";
   String MAP_TO = "resultMapping";
   String INPUT_GUARD_RAILS = "inputGuardrails";
-  String FILE = "file";
+  String OUTPUT_GUARD_RAILS = "outputGuardrails";
 }

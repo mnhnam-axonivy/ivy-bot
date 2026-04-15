@@ -9,10 +9,10 @@
   </parent>
   <groupId>com.axonivy.utils.ai</groupId>
   <artifactId>smart-workflow</artifactId>
-  <version>14.0.0-SNAPSHOT</version>
+  <version>14.0.0-b3</version>
   <packaging>iar</packaging>
   <properties>
-    <langchain4j.version>1.11.0</langchain4j.version>
+    <langchain4j.version>1.12.2</langchain4j.version>
   </properties>
   <dependencies>
     <dependency>
@@ -52,6 +52,22 @@
           <artifactId>slf4j-api</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.arize</groupId>
+      <artifactId>openinference-semantic-conventions</artifactId>
+      <version>0.1.11</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.axonivy.ivy.api.restricted</groupId>
+      <artifactId>ivy-trace-api</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.ow2.asm</groupId>

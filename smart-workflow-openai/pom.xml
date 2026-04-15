@@ -9,7 +9,7 @@
   </parent>
   <groupId>com.axonivy.utils.ai</groupId>
   <artifactId>smart-workflow-openai</artifactId>
-  <version>14.0.0-SNAPSHOT</version>
+  <version>14.0.0-b3</version>
   <packaging>iar</packaging>
   <dependencies>
     <dependency>
@@ -19,13 +19,13 @@
     <dependency>
       <groupId>com.axonivy.utils.ai</groupId>
       <artifactId>smart-workflow</artifactId>
-      <version>14.0.0-SNAPSHOT</version>
+      <version>14.0.0-b3</version>
       <type>iar</type>
     </dependency>
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-open-ai</artifactId>
-      <version>1.11.0</version>
+      <version>1.12.2</version>
       <exclusions>
         <exclusion>
           <groupId>com.fasterxml.jackson.core</groupId>

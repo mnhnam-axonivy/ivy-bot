@@ -1,30 +1,38 @@
 package com.axonivy.utils.smart.workflow.program.internal;
 
+import static com.axonivy.utils.smart.workflow.model.spi.ChatModelProvider.ModelOptions.options;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.axonivy.utils.smart.workflow.governance.history.listener.ChatHistoryListener;
 import com.axonivy.utils.smart.workflow.guardrails.GuardrailCollector;
-import com.axonivy.utils.smart.workflow.guardrails.adapter.InputGuardrailAdapter;
+import com.axonivy.utils.smart.workflow.guardrails.GuardrailErrors;
 import com.axonivy.utils.smart.workflow.model.ChatModelFactory;
-import static com.axonivy.utils.smart.workflow.model.spi.ChatModelProvider.ModelOptions.options;
+import com.axonivy.utils.smart.workflow.observability.openinference.OpenInferenceTracing;
 import com.axonivy.utils.smart.workflow.output.DynamicAgent;
 import com.axonivy.utils.smart.workflow.output.internal.StructuredOutputAgent;
-import com.axonivy.utils.smart.workflow.tools.IvySubProcessToolsProvider;
+import com.axonivy.utils.smart.workflow.tools.provider.IvySubProcessToolsProvider;
+import com.axonivy.utils.smart.workflow.tools.provider.SmartWorkflowToolsProvider;
 
-import ch.ivyteam.ivy.bpm.error.BpmError;
-import ch.ivyteam.ivy.bpm.error.BpmPublicErrorBuilder;
 import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.process.program.exec.ProgramContext;
+import dev.langchain4j.data.message.Content;
+import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.guardrail.InputGuardrailException;
-import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.guardrail.OutputGuardrailException;
+import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.service.tool.ToolExecutor;
+import dev.langchain4j.service.tool.ToolProvider;
+import dev.langchain4j.service.tool.ToolProviderResult;
 
 public class AgentCallExecutor {
-  private static final String GUARDRAIL_ERROR_CODE = "smartworkflow:guardrail:violation";
 
   private final ProgramContext context;
 
@@ -34,7 +42,7 @@ public class AgentCallExecutor {
 
   interface ChatAgent extends DynamicAgent<String> {
     @Override
-    String chat(String query);
+    String chat(List<Content> query);
   }
 
   interface Variable {
@@ -43,6 +51,12 @@ public class AgentCallExecutor {
 
   @SuppressWarnings("unchecked")
   public void execute() {
+    Optional<UserMessage> query = QueryExpander.expandMacroWithFileExtraction(Conf.QUERY, context);
+    if (query.isEmpty()) {
+      Ivy.log().info("Agent call was skipped, since there was no user query");
+      return; // early abort; user is still testing with empty values
+    }
+
     Class<? extends DynamicAgent<?>> agentType = ChatAgent.class;
     var structured = execute(Conf.OUTPUT, Class.class);
     if (structured.isPresent()) {
@@ -50,30 +64,18 @@ public class AgentCallExecutor {
     }
 
     var agentBuilder = AiServices.builder(agentType);
-    ChatModel model = initModel(structured.isPresent());
-    agentBuilder.chatModel(model);
+    configureModel(agentBuilder, structured.isPresent());
 
     configureToolProvider(agentBuilder);
-    configureInputGuardrails(agentBuilder);
+    configureGuardrails(agentBuilder);
     configureSystemMessage(agentBuilder);
-
-    var query = QueryExpander.expandMacro(Conf.QUERY, context);
-    if (query.isEmpty()) {
-      Ivy.log().info("Agent call was skipped, since there was no user query");
-      return; // early abort; user is still testing with empty values
-    }
-
-    Optional<String> finalQuery = QueryExpander.expandMacroWithFileExtraction(Conf.QUERY, context, model);
-    if (finalQuery.isEmpty()) {
-      return;
-    }
 
     var agent = agentBuilder.build();
     try {
-      Object result = agent.chat(finalQuery.get());
+      Object result = agent.chat(query.get().contents());
       var mapTo = context.config().get(Conf.MAP_TO);
       if (mapTo != null) {
-      String mapIt = mapTo + "=result";
+        String mapIt = mapTo + "=result";
         try {
           context.script().variable(Variable.RESULT, result).executeScript(mapIt);
         } catch (Exception ex) {
@@ -81,8 +83,8 @@ public class AgentCallExecutor {
         }
       }
       Ivy.log().info("Agent response: " + result);
-    } catch (InputGuardrailException ex) {
-      throwGuardrailError(ex);
+    } catch (InputGuardrailException | OutputGuardrailException ex) {
+      GuardrailErrors.throwError(ex);
     }
   }
 
@@ -102,46 +104,47 @@ public class AgentCallExecutor {
 
   private Optional<List<String>> executeListOfStrings(String configKey) {
     return execute(configKey, List.class)
-      .map(rawList -> ((List<?>) rawList).stream()
-        .filter(String.class::isInstance)
-        .map(String.class::cast)
-        .toList());
+        .map(rawList -> ((List<?>) rawList).stream()
+            .filter(String.class::isInstance)
+            .map(String.class::cast)
+            .toList());
   }
 
   private void configureSystemMessage(AiServices<? extends DynamicAgent<?>> agentBuilder) {
     var systemMessage = QueryExpander.expandMacro(Conf.SYSTEM, context);
     if (systemMessage.isPresent()) {
-      agentBuilder.systemMessageProvider(memId -> systemMessage.get());
+      agentBuilder.systemMessageProvider(_ -> systemMessage.get());
     }
   }
 
-  private ChatModel initModel(boolean isStructured) {
-    String providerName = execute(Conf.PROVIDER, String.class).orElse(StringUtils.EMPTY);
-    String modelName = execute(Conf.MODEL, String.class).orElse(StringUtils.EMPTY);
+  private void configureModel(AiServices<? extends DynamicAgent<?>> agentBuilder, boolean structured) {
+    var providerName = execute(Conf.PROVIDER, String.class).orElse(StringUtils.EMPTY);
+    var model = execute(Conf.MODEL, String.class).orElse(StringUtils.EMPTY);
+    var provider = ChatModelFactory.getProviderOrDefault(providerName);
     var modelOptions = options()
-        .modelName(modelName)
-        .structuredOutput(isStructured);
-        return ChatModelFactory.createModel(modelOptions, providerName);
+        .modelName(model)
+        .structuredOutput(structured);
+    var chatModel = provider.setup(modelOptions);
+    agentBuilder.chatModel(chatModel);
+    var modelName = chatModel.defaultRequestParameters().modelName();
+    new ChatHistoryListener().configure().forEach(agentBuilder::registerListener);
+    new OpenInferenceTracing(provider.name(), modelName).configure().forEach(agentBuilder::registerListener);
   }
 
   private void configureToolProvider(AiServices<? extends DynamicAgent<?>> agentBuilder) {
     List<String> toolFilter = executeListOfStrings(Conf.TOOLS).orElse(null);
-    agentBuilder.toolProvider(new IvySubProcessToolsProvider().filtering(toolFilter));
+    ToolProvider ivyTools = new IvySubProcessToolsProvider().filtering(toolFilter);
+    agentBuilder.toolProvider(request -> {
+      Map<ToolSpecification, ToolExecutor> all = new HashMap<>(ivyTools.provideTools(request).tools());
+      all.putAll(SmartWorkflowToolsProvider.provideTools(toolFilter).tools());
+      return new ToolProviderResult(all);
+    });
   }
 
-  private void configureInputGuardrails(AiServices<? extends DynamicAgent<?>> agentBuilder) {
-    List<String> guardrailFilters = executeListOfStrings(Conf.INPUT_GUARD_RAILS).orElse(null);
-    List<InputGuardrailAdapter> inputGuardrails = GuardrailCollector.inputGuardrailAdapters(guardrailFilters);
-    
-    if (CollectionUtils.isNotEmpty(inputGuardrails)) {
-      agentBuilder.inputGuardrails(inputGuardrails);
-    }
-  }
-
-  private void throwGuardrailError(InputGuardrailException ex) {
-    BpmPublicErrorBuilder errorBuilder = BpmError.create(GUARDRAIL_ERROR_CODE);
-      Optional.ofNullable(ex.getMessage()).ifPresent(message -> errorBuilder.withMessage(message));
-      Optional.ofNullable(ex.getCause()).ifPresent(cause -> errorBuilder.withCause(ex));
-      errorBuilder.throwError();
+  private void configureGuardrails(AiServices<? extends DynamicAgent<?>> agentBuilder) {
+    List<String> inputGuardrailFilters = executeListOfStrings(Conf.INPUT_GUARD_RAILS).orElse(null);
+    agentBuilder.inputGuardrails(GuardrailCollector.inputGuardrailAdapters(inputGuardrailFilters));
+    List<String> outputGuardrailFilters = executeListOfStrings(Conf.OUTPUT_GUARD_RAILS).orElse(null);
+    agentBuilder.outputGuardrails(GuardrailCollector.outputGuardrailAdapters(outputGuardrailFilters));
   }
 }

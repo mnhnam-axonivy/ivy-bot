@@ -1,9 +1,20 @@
 # yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/variables.json
 Variables:
   AI:
-    # [enum: OpenAI, AzureOpenAI, Gemini]
+    # [enum: OpenAI, AzureOpenAI, Gemini, xAI, Anthropic]
     DefaultProvider: ""
     # Guardrails designed to ensure that AI operate safely ethical, and legal
     Guardrails:
-      # Default input guardrails. Separated by comma. Example: "GuardrailOne, GuardrailTwo"
+      # Default input guardrails. Separated by comma. Example: "PromptInjectionInputGuardrail, GuardrailTwo"
       DefaultInput: ""
+      # Default output guardrails. Separated by comma. Example: "SensitiveDataOutputGuardrail, GuardrailTwo"
+      DefaultOutput: ""
+    Observability:
+      Ivy:
+        # Enable chat history recording for governance audit.
+        Enabled: ""
+      Openinference:
+        # Enable logging of AI interactions for observability and debugging purposes.
+        Enabled: ""
+        HideInputMessages: ""
+        HideOutputMessages: ""

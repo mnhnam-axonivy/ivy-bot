@@ -3,13 +3,18 @@ package com.axonivy.utils.smart.workflow.program.internal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.axonivy.utils.smart.workflow.guardrails.GuardrailCollector;
 import com.axonivy.utils.smart.workflow.model.ChatModelFactory;
 import com.axonivy.utils.smart.workflow.model.spi.ChatModelProvider;
+import com.axonivy.utils.smart.workflow.spi.internal.SpiLoader;
+import com.axonivy.utils.smart.workflow.spi.internal.SpiProject;
+import com.axonivy.utils.smart.workflow.tools.provider.SmartWorkflowTool;
 import com.axonivy.utils.smart.workflow.tools.internal.IvyToolsProcesses;
+import com.axonivy.utils.smart.workflow.tools.provider.SmartWorkflowToolsProvider;
 
 import ch.ivyteam.ivy.process.call.StartParameter;
 import ch.ivyteam.ivy.process.call.SubProcessCallStartEvent;
@@ -30,13 +35,19 @@ public class AgentEditor {
         .add(ui.scriptField(Conf.TOOLS).requireType(List.class).create())
         .create();
 
-    String guardrailList = guardrailsList();
-    if (StringUtils.isNotBlank(guardrailList)) {
-      ui.group("Guardrails").add(ui.label("Available guardrails:\n").create())
-          .add(ui.label(guardrailList).multiline().create())
-          .add(ui.scriptField(Conf.INPUT_GUARD_RAILS).requireType(List.class).create())
-          .add(ui.label("Select the guardrails to apply, or keep empty to use default guardrails").create()).create();
-    }
+    String inputGuardrailList = inputGuardrailsList();
+    String outputGuardrailList = outputGuardrailsList();
+    var guardrailsGroup = ui.group("Guardrails");
+    guardrailsGroup.add(ui.label("Select guardrails to apply, or keep empty to use the default guardrails").create());
+    guardrailsGroup
+        .add(ui.label("Available input guardrails:\n").create())
+        .add(ui.label(inputGuardrailList).multiline().create())
+        .add(ui.scriptField(Conf.INPUT_GUARD_RAILS).requireType(List.class).create());
+    guardrailsGroup
+        .add(ui.label("Available output guardrails:\n").create())
+        .add(ui.label(outputGuardrailList).multiline().create())
+        .add(ui.scriptField(Conf.OUTPUT_GUARD_RAILS).requireType(List.class).create());
+    guardrailsGroup.create();
 
     ui.group("Model")
         .add(ui.label("Provider").create())
@@ -67,13 +78,31 @@ public class AgentEditor {
 
   private String toolList() {
     try {
-      return IvyToolsProcesses
+      var ivyTools = IvyToolsProcesses
           .toolStarts().stream()
           .map(SubProcessCallStartEvent::description)
-          .map(tool -> "- " + tool.name() + tool.in().stream().map(StartParameter::name).toList())
-          .collect(Collectors.joining("\n"));
+          .map(tool -> "- " + tool.name() + tool.in().stream().map(StartParameter::name).toList());
+      var javaTools = javaToolNames().stream()
+          .map(name -> "- " + name);
+      return Stream.concat(ivyTools, javaTools).collect(Collectors.joining("\n"));
     } catch (Exception ex) {
       return "";
+    }
+  }
+
+  private List<String> javaToolNames() {
+    try {
+      var project = SpiProject.getSmartWorkflowPmv().project();
+      return new SpiLoader(project).load(SmartWorkflowToolsProvider.class).stream()
+          .flatMap(provider -> {
+            var tools = provider.getTools();
+            return tools == null ? Stream.empty() : tools.stream();
+          })
+          .map(SmartWorkflowTool::name)
+          .distinct()
+          .toList();
+    } catch (Exception ex) {
+      return List.of();
     }
   }
 
@@ -85,13 +114,15 @@ public class AgentEditor {
     return providers.get().stream().map(ChatModelProvider::name).distinct().collect(Collectors.joining(", "));
   }
 
-  private String guardrailsList() {
-    var guardrails = Optional.ofNullable(GuardrailCollector.allInputGuardrailNames());
-    if (guardrails.isEmpty()) {
-      return StringUtils.EMPTY;
-    }
-    return guardrails.get().stream()
-      .map(guardrail -> String.format("- %s", guardrail))
-      .collect(Collectors.joining("\n"));
+  private String inputGuardrailsList() {
+    return GuardrailCollector.allInputGuardrailNames().stream()
+        .map(name -> "- " + name)
+        .collect(Collectors.joining("\n"));
+  }
+
+  private String outputGuardrailsList() {
+    return GuardrailCollector.allOutputGuardrailNames().stream()
+        .map(name -> "- " + name)
+        .collect(Collectors.joining("\n"));
   }
 }
