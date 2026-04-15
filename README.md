@@ -51,3 +51,54 @@ Click any row to open the **Candidate Details** view. The AI has already filled 
 - Skill breakdown with proficiency scores and months of experience per technology
 - Full work history — employer, role, dates, responsibilities, and notable achievements
 - Education, certifications, personal projects, and publications
+
+---
+
+## Chatbot (Employee Workflow) — Business Walkthrough
+
+The **My Chatbot** screen lets employees check their own information and submit leave requests through a natural-language conversation powered by an HR AI Agent.
+
+---
+
+### Step 1 — Create Demo Data
+
+Before using the chatbot for the first time, seed the employee database by running the **Create demo data** process. This creates two sample users:
+
+| Username | Full name | Role |
+|---|---|---|
+| `employee` | John Employee | Employee (IT / Software Engineer) |
+| `manager` | Jane Manager | Manager (HR / HR Manager) |
+
+This step is idempotent — running it again when data already exists does nothing.
+
+---
+
+### Step 2 — Log in as an employee
+
+Log in to the portal with:
+
+- **Username:** `employee`
+- **Password:** `employee`
+
+---
+
+### Step 3 — Open My Chatbot
+
+Start the **My Chatbot** process. A conversational chat interface opens in the browser.
+
+---
+
+### Step 4 — Ask the chatbot
+
+Type a message in plain language. The AI Agent knows who you are and can:
+
+- **Look up your employee profile** — job title, department, manager, contact details
+  > *"What is my current position?"*
+
+- **Submit a leave request on your behalf** — just describe what you need
+  > *"I'd like to take a vacation from May 5 to May 9."*
+  > *"I need sick leave tomorrow."*
+
+  Supported leave types: Vacation, Sick Leave, Personal, Parental, Bereavement.
+
+The agent asks for any missing details (dates, reason) before submitting, so you can have a natural back-and-forth conversation.
