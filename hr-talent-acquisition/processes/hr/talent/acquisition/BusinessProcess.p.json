@@ -18,25 +18,39 @@
         "at" : { "x" : 96, "y" : 64 }
       },
       "connect" : [
-        { "id" : "f2", "to" : "f3" }
+        { "id" : "f2", "to" : "f5" }
       ]
     }, {
       "id" : "f1",
       "type" : "TaskEnd",
       "visual" : {
-        "at" : { "x" : 360, "y" : 64 }
+        "at" : { "x" : 504, "y" : 64 }
       }
     }, {
       "id" : "f3",
       "type" : "DialogCall",
+      "name" : "Demo page",
       "config" : {
         "dialog" : "hr.talent.acquisition.TalentManagement:start()"
       },
       "visual" : {
-        "at" : { "x" : 240, "y" : 64 }
+        "at" : { "x" : 384, "y" : 64 }
       },
       "connect" : [
         { "id" : "f4", "to" : "f1", "color" : "default" }
+      ]
+    }, {
+      "id" : "f5",
+      "type" : "DialogCall",
+      "name" : "Demo Welcome page",
+      "config" : {
+        "dialog" : "hr.talent.acquisition.TalentWelcomePage:start()"
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f6", "to" : "f3", "color" : "default" }
       ]
     } ]
 }

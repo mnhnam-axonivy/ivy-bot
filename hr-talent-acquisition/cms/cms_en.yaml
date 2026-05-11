@@ -1,0 +1,92 @@
+Dialogs:
+  hr:
+    talent:
+      acquisition:
+        TalentManagement:
+          AiParsingDesc: Our AI automatically extracts contact info, skills, work history, and education from CVs.
+          AiParsingTitle: AI-Powered Parsing
+          CandidatesTitle: Candidate Profiles
+          CloseButton: Close
+          ColActions: Actions
+          ColEmail: Email
+          ColExperience: Experience
+          ColLevel: Level
+          ColLocation: Location
+          ColName: Name
+          ColSkills: Number of Skills
+          ConfirmNo: 'No'
+          ConfirmRemoveHeader: Confirm Removal
+          ConfirmRemoveMsg: Remove
+          ConfirmYes: 'Yes'
+          DropZoneHint: Supports PDF and Markdown files up to 10MB
+          DropZoneTitle: Drag & Drop CV Here
+          EmptyMessage: No candidates yet. Upload a CV to get started.
+          MenuRemove: Remove
+          MenuViewDetails: View Details
+          PageTitle: CV Screening - Talent Management
+          ProcessingNote: This process typically takes 30-40 seconds
+          ProcessingTitle: Processing CV
+          ProfileDialogHeader: Candidate Profile
+          SelectFileButton: Select CV File
+          Status1: Extracting contact information
+          Status2: Parsing technical skills
+          Status3: Analyzing work experience
+          Status4: Processing education records
+          Status5: Evaluating skill proficiency
+          Status6: Generating profile summary
+          Status7: Finalizing candidate profile
+          Status8: Running validation checks
+          UploadSubtitle: Add new candidates
+          UploadTitle: Upload CV
+        TalentWelcomePage:
+          AiHeader: AI-Powered Approach
+          AiItem1: Instant structured extraction from any CV format
+          AiItem2: Automatic candidate profile creation in seconds
+          AiItem3: Consistent level detection (ENTRY / MID / SENIOR)
+          AiItem4: Technical skills inventory built automatically
+          AiItem5: Professional AI-generated summary per candidate
+          CancelButton: Cancel
+          CompareSubtitle: See how AI compares to traditional manual CV screening.
+          CompareTitle: Transform Your Hiring Process
+          Dot0Title: AI Capabilities
+          Dot1Title: 'Before & After'
+          Dot2Title: Get Started
+          DownloadButton: Download PDF
+          DownloadCv1Desc: A realistic developer CV in PDF format — ready to upload and test the AI parser.
+          DownloadCv1Title: Sample CV — Candidate 1
+          DownloadCv2Desc: A second developer profile in PDF format with different skills and experience level.
+          DownloadCv2Title: Sample CV — Candidate 2
+          DownloadCv3Desc: A senior-level candidate CV in PDF format showcasing advanced skills and certifications.
+          DownloadCv3Title: Sample CV — Candidate 3
+          EvalDesc: AI evaluates each candidate's strengths and aligns them with your role requirements.
+          EvalTitle: Candidate Evaluation
+          HeroSubtitle: Upload CVs and let AI instantly parse, evaluate, and organize candidate profiles.
+          HeroTitle1: Meet Your AI
+          HeroTitle2: Talent Acquisition Assistant
+          NextButton: Next
+          PageTitle: AI Talent Acquisition
+          ParseDesc: Extract structured data from PDF and Markdown CVs automatically with high accuracy.
+          ParseTitle: CV Parsing
+          PrevButton: Previous
+          ProceedButton: Get Started
+          ProfileDesc: AI-generated professional summaries and developer level detection — ENTRY, MID, or SENIOR.
+          ProfileTitle: Profile Generation
+          ReadyDesc: Download sample CV files below to test the AI pipeline, then click Get Started to upload your own CVs.
+          ReadyTitle: 'Ready to get started?'
+          SkillsDesc: Identify technical skill proficiency levels and build a comprehensive skills inventory.
+          SkillsTitle: Skills Analysis
+          Stat1After: Seconds
+          Stat1Before: Hours
+          Stat1Label: CV Processing Time
+          Stat2After: Instant
+          Stat2Before: Manual
+          Stat2Label: Data Extraction
+          Stat3After: Structured
+          Stat3Before: Subjective
+          Stat3Label: Candidate Profiles
+          TraditionalHeader: Traditional Approach
+          TraditionalItem1: Manually reading every CV line-by-line
+          TraditionalItem2: Copy-pasting skills into spreadsheets
+          TraditionalItem3: Inconsistent candidate evaluation criteria
+          TraditionalItem4: Slow screening with scheduling bottlenecks
+          TraditionalItem5: Skills buried in unstructured free-form text

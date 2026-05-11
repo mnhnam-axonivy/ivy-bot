@@ -4,7 +4,7 @@
   xmlns:pe="http://primefaces.org/ui/extensions">
 <h:body>
   <ui:composition template="/layouts/frame-10-full-width.xhtml">
-    <ui:define name="title">CV Screening - Talent Management</ui:define>
+    <ui:define name="title">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/PageTitle')}</ui:define>
     <ui:define name="content">
 
       <h:outputStylesheet name="talent-management.css" library="css" />
@@ -22,15 +22,15 @@
             <div class="card h-full">
               <div class="flex align-items-center mb-4">
                 <div>
-                  <h3 class="m-0 text-900">Upload CV</h3>
-                  <p class="text-500 m-0 text-sm">Add new candidates</p>
+                  <h3 class="m-0 text-900">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/UploadTitle')}</h3>
+                  <p class="text-500 m-0 text-sm">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/UploadSubtitle')}</p>
                 </div>
               </div>
               
               <div class="upload-zone p-5 text-center">
                 <i class="pi pi-cloud-upload text-primary mb-3 text-6xl"></i>
-                <h4 class="text-700 mt-2 mb-3">Drag &amp; Drop CV Here</h4>
-                <p class="text-500 text-sm mb-4">Supports PDF and Markdown files up to 10MB</p>
+                <h4 class="text-700 mt-2 mb-3">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/DropZoneTitle')}</h4>
+                <p class="text-500 text-sm mb-4">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/DropZoneHint')}</p>
 
                 <p:fileUpload id="cvUpload"
                   listener="#{talentManagementBean.handleCvUpload}"
@@ -39,7 +39,7 @@
                   allowTypes="/(\.|\/)(pdf|md)$/i"
                   sizeLimit="10485760"
                   fileLimit="1"
-                  label="Select CV File"
+                  label="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/SelectFileButton')}"
                   chooseIcon="pi pi-file"
                   skinSimple="true"
                   update="form:messages form:candidatesPanel"
@@ -51,9 +51,9 @@
               <div class="mt-4 p-3 border-round surface-100">
                 <div class="flex align-items-center mb-2">
                   <i class="pi pi-bolt text-primary mr-2"></i>
-                  <span class="font-semibold text-700">AI-Powered Parsing</span>
+                  <span class="font-semibold text-700">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/AiParsingTitle')}</span>
                 </div>
-                <p class="text-500 text-sm m-0">Our AI automatically extracts contact info, skills, work history, and education from CVs.</p>
+                <p class="text-500 text-sm m-0">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/AiParsingDesc')}</p>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
             <div class="card" style="height: 100%">
               <h3 class="mb-4">
                 <i class="pi pi-users mr-2"></i>
-                Candidate Profiles
+                #{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/CandidatesTitle')}
               </h3>
               
               <p:outputPanel id="candidatesPanel">
@@ -71,7 +71,7 @@
                   value="#{talentManagementBean.candidates}" 
                   var="candidate"
                   rowKey="#{candidate.id}"
-                  emptyMessage="No candidates yet. Upload a CV to get started."
+                  emptyMessage="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/EmptyMessage')}"
                   paginator="true"
                   paginatorAlwaysVisible="false"
                   rows="10"
@@ -90,32 +90,32 @@
                     </h:panelGroup>
                   </p:column>
 
-                  <p:column headerText="Name" sortBy="#{candidate.fullName}">
+                  <p:column headerText="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ColName')}" sortBy="#{candidate.fullName}">
                     <h:outputText value="#{candidate.fullName}" />
                   </p:column>
                   
-                  <p:column headerText="Email" sortBy="#{candidate.contactEmail}">
+                  <p:column headerText="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ColEmail')}" sortBy="#{candidate.contactEmail}">
                     <h:outputText value="#{candidate.contactEmail}" />
                   </p:column>
                   
-                  <p:column headerText="Location" sortBy="#{candidate.currentLocation}">
+                  <p:column headerText="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ColLocation')}" sortBy="#{candidate.currentLocation}">
                     <h:outputText value="#{candidate.currentLocation}" rendered="#{not empty candidate.currentLocation}" />
                     <h:outputText value="-" rendered="#{empty candidate.currentLocation}" />
                   </p:column>
                   
-                  <p:column headerText="Level" sortBy="#{candidate.level}">
+                  <p:column headerText="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ColLevel')}" sortBy="#{candidate.level}">
                     <h:outputText value="#{candidate.level}" />
                   </p:column>
                   
-                  <p:column headerText="Number of Skills" width="140">
+                  <p:column headerText="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ColSkills')}" width="140">
                     <h:outputText value="#{talentManagementBean.getSkillCount(candidate)}" />
                   </p:column>
                   
-                  <p:column headerText="Experience">
+                  <p:column headerText="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ColExperience')}">
                     <h:outputText value="#{talentManagementBean.getExperienceYears(candidate)}" />
                   </p:column>
                   
-                  <p:column headerText="Actions" width="120" styleClass="text-center">
+                  <p:column headerText="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ColActions')}" width="120" styleClass="text-center">
                     <div class="candidate-action-group">
                       <h:panelGroup layout="block">
                         <p:commandButton id="actionBtn"
@@ -135,9 +135,9 @@
                             icon="pi pi-eye"
                             update="form:detailsDialog"
                             global="false"
-                            value="View Details"
+                            value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/MenuViewDetails')}"
                             oncomplete="PF('detailsDialog').show()"
-                            title="View Details" />
+                            title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/MenuViewDetails')}" />
                           <p:menuitem id="removeCandidate"
                             process="@this"
                             styleClass="color-destroy"
@@ -145,9 +145,9 @@
                             actionListener="#{talentManagementBean.removeCandidate(candidate)}"
                             global="false"
                             update="form:candidatesPanel form:messages"
-                            title="Remove"
-                            value="Remove">
-                            <p:confirm header="Confirm Removal" message="Remove #{candidate.fullName}?" icon="pi pi-exclamation-triangle" />
+                            title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/MenuRemove')}"
+                            value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/MenuRemove')}">
+                            <p:confirm header="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ConfirmRemoveHeader')}" message="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ConfirmRemoveMsg')} #{candidate.fullName}?" icon="pi pi-exclamation-triangle" />
                           </p:menuitem>
                         </p:menu>
                       </h:panelGroup>
@@ -162,7 +162,7 @@
 
         <!-- Candidate Details Dialog -->
         <p:dialog id="detailsDialog"
-          header="Candidate Profile"
+          header="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ProfileDialogHeader')}"
           widgetVar="detailsDialog"
           modal="true"
           responsive="true"
@@ -177,7 +177,7 @@
             managedBean="#{talentManagementBean}" />
 
           <f:facet name="footer">
-            <p:commandButton value="Close"
+            <p:commandButton value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/CloseButton')}"
               icon="pi pi-times"
               styleClass="p-button-outlined"
               onclick="PF('detailsDialog').hide()"
@@ -203,7 +203,7 @@
               </div>
 
               <!-- Title -->
-              <h3 class="text-center mb-3 text-900 font-semibold">Processing CV</h3>
+              <h3 class="text-center mb-3 text-900 font-semibold">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ProcessingTitle')}</h3>
 
               <!-- Progress Bar -->
               <div class="mb-4">
@@ -217,35 +217,35 @@
               <div class="status-list">
                 <div class="status-item" id="statusLine1">
                   <i class="pi pi-circle-fill status-icon"></i>
-                  <span class="status-text">Extracting contact information</span>
+                  <span class="status-text">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/Status1')}</span>
                 </div>
                 <div class="status-item" id="statusLine2">
                   <i class="pi pi-circle-fill status-icon"></i>
-                  <span class="status-text">Parsing technical skills</span>
+                  <span class="status-text">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/Status2')}</span>
                 </div>
                 <div class="status-item" id="statusLine3">
                   <i class="pi pi-circle-fill status-icon"></i>
-                  <span class="status-text">Analyzing work experience</span>
+                  <span class="status-text">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/Status3')}</span>
                 </div>
                 <div class="status-item" id="statusLine4">
                   <i class="pi pi-circle-fill status-icon"></i>
-                  <span class="status-text">Processing education records</span>
+                  <span class="status-text">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/Status4')}</span>
                 </div>
                 <div class="status-item" id="statusLine5">
                   <i class="pi pi-circle-fill status-icon"></i>
-                  <span class="status-text">Evaluating skill proficiency</span>
+                  <span class="status-text">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/Status5')}</span>
                 </div>
                 <div class="status-item" id="statusLine6">
                   <i class="pi pi-circle-fill status-icon"></i>
-                  <span class="status-text">Generating profile summary</span>
+                  <span class="status-text">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/Status6')}</span>
                 </div>
                 <div class="status-item" id="statusLine7">
                   <i class="pi pi-circle-fill status-icon"></i>
-                  <span class="status-text">Finalizing candidate profile</span>
+                  <span class="status-text">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/Status7')}</span>
                 </div>
                 <div class="status-item" id="statusLine8">
                   <i class="pi pi-circle-fill status-icon"></i>
-                  <span class="status-text">Running validation checks</span>
+                  <span class="status-text">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/Status8')}</span>
                 </div>
               </div>
 
@@ -253,7 +253,7 @@
               <div class="mt-4 text-center">
                 <p class="text-600 text-sm m-0">
                   <i class="pi pi-clock mr-1"></i>
-                  This process typically takes 30-40 seconds
+                  #{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ProcessingNote')}
                 </p>
               </div>
             </div>
@@ -261,8 +261,8 @@
         </p:dialog>
         
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-          <p:commandButton value="Yes" type="button" styleClass="p-button-danger" icon="pi pi-check" />
-          <p:commandButton value="No" type="button" styleClass="p-button-outlined" icon="pi pi-times" />
+          <p:commandButton value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ConfirmYes')}" type="button" styleClass="p-button-danger" icon="pi pi-check" />
+          <p:commandButton value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentManagement/ConfirmNo')}" type="button" styleClass="p-button-outlined" icon="pi pi-times" />
         </p:confirmDialog>
         
       </h:form>

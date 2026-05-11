@@ -1,0 +1,260 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/PageTitle')}</ui:define>
+    <ui:define name="content">
+
+      <h:outputStylesheet library="css" name="talent-management.css" />
+      <h:outputStylesheet library="css" name="talent-welcome.css" />
+      <h:outputScript library="js" name="talent-welcome.js" target="body" />
+
+      <div class="pw-page">
+
+        <!-- ── Step navigator ── -->
+        <div class="fd-step-navigator">
+
+          <button id="pw-prev" class="fd-nav-btn" type="button"
+            onclick="pwPrevSlide()" title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/PrevButton')}">
+            <i class="ti ti-chevron-left"></i>
+          </button>
+
+          <div class="fd-steps-wrapper">
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 0 — AI capabilities
+                 ═══════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="0">
+              <div class="pw-slide-body pw-welcome">
+
+                <div class="pw-hero-title">
+                  #{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/HeroTitle1')}<br/><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/HeroTitle2')}</span>
+                </div>
+                <div class="text-lg mt-2">
+                  #{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/HeroSubtitle')}
+                </div>
+
+                <div class="pw-ai-grid">
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--blue">
+                      <i class="ti ti-file-text-ai"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/ParseTitle')}</div>
+                      <div class="pw-ai-desc">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/ParseDesc')}</div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--purple">
+                      <i class="ti ti-user-star"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/EvalTitle')}</div>
+                      <div class="pw-ai-desc">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/EvalDesc')}</div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--amber">
+                      <i class="ti ti-tools"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/SkillsTitle')}</div>
+                      <div class="pw-ai-desc">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/SkillsDesc')}</div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--green">
+                      <i class="ti ti-sparkles"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/ProfileTitle')}</div>
+                      <div class="pw-ai-desc">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/ProfileDesc')}</div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 1 — Traditional vs AI comparison
+                 ═══════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="1">
+              <div class="pw-slide-body">
+
+                <div class="pw-slide-header">
+                  <div class="pw-slide-title">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/CompareTitle')}</div>
+                  <div>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/CompareSubtitle')}</div>
+                </div>
+
+                <!-- Key metrics -->
+                <div class="pw-compare-stats">
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat1Before')}</span>
+                      <span class="pw-stat-arrow"><i class="ti ti-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat1After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat1Label')}</div>
+                  </div>
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat2Before')}</span>
+                      <span class="pw-stat-arrow"><i class="ti ti-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat2After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat2Label')}</div>
+                  </div>
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat3Before')}</span>
+                      <span class="pw-stat-arrow"><i class="ti ti-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat3After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Stat3Label')}</div>
+                  </div>
+                </div>
+
+                <!-- Side-by-side -->
+                <div class="pw-compare-grid">
+
+                  <div class="pw-compare-col pw-compare-before">
+                    <div class="pw-compare-col-header">
+                      <i class="ti ti-mood-sad"></i> #{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/TraditionalHeader')}
+                    </div>
+                    <ul class="pw-compare-list">
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/TraditionalItem1')}</span></li>
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/TraditionalItem2')}</span></li>
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/TraditionalItem3')}</span></li>
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/TraditionalItem4')}</span></li>
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/TraditionalItem5')}</span></li>
+                    </ul>
+                  </div>
+
+                  <div class="pw-compare-col pw-compare-after">
+                    <div class="pw-compare-col-header">
+                      <i class="ti ti-sparkles"></i> #{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/AiHeader')}
+                    </div>
+                    <ul class="pw-compare-list">
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/AiItem1')}</span></li>
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/AiItem2')}</span></li>
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/AiItem3')}</span></li>
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/AiItem4')}</span></li>
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/AiItem5')}</span></li>
+                    </ul>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 2 — Download sample CVs + get started
+                 ═══════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="2">
+              <div class="pw-slide-body">
+
+                <div class="pw-ready-hero">
+                  <div class="pw-slide-title">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/ReadyTitle')}</div>
+                  <div>#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/ReadyDesc')}</div>
+                </div>
+
+                <!-- ── Download CV 1 ──────────────────────────────── -->
+                <h:form id="tw-download-cv1-form">
+                  <div class="pw-download-section">
+                    <div class="pw-download-header">
+                      <div class="pw-download-header-left">
+                        <i class="ti ti-file-type-pdf"></i>
+                        <div>
+                          <div class="pw-download-title">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadCv1Title')}</div>
+                          <div class="pw-download-desc">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadCv1Desc')}</div>
+                        </div>
+                      </div>
+                      <p:commandButton value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadButton')}"
+                        icon="ti ti-download" ajax="false" immediate="true">
+                        <p:fileDownload value="#{talentWelcomePageBean.downloadFirstCv()}" />
+                      </p:commandButton>
+                    </div>
+                  </div>
+                </h:form>
+
+                <!-- ── Download CV 2 ──────────────────────────────── -->
+                <h:form id="tw-download-cv2-form">
+                  <div class="pw-download-section">
+                    <div class="pw-download-header">
+                      <div class="pw-download-header-left">
+                        <i class="ti ti-file-type-pdf"></i>
+                        <div>
+                          <div class="pw-download-title">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadCv2Title')}</div>
+                          <div class="pw-download-desc">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadCv2Desc')}</div>
+                        </div>
+                      </div>
+                      <p:commandButton value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadButton')}"
+                        icon="ti ti-download" ajax="false" immediate="true">
+                        <p:fileDownload value="#{talentWelcomePageBean.downloadSecondCv()}" />
+                      </p:commandButton>
+                    </div>
+                  </div>
+                </h:form>
+
+                <!-- ── Download CV 3 ──────────────────────────────── -->
+                <h:form id="tw-download-cv3-form">
+                  <div class="pw-download-section">
+                    <div class="pw-download-header">
+                      <div class="pw-download-header-left">
+                        <i class="ti ti-file-type-pdf"></i>
+                        <div>
+                          <div class="pw-download-title">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadCv3Title')}</div>
+                          <div class="pw-download-desc">#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadCv3Desc')}</div>
+                        </div>
+                      </div>
+                      <p:commandButton value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/DownloadButton')}"
+                        icon="ti ti-download" ajax="false" immediate="true">
+                        <p:fileDownload value="#{talentWelcomePageBean.downloadThirdCv()}" />
+                      </p:commandButton>
+                    </div>
+                  </div>
+                </h:form>
+              </div><!-- .pw-slide-body -->
+            </div>
+
+          </div><!-- .fd-steps-wrapper -->
+
+          <button id="pw-next" class="fd-nav-btn" type="button"
+            onclick="pwNextSlide()" title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/NextButton')}">
+            <i class="ti ti-chevron-right"></i>
+          </button>
+
+        </div><!-- .fd-step-navigator -->
+
+        <!-- ── Dot indicators ────────────────────────────────────── -->
+        <div class="fd-step-dots">
+          <span class="fd-dot" onclick="pwGoToSlide(0)" title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Dot0Title')}"></span>
+          <span class="fd-dot" onclick="pwGoToSlide(1)" title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Dot1Title')}"></span>
+          <span class="fd-dot" onclick="pwGoToSlide(2)" title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/Dot2Title')}"></span>
+        </div>
+
+        <!-- ── Footer: Cancel + Proceed ─────────────────────────── -->
+        <h:form id="pw-footer-form" styleClass="pw-footer">
+          <p:commandLink id="cancel" actionListener="#{ivyWorkflowView.cancel()}" process="@this"
+            value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/CancelButton')}" />
+          <p:commandButton id="proceed" actionListener="#{logic.close}"
+            value="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/TalentWelcomePage/ProceedButton')}"
+            icon="pi pi-check" />
+        </h:form>
+
+      </div><!-- .pw-page -->
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

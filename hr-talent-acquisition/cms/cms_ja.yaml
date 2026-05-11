@@ -1,0 +1,92 @@
+Dialogs:
+  hr:
+    talent:
+      acquisition:
+        TalentManagement:
+          AiParsingDesc: AIが連絡先情報、スキル、職歴、学歴をCVから自動的に抽出します。
+          AiParsingTitle: AIによる解析
+          CandidatesTitle: 候補者プロフィール
+          CloseButton: 閉じる
+          ColActions: 操作
+          ColEmail: メールアドレス
+          ColExperience: 経験年数
+          ColLevel: レベル
+          ColLocation: 所在地
+          ColName: 氏名
+          ColSkills: スキル数
+          ConfirmNo: 'いいえ'
+          ConfirmRemoveHeader: 削除の確認
+          ConfirmRemoveMsg: 削除しますか
+          ConfirmYes: 'はい'
+          DropZoneHint: PDFおよびMarkdownファイル（最大10MB）をサポートしています
+          DropZoneTitle: CVをここにドラッグ＆ドロップ
+          EmptyMessage: 候補者がいません。CVをアップロードして開始してください。
+          MenuRemove: 削除
+          MenuViewDetails: 詳細を見る
+          PageTitle: CVスクリーニング - タレント管理
+          ProcessingNote: この処理は通常30〜40秒かかります
+          ProcessingTitle: CVを処理中
+          ProfileDialogHeader: 候補者プロフィール
+          SelectFileButton: CVファイルを選択
+          Status1: 連絡先情報を抽出中
+          Status2: 技術スキルを解析中
+          Status3: 職歴を分析中
+          Status4: 学歴を処理中
+          Status5: スキル習熟度を評価中
+          Status6: プロフィールサマリーを生成中
+          Status7: 候補者プロフィールを確定中
+          Status8: 検証チェックを実行中
+          UploadSubtitle: 新しい候補者を追加
+          UploadTitle: CVをアップロード
+        TalentWelcomePage:
+          AiHeader: AIによるアプローチ
+          AiItem1: あらゆるCV形式から即座に構造化データを抽出
+          AiItem2: 数秒で候補者プロフィールを自動作成
+          AiItem3: 一貫したレベル検出（ENTRY / MID / SENIOR）
+          AiItem4: 技術スキルのインベントリを自動構築
+          AiItem5: 候補者ごとにAIが生成するプロフェッショナルサマリー
+          CancelButton: キャンセル
+          CompareSubtitle: AIと従来の手動CV選考の違いをご覧ください。
+          CompareTitle: 採用プロセスを変革する
+          Dot0Title: AIの機能
+          Dot1Title: 導入前後
+          Dot2Title: はじめる
+          DownloadButton: PDFをダウンロード
+          DownloadCv1Desc: AIパーサーのテストにすぐ使えるPDF形式の開発者CVです。
+          DownloadCv1Title: サンプルCV — 候補者1
+          DownloadCv2Desc: 異なるスキルと経験レベルを持つPDF形式の2人目の開発者CVです。
+          DownloadCv2Title: サンプルCV — 候補者2
+          DownloadCv3Desc: 高度なスキルと資格を示すシニアレベルのPDF形式のCVです。
+          DownloadCv3Title: サンプルCV — 候補者3
+          EvalDesc: AIが各候補者の強みを評価し、職務要件との適合性を判定します。
+          EvalTitle: 候補者評価
+          HeroSubtitle: CVをアップロードして、AIが瞬時に解析・評価・整理します。
+          HeroTitle1: AIによる
+          HeroTitle2: タレント採用アシスタント
+          NextButton: 次へ
+          PageTitle: AIタレント採用
+          ParseDesc: PDFおよびMarkdown形式のCVから構造化データを高精度で自動抽出します。
+          ParseTitle: CV解析
+          PrevButton: 前へ
+          ProceedButton: はじめる
+          ProfileDesc: AIが生成するプロフェッショナルサマリーと開発者レベルの検出（ENTRY / MID / SENIOR）。
+          ProfileTitle: プロフィール生成
+          ReadyDesc: 下記のサンプルCVをダウンロードしてAIパイプラインをテストし、「はじめる」をクリックしてCVをアップロードしてください。
+          ReadyTitle: 準備はできましたか？
+          SkillsDesc: 技術スキルの習熟度レベルを特定し、包括的なスキルインベントリを構築します。
+          SkillsTitle: スキル分析
+          Stat1After: 数秒
+          Stat1Before: 数時間
+          Stat1Label: CV処理時間
+          Stat2After: 即時
+          Stat2Before: 手動
+          Stat2Label: データ抽出
+          Stat3After: 構造化済み
+          Stat3Before: 主観的
+          Stat3Label: 候補者プロフィール
+          TraditionalHeader: 従来のアプローチ
+          TraditionalItem1: CVを1行ずつ手動で読み込む
+          TraditionalItem2: スキルをスプレッドシートにコピー＆ペースト
+          TraditionalItem3: 一貫性のない候補者評価基準
+          TraditionalItem4: スケジュールのボトルネックによる遅い選考
+          TraditionalItem5: 非構造化テキストに埋もれたスキル情報
