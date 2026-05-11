@@ -1,0 +1,15 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "CreateRequestDialogData",
+  "namespace" : "procurement.request.CreateRequestDialog",
+  "fields" : [ {
+    "name" : "request",
+    "type" : "procurement.request.model.MaterialProcurementRequest",
+    "modifiers" : [ ],
+    "comment" : "The request being created"
+  }, {
+    "name" : "requesterName",
+    "modifiers" : [ ],
+    "comment" : "Pre-filled from the session user"
+  } ]
+}

@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/app/custom-fields.json
+#
+# == Custom Fields Information ==
+# 
+# You can define here your project custom fields.
+# Have a look at our documentation for more information.
+#
+CustomFields:
+  Cases:
+    procurementRequestId:
+      Label: Procurement Request ID
+      Description: Stores the persisted MaterialProcurementRequest ID so the review task can load it.
+      Type: STRING

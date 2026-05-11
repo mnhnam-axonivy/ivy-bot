@@ -1,0 +1,173 @@
+Dialogs:
+  procurement:
+    request:
+      layouts:
+        ProcurementLayout:
+          PageTitle: Procurement Request
+      components:
+        AiAssistant:
+          AssistantName: AI Assistant
+          HeaderSubtitle: Material Procurement Construction
+          WelcomeDescription: Ask me anything about this procurement request.
+          FeedbackAlternatives: Alternatives
+          FeedbackAnalysisResult: Analysis Result
+          ShowThinking: Show thinking
+          HideThinking: Hide thinking
+          ThinkingText: Thinking...
+          RemoveTitle: Remove
+          ConfirmParseTitle: Confirm Parse
+          InvalidFileMessage: 'Only .txt, .md, and .pdf files are supported.'
+          InvalidSizeMessage: 'Max file size is 5 MB.'
+          UploadDocumentTitle: Upload document
+          InputPlaceholder: Ask something...
+          ThinkingPhrase0: Analyzing your request
+          ThinkingPhrase1: Processing your input
+          ThinkingPhrase2: Thinking through your question
+          ThinkingPhrase3: Reviewing the details
+          ThinkingPhrase4: Considering your request
+          ThinkingPhrase5: Working on it
+          ThinkingPhrase6: Connecting the dots
+          ThinkingPhrase7: Compiling insights
+          ThinkingPhrase8: Evaluating your options
+          ThinkingPhrase9: Formulating an answer
+          ThinkingPhrase10: Cross-referencing information
+          ThinkingPhrase11: Checking available data
+          ThinkingPhrase12: Putting it all together
+          ThinkingPhrase13: Refining the response
+          ThinkingPhrase14: Almost there
+          ThinkingPhrase15: Preparing your answer
+          ThinkingPhrase16: Generating response
+      CreateRequestDialog:
+        PageTitle: Material Procurement Request
+        ProjectHeaderTitle: Project Header
+        ProjectNameLabel: Project Name
+        ProjectNamePlaceholder: 'e.g. New Warehouse, Munich-North'
+        ProjectNameRequired: Project Name is required.
+        ProjectNumberLabel: Project Number / Cost Center
+        ProjectNumberPlaceholder: e.g. PRJ-2025-042
+        ProjectNumberRequired: Project Number / Cost Center is required.
+        DeliveryAddressLabel: Construction Site / Delivery Address
+        DeliveryAddressPlaceholder: Delivery address of the construction site
+        DeliveryAddressRequired: Construction Site / Delivery Address is required.
+        PriorityLabel: Priority
+        RequesterLabel: Requester
+        OrderNotesLabel: Order Notes
+        OrderNotesPlaceholder: Optional notes for purchasing
+        MaterialListTitle: Material List
+        AddRowButton: Add Row
+        EmptyMessage: 'No material items. Click ''Add Row'' to start.'
+        ExpandAriaHeader: Expand
+        PosColumn: Pos.
+        TroubleTip: This item has a problem
+        MaterialColumn: Material
+        QtyUnitColumn: Qty / Unit
+        UnitPriceColumn: Unit Price (¥)
+        TotalNetColumn: Total net (¥)
+        RemoveRowTitle: Remove row
+        MaterialDescLabel: Material Description
+        MaterialDescPlaceholder: e.g. Cement
+        StandardGradeLabel: Standard / Grade / Class
+        StandardGradePlaceholder: e.g. JIS R 5210
+        QuantityLabel: Quantity
+        UnitLabel: Unit
+        UnitSelectPrompt: '– select –'
+        SupplierLabel: Supplier
+        OptionalPlaceholder: Optional
+        UnitPriceNetLabel: Unit Price net (¥)
+        PurposeLabel: Purpose
+        PurposePlaceholder: e.g. Foundation
+        CommentLabel: Comment
+        TotalNetLabel: 'Total net:'
+        CancelButton: Cancel
+        SaveButton: Save
+        SubmitButton: Submit Request
+        NoFileUploaded: 'No file was uploaded. Please choose a .pdf, .txt or .md file.'
+        UploadedFileEmpty: The uploaded file is empty.
+        FilesQueued: '{0} file(s) queued'
+        FilesReadyToParse: '{0} file(s) ready. Click Confirm Parse to apply.'
+        GuidanceParseDoc: 'Can you parse my procurement document?'
+        GuidanceAnalyze: Analyze my request
+        GuidanceAddMaterials: 'How do I add materials?'
+        GuidanceAfterSubmit: 'What happens after I submit?'
+        ParseNoValues: No structured values were extracted from the document.
+        ParseSuccess: Document parsed successfully.
+        NoDocumentUploaded: No document file uploaded. Please attach a file before requesting document parsing.
+        DeliveryDateRequired: Required Delivery Date is required.
+        MaterialItemRequired: At least one material item is required.
+        RowMaterialDescRequired: 'Row {0}: Material Description is required.'
+        RowPurposeRequired: 'Row {0}: Purpose is required.'
+        UploadFileFirstMessage: 'Upload a .txt, .md, or .pdf file first, then confirm parsing.'
+        ParseFormUpdated: Document parsed and form fields were updated.
+        ParseFailedMessage: 'Failed to parse document: {0}'
+        AgentErrorMessage: 'Error: {0}'
+        AgentNoResponseMessage: I could not process your request.
+
+KnowledgeBase:
+  procurement:
+    ProcurementRequest: |
+      # Material Procurement Request — Business Process Knowledge Base
+
+      ## Process Overview
+      The Material Procurement Request process allows construction project teams to formally request materials.
+      It follows a structured two-step workflow: the Requester submits the request form, and the Purchasing Manager reviews and approves or rejects it.
+      All requests are tracked by status throughout the lifecycle.
+
+      ## Workflow Steps
+
+      ### Step 1: Fill Procurement Request (Requester)
+      The Requester completes the material procurement request form, providing details such as required materials, quantities, project context, and justification.
+      Upon submission, the request status is set to SUBMITTED and the record is saved in the system.
+      The case is tagged with the procurement request ID for downstream tracking.
+
+      ### Step 2: Review Procurement Request (Purchasing Manager)
+      The Purchasing Manager receives the task to review the submitted request.
+      They examine the request details and provide one of two decisions:
+      - APPROVED: The request is authorized and marked as APPROVED.
+      - REJECTED: The request is denied and marked as REJECTED.
+      The Purchasing Manager may also add an approval comment to document the rationale for the decision.
+
+      ## Request Statuses
+      - SUBMITTED: The request has been filled in and submitted by the Requester, and is awaiting review.
+      - APPROVED: The Purchasing Manager has authorized the procurement request.
+      - REJECTED: The Purchasing Manager has denied the procurement request.
+
+      ---
+
+      ## Common Questions and Answers
+
+      Q: Who can submit a material procurement request?
+      A: Any team member assigned to the Requester role can initiate and submit a material procurement request through the system.
+
+      Q: What information is required when submitting a request?
+      A: The request form requires details about the materials needed, quantities, the associated construction project, and a justification for the procurement.
+
+      Q: Who is responsible for reviewing the request?
+      A: The Purchasing Manager is exclusively responsible for reviewing, approving, or rejecting all procurement requests.
+
+      Q: How will I know if my request has been reviewed?
+      A: The status of your request will be updated to either APPROVED or REJECTED once the Purchasing Manager completes their review. You can track the status in the system at any time.
+
+      Q: Can I modify my request after it has been submitted?
+      A: Once a request is submitted its status is set to SUBMITTED and it cannot be edited. If corrections are needed, contact the Purchasing Manager directly.
+
+      Q: What happens after my request is approved?
+      A: An APPROVED status confirms authorization to proceed with material acquisition. The procurement team will coordinate the fulfillment of the materials.
+
+      Q: What should I do if my request is rejected?
+      A: A rejected request includes comments from the Purchasing Manager explaining the reason for the decision. Review the comments, address the concerns, and submit a new request with the necessary adjustments.
+
+      Q: Can the Purchasing Manager add remarks to the decision?
+      A: Yes. The Purchasing Manager can include an approval comment when reviewing a request to document the justification or provide guidance to the Requester.
+
+      Q: How is a procurement request identified in the system?
+      A: Each procurement request is assigned a unique ID upon creation. This ID is stored as a case custom field (procurementRequestId) and is used to link the request across workflow steps.
+
+      Q: What is the typical flow for a procurement request?
+      A: The process starts when a Requester submits the form (status: SUBMITTED). The case is then assigned to the Purchasing Manager for review. The manager approves or rejects the request (status: APPROVED or REJECTED), completing the workflow.
+
+Labels:
+  Priority:
+    NORMAL: Normal
+    HIGH: High
+    URGENT: Urgent
+    LOW: Low

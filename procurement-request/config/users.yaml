@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/14.0-dev/config/users.json
+Users:
+  - Name: requester.test
+    FullName: Requester Test User
+    Mail: requester.test@example.com
+    Password: requester.test
+    Roles:
+      - Everybody
+  - Name: pm.test
+    FullName: PM Test User
+    Mail: pm.test@example.com
+    Password: pm.test
+    Roles:
+      - PurchasingManager

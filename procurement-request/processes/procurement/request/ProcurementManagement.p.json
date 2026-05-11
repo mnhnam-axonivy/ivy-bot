@@ -1,0 +1,108 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "19E015A5B8FA71B4",
+  "config" : {
+    "data" : "procurement.request.ProcurementManagementData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "start",
+      "config" : {
+        "signature" : "start",
+        "request" : {
+          "name" : "Submit Material Procurement Request",
+          "description" : "Submit a new material procurement request for a construction project."
+        },
+        "task" : {
+          "name" : "Create Procurement Request",
+          "description" : "Fill in the material procurement request form."
+        },
+        "case" : {
+          "name" : "Material Procurement Request"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 96 }
+      },
+      "connect" : [
+        { "id" : "seq1", "to" : "f5" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "Script",
+      "name" : "Init Request",
+      "visual" : {
+        "at" : { "x" : 408, "y" : 96 }
+      },
+      "connect" : [
+        { "id" : "seq2", "to" : "f2" }
+      ]
+    }, {
+      "id" : "f2",
+      "type" : "UserTask",
+      "name" : "Create Procurement Request",
+      "config" : {
+        "dialog" : "procurement.request.CreateRequestDialog:start()",
+        "task" : {
+          "name" : "Create Procurement Request",
+          "description" : "Fill in the material procurement request form.",
+          "skipTasklist" : true
+        },
+        "output" : {
+          "code" : [
+            "import procurement.request.model.RequestStatus;",
+            "import procurement.request.repository.ProcurementRequestRepository;",
+            "",
+            "if (result.request != null) {",
+            "  in.request = result.request;",
+            "  in.request.setStatus(RequestStatus.SUBMITTED);",
+            "  ProcurementRequestRepository.getInstance().save(in.request);",
+            "  ivy.case.customFields().stringField(\"procurementRequestId\").set(in.request.getId());",
+            "}"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 576, "y" : 96 },
+        "size" : { "width" : 128 }
+      },
+      "connect" : [
+        { "id" : "f7", "to" : "f4" }
+      ]
+    }, {
+      "id" : "f4",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 888, "y" : 96 }
+      }
+    }, {
+      "id" : "f5",
+      "type" : "Script",
+      "name" : "Create mock",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import procurement.request.mock.GenerateMock;",
+            "",
+            "GenerateMock.create();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 232, "y" : 96 }
+      },
+      "connect" : [
+        { "id" : "f6", "to" : "f1", "color" : "default" }
+      ]
+    } ],
+  "layout" : {
+    "lanes" : [ {
+        "name" : "Requester",
+        "size" : 160
+      }, {
+        "name" : "Purchasing Manager",
+        "size" : 160
+      } ]
+  }
+}

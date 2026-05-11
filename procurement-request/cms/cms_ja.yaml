@@ -1,0 +1,173 @@
+Dialogs:
+  procurement:
+    request:
+      layouts:
+        ProcurementLayout:
+          PageTitle: 調達依頼
+      components:
+        AiAssistant:
+          AssistantName: AIアシスタント
+          HeaderSubtitle: 資材調達・建設
+          WelcomeDescription: この調達依頼について何でもお気軽にお尋ねください。
+          FeedbackAlternatives: 代替案
+          FeedbackAnalysisResult: 分析結果
+          ShowThinking: 思考過程を表示
+          HideThinking: 思考過程を非表示
+          ThinkingText: 考え中...
+          RemoveTitle: 削除
+          ConfirmParseTitle: 解析を確認
+          InvalidFileMessage: '.txt、.md、.pdf ファイルのみサポートされています。'
+          InvalidSizeMessage: '最大ファイルサイズは 5 MB です。'
+          UploadDocumentTitle: ドキュメントをアップロード
+          InputPlaceholder: 質問を入力してください...
+          ThinkingPhrase0: リクエストを分析中
+          ThinkingPhrase1: 入力を処理中
+          ThinkingPhrase2: ご質問を検討中
+          ThinkingPhrase3: 詳細を確認中
+          ThinkingPhrase4: リクエストを考慮中
+          ThinkingPhrase5: 処理中
+          ThinkingPhrase6: 情報を整理中
+          ThinkingPhrase7: 洞察をまとめ中
+          ThinkingPhrase8: 選択肢を評価中
+          ThinkingPhrase9: 回答を作成中
+          ThinkingPhrase10: 情報を照合中
+          ThinkingPhrase11: 利用可能なデータを確認中
+          ThinkingPhrase12: まとめています
+          ThinkingPhrase13: 回答を改善中
+          ThinkingPhrase14: もうすぐ完成
+          ThinkingPhrase15: 回答を準備中
+          ThinkingPhrase16: 回答を生成中
+      CreateRequestDialog:
+        PageTitle: 資材調達依頼
+        ProjectHeaderTitle: プロジェクトヘッダー
+        ProjectNameLabel: プロジェクト名
+        ProjectNamePlaceholder: 例：新倉庫 Munich-North
+        ProjectNameRequired: プロジェクト名は必須です。
+        ProjectNumberLabel: プロジェクト番号 / コストセンター
+        ProjectNumberPlaceholder: 例：PRJ-2025-042
+        ProjectNumberRequired: プロジェクト番号 / コストセンターは必須です。
+        DeliveryAddressLabel: 建設現場 / 納品先住所
+        DeliveryAddressPlaceholder: 建設現場の納品先住所
+        DeliveryAddressRequired: 建設現場 / 納品先住所は必須です。
+        PriorityLabel: 優先度
+        RequesterLabel: 申請者
+        OrderNotesLabel: 注文備考
+        OrderNotesPlaceholder: 購買部門への任意備考
+        MaterialListTitle: 資材リスト
+        AddRowButton: 行を追加
+        EmptyMessage: 資材項目がありません。「行を追加」をクリックして開始してください。
+        ExpandAriaHeader: 展開
+        PosColumn: No.
+        TroubleTip: この項目に問題があります
+        MaterialColumn: 資材
+        QtyUnitColumn: 数量 / 単位
+        UnitPriceColumn: 単価（¥）
+        TotalNetColumn: 合計（¥）
+        RemoveRowTitle: 行を削除
+        MaterialDescLabel: 資材説明
+        MaterialDescPlaceholder: 例：セメント
+        StandardGradeLabel: 規格 / グレード / クラス
+        StandardGradePlaceholder: 例：JIS R 5210
+        QuantityLabel: 数量
+        UnitLabel: 単位
+        UnitSelectPrompt: '– 選択 –'
+        SupplierLabel: 仕入先
+        OptionalPlaceholder: 任意
+        UnitPriceNetLabel: 単価（税抜）（¥）
+        PurposeLabel: 用途
+        PurposePlaceholder: 例：基礎工事
+        CommentLabel: コメント
+        TotalNetLabel: 合計（税抜）：
+        CancelButton: キャンセル
+        SaveButton: 保存
+        SubmitButton: 依頼を提出
+        NoFileUploaded: ファイルがアップロードされていません。.pdf、.txt または .md ファイルを選択してください。
+        UploadedFileEmpty: アップロードされたファイルが空です。
+        FilesQueued: '{0} 件のファイルが待機中'
+        FilesReadyToParse: '{0} 件のファイルの準備ができました。「解析を確認」をクリックして適用してください。'
+        GuidanceParseDoc: 調達書類を解析できますか？
+        GuidanceAnalyze: 依頼を分析する
+        GuidanceAddMaterials: 資材を追加する方法は？
+        GuidanceAfterSubmit: 提出後はどうなりますか？
+        ParseNoValues: ドキュメントから構造化された値を抽出できませんでした。
+        ParseSuccess: ドキュメントが正常に解析されました。
+        NoDocumentUploaded: ドキュメントファイルがアップロードされていません。解析を依頼する前にファイルを添付してください。
+        DeliveryDateRequired: 納品希望日は必須です。
+        MaterialItemRequired: 少なくとも1件の資材項目が必要です。
+        RowMaterialDescRequired: '行 {0}：資材説明は必須です。'
+        RowPurposeRequired: '行 {0}：用途は必須です。'
+        UploadFileFirstMessage: '.txt、.md、または .pdf ファイルをアップロードしてから、解析を確認してください。'
+        ParseFormUpdated: ドキュメントが解析され、フォームフィールドが更新されました。
+        ParseFailedMessage: 'ドキュメントの解析に失敗しました：{0}'
+        AgentErrorMessage: 'エラー：{0}'
+        AgentNoResponseMessage: リクエストを処理できませんでした。
+
+KnowledgeBase:
+  procurement:
+    ProcurementRequest: |
+      # 資材調達依頼 — 業務プロセスナレッジベース
+
+      ## プロセス概要
+      資材調達依頼プロセスは、建設プロジェクトチームが正式に資材を申請することを可能にします。
+      このプロセスは構造化された2段階のワークフローに従います：申請者が申請フォームを提出し、購買マネージャーがレビューして承認または却下します。
+      すべての申請はライフサイクル全体を通じてステータスで追跡されます。
+
+      ## ワークフロー手順
+
+      ### 手順1：調達依頼の記入（申請者）
+      申請者は資材調達依頼フォームに必要な資材、数量、プロジェクトのコンテキスト、理由などの詳細を記入して完成させます。
+      提出後、依頼のステータスはSUBMITTED（提出済み）に設定され、レコードがシステムに保存されます。
+      ケースには、下流の追跡のために調達依頼IDがタグ付けされます。
+
+      ### 手順2：調達依頼のレビュー（購買マネージャー）
+      購買マネージャーは提出された依頼をレビューするタスクを受け取ります。
+      依頼の詳細を確認し、次のいずれかの決定を行います：
+      - APPROVED（承認）：依頼が承認され、APPROVEDとしてマークされます。
+      - REJECTED（却下）：依頼が却下され、REJECTEDとしてマークされます。
+      購買マネージャーは、決定の理由を記録するために承認コメントを追加することもできます。
+
+      ## 依頼ステータス
+      - SUBMITTED（提出済み）：申請者によってフォームが記入・提出され、レビュー待ちの状態です。
+      - APPROVED（承認済み）：購買マネージャーが調達依頼を承認しました。
+      - REJECTED（却下済み）：購買マネージャーが調達依頼を却下しました。
+
+      ---
+
+      ## よくある質問と回答
+
+      Q: 資材調達依頼を提出できるのは誰ですか？
+      A: 申請者ロールに割り当てられたチームメンバーは誰でも、システムを通じて資材調達依頼を開始・提出できます。
+
+      Q: 依頼を提出する際に必要な情報は何ですか？
+      A: 依頼フォームには、必要な資材の詳細、数量、関連する建設プロジェクト、および調達の理由が必要です。
+
+      Q: 依頼のレビューを担当するのは誰ですか？
+      A: 購買マネージャーが、すべての調達依頼のレビュー、承認、または却下に独占的に責任を負います。
+
+      Q: 依頼がレビューされたことをどのように知ることができますか？
+      A: 購買マネージャーがレビューを完了すると、依頼のステータスがAPPROVEDまたはREJECTEDに更新されます。システムでいつでもステータスを追跡できます。
+
+      Q: 提出後に依頼を修正できますか？
+      A: 依頼が提出されるとステータスがSUBMITTEDに設定され、編集できなくなります。修正が必要な場合は、購買マネージャーに直接連絡してください。
+
+      Q: 依頼が承認された後はどうなりますか？
+      A: APPROVEDステータスは、資材調達を進める権限が確認されたことを示します。調達チームが資材の調達を調整します。
+
+      Q: 依頼が却下された場合はどうすればよいですか？
+      A: 却下された依頼には、購買マネージャーからの却下理由を説明するコメントが含まれています。コメントを確認し、懸念事項に対処して、必要な調整を加えた新しい依頼を提出してください。
+
+      Q: 購買マネージャーは決定にコメントを追加できますか？
+      A: はい。購買マネージャーは依頼をレビューする際に、理由を記録したり申請者にガイダンスを提供するための承認コメントを記載できます。
+
+      Q: 調達依頼はシステムでどのように識別されますか？
+      A: 各調達依頼は作成時に一意のIDが割り当てられます。このIDはケースのカスタムフィールド（procurementRequestId）として保存され、ワークフロー手順全体にわたって依頼をリンクするために使用されます。
+
+      Q: 調達依頼の典型的なフローは何ですか？
+      A: プロセスは申請者がフォームを提出することから始まります（ステータス：SUBMITTED）。その後、ケースはレビューのために購買マネージャーに割り当てられます。マネージャーが依頼を承認または却下し（ステータス：APPROVEDまたはREJECTED）、ワークフローが完了します。
+
+Labels:
+  Priority:
+    NORMAL: 通常
+    HIGH: 高
+    URGENT: 緊急
+    LOW: 低

@@ -1,0 +1,310 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+  <ui:composition template="/layouts/procurement-layout.xhtml">
+    <ui:define name="page-title">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/PageTitle')}</ui:define>
+
+    <ui:define name="form-content">
+      <f:event listener="#{createRequestBean.preRender(data.request, data.requesterName)}" type="preRenderComponent" />
+
+      <div class="flex flex-column">
+
+        <!-- ── Project Header ─────────────────────────────── -->
+        <div class="card mb-0">
+          <h3 class="mt-0 mb-4">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/ProjectHeaderTitle')}</h3>
+          <div class="grid">
+
+            <div class="col-12 md:col-6">
+              <div class="field">
+                <p:outputLabel for="project-name" styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/ProjectNameLabel')}</p:outputLabel>
+                <p:inputText id="project-name"
+                  value="#{createRequestBean.request.projectName}"
+                  placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/ProjectNamePlaceholder')}"
+                  styleClass="w-full"
+                  required="true"
+                  requiredMessage="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/ProjectNameRequired')}" />
+              </div>
+            </div>
+
+            <div class="col-12 md:col-6">
+              <div class="field">
+                <p:outputLabel for="project-number" styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/ProjectNumberLabel')}</p:outputLabel>
+                <p:inputText id="project-number"
+                  value="#{createRequestBean.request.projectNumberCostCenter}"
+                  placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/ProjectNumberPlaceholder')}"
+                  styleClass="w-full"
+                  required="true"
+                  requiredMessage="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/ProjectNumberRequired')}" />
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="field">
+                <p:outputLabel for="delivery-address" styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/DeliveryAddressLabel')}</p:outputLabel>
+                <p:inputTextarea id="delivery-address"
+                  value="#{createRequestBean.request.constructionSiteDeliveryAddress}"
+                  placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/DeliveryAddressPlaceholder')}"
+                  rows="3"
+                  styleClass="w-full"
+                  required="true"
+                  requiredMessage="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/DeliveryAddressRequired')}" />
+              </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+              <div class="field">
+                <p:outputLabel for="priority" styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/PriorityLabel')}</p:outputLabel>
+                <p:selectOneMenu id="priority"
+                  value="#{createRequestBean.request.priority}"
+                  styleClass="w-full">
+                  <f:selectItems value="#{createRequestBean.priorityValues}"
+                    var="p" itemLabel="#{p.displayName}" itemValue="#{p}" />
+                </p:selectOneMenu>
+              </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+              <div class="field">
+                <p:outputLabel for="requester" styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/RequesterLabel')}</p:outputLabel>
+                <p:inputText id="requester"
+                  value="#{createRequestBean.request.requester}"
+                  readonly="true"
+                  styleClass="w-full" />
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="field">
+                <p:outputLabel for="order-notes" styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/OrderNotesLabel')}</p:outputLabel>
+                <p:inputTextarea id="order-notes"
+                  value="#{createRequestBean.request.orderNotes}"
+                  placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/OrderNotesPlaceholder')}"
+                  rows="3"
+                  styleClass="w-full" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Material List ──────────────────────────────── -->
+        <div class="card">
+          <div class="flex align-items-center justify-content-between mb-3">
+            <h3 class="m-0">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/MaterialListTitle')}</h3>
+            <p:commandButton id="add-row"
+              value="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/AddRowButton')}"
+              icon="pi pi-plus"
+              styleClass="p-button-outlined p-button-sm"
+              actionListener="#{createRequestBean.addRow}"
+              update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}"
+              process="@this" />
+          </div>
+
+          <h:panelGroup layout="block" id="material-panel">
+            <p:dataTable id="material-table"
+              value="#{createRequestBean.request.materialItems}"
+              var="item"
+              rowIndexVar="rowIdx"
+              rowKey="#{item.id}"
+              rowStyleClass="#{item.hasTrouble ? 'trouble-row' : ''}"
+              emptyMessage="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/EmptyMessage')}"
+              styleClass="w-full">
+
+              <!-- Row toggler -->
+              <p:column style="width:42px;" styleClass="text-center" width="20" ariaHeaderText="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/ExpandAriaHeader')}">
+                <p:rowToggler />
+              </p:column>
+
+              <!-- Summary read-only columns -->
+              <p:column headerText="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/PosColumn')}" styleClass="text-center" width="30">
+                <h:panelGroup layout="inline" rendered="#{item.hasTrouble}" style="cursor:default;">
+                  <i class="pi pi-exclamation-triangle" style="color:var(--red-500);" />
+                  <p:tooltip value="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/TroubleTip')}" position="top" />
+                </h:panelGroup>
+                <h:outputText value="#{item.position}" rendered="#{!item.hasTrouble}" />
+              </p:column>
+
+              <p:column headerText="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/MaterialColumn')}">
+                <h:outputText value="#{empty item.materialDescription ? '—' : item.materialDescription}" />
+              </p:column>
+
+              <p:column headerText="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/QtyUnitColumn')}" styleClass="text-right" width="90">
+                <h:outputText value="#{item.quantity}">
+                  <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                </h:outputText>
+                <h:outputText value=" #{item.unit}" rendered="#{not empty item.unit}" />
+              </p:column>
+
+              <p:column headerText="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/UnitPriceColumn')}" styleClass="text-right" width="90">
+                <h:outputText value="#{item.unitPriceNet}">
+                  <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                </h:outputText>
+              </p:column>
+
+              <p:column headerText="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/TotalNetColumn')}" styleClass="text-right" width="90">
+                <h:outputText value="#{item.totalPriceNet}">
+                  <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                </h:outputText>
+              </p:column>
+
+              <p:column styleClass="text-center" width="40">
+                <p:commandButton icon="pi pi-times"
+                  styleClass="p-button-rounded p-button-text p-button-danger p-button-sm"
+                  actionListener="#{createRequestBean.removeRow(rowIdx)}"
+                  update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}"
+                  process="@this"
+                  title="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/RemoveRowTitle')}" />
+              </p:column>
+
+              <!-- Expansion panel with all editable fields -->
+              <p:rowExpansion>
+                <div class="p-3 surface-50 border-round">
+                  <div class="grid">
+
+                    <div class="col-12 md:col-6">
+                      <div class="field">
+                        <p:outputLabel styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/MaterialDescLabel')}</p:outputLabel>
+                        <p:inputText value="#{item.materialDescription}"
+                          placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/MaterialDescPlaceholder')}"
+                          styleClass="w-full">
+                          <p:ajax update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}" />
+                        </p:inputText>
+                      </div>
+                    </div>
+
+                    <div class="col-12 md:col-6">
+                      <div class="field">
+                        <p:outputLabel styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/StandardGradeLabel')}</p:outputLabel>
+                        <p:inputText value="#{item.standardGradeClass}"
+                          placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/StandardGradePlaceholder')}"
+                          styleClass="w-full">
+                          <p:ajax event="change" listener="#{createRequestBean.recalculate}"
+                            update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}" />
+                        </p:inputText>
+                      </div>
+                    </div>
+
+                    <div class="col-6 md:col-3">
+                      <div class="field">
+                        <p:outputLabel styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/QuantityLabel')}</p:outputLabel>
+                        <p:inputText value="#{item.quantity}" styleClass="w-full text-right">
+                          <p:ajax event="change" listener="#{createRequestBean.recalculate}"
+                            update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}" />
+                        </p:inputText>
+                      </div>
+                    </div>
+
+                    <div class="col-6 md:col-3">
+                      <div class="field">
+                        <p:outputLabel styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/UnitLabel')}</p:outputLabel>
+                        <p:selectOneMenu value="#{item.unit}" styleClass="w-full">
+                          <f:selectItem itemLabel="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/UnitSelectPrompt')}" itemValue="" noSelectionOption="true" />
+                          <f:selectItems value="#{createRequestBean.unitOptions}" />
+                            <p:ajax event="change" listener="#{createRequestBean.recalculate}"
+                            update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}" />
+                        </p:selectOneMenu>
+                      </div>
+                    </div>
+
+                    <div class="col-12 md:col-6">
+                      <div class="field">
+                        <p:outputLabel styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/SupplierLabel')}</p:outputLabel>
+                        <p:inputText value="#{item.supplier}"
+                          placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/OptionalPlaceholder')}"
+                          styleClass="w-full">
+                          <p:ajax event="change" listener="#{createRequestBean.recalculate}"
+                            update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}" />
+                        </p:inputText>
+                      </div>
+                    </div>
+
+                    <div class="col-12 md:col-6">
+                      <div class="field">
+                        <p:outputLabel styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/UnitPriceNetLabel')}</p:outputLabel>
+                        <p:inputText value="#{item.unitPriceNet}" styleClass="w-full text-right">
+                          <p:ajax event="change" listener="#{createRequestBean.recalculate}"
+                            update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}" />
+                        </p:inputText>
+                      </div>
+                    </div>
+
+                    <div class="col-12 md:col-6">
+                      <div class="field">
+                        <p:outputLabel styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/PurposeLabel')}</p:outputLabel>
+                        <p:inputText value="#{item.purpose}"
+                          placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/PurposePlaceholder')}"
+                          styleClass="w-full">
+                          <p:ajax event="change" listener="#{createRequestBean.recalculate}"
+                            update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}" />
+                        </p:inputText>
+                      </div>
+                    </div>
+
+                    <div class="col-12 md:col-6">
+                      <div class="field">
+                        <p:outputLabel styleClass="font-semibold">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/CommentLabel')}</p:outputLabel>
+                        <p:inputText value="#{item.comment}"
+                          placeholder="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/OptionalPlaceholder')}"
+                          styleClass="w-full">
+                          <p:ajax event="change" listener="#{createRequestBean.recalculate}"
+                            update="#{p:resolveFirstComponentWithId('material-panel', view).clientId} #{p:resolveFirstComponentWithId('totals-panel', view).clientId}" />
+                        </p:inputText>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </p:rowExpansion>
+
+            </p:dataTable>
+          </h:panelGroup>
+
+          <p:outputPanel id="totals-panel">
+            <div class="flex justify-content-end align-items-center gap-4 mt-3 pr-2">
+              <span class="text-500">#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/TotalNetLabel')}
+                <strong class="text-xl text-primary">
+                  <h:outputText value="#{createRequestBean.request.totalNetAmount}">
+                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                  </h:outputText> ¥
+                </strong>
+              </span>
+            </div>
+          </p:outputPanel>
+
+        </div>
+
+      </div>
+    </ui:define>
+
+    <ui:define name="footer-right">
+      <p:commandLink id="cancel"
+        value="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/CancelButton')}"
+        actionListener="#{ivyWorkflowView.cancel()}"
+        process="@this"
+        styleClass="p-button p-button-outlined p-button-secondary mr-3" />
+      <p:commandButton id="save"
+        value="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/SaveButton')}"
+        icon="pi pi-save"
+        process="@form"
+        update="@form form-messages"
+        oncomplete="if(!args.validationFailed) window.location.reload();"
+        actionListener="#{createRequestBean.recalculate}">
+        <f:setPropertyActionListener target="#{data.request}" value="#{createRequestBean.request}" />
+      </p:commandButton>
+      <p:commandButton id="submit"
+        value="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/SubmitButton')}"
+        icon="pi pi-send"
+        process="@form"
+        update="@form form-messages"
+        oncomplete="if(!args.validationFailed) submitToProcess();"
+        actionListener="#{createRequestBean.recalculate}" />
+      <p:remoteCommand name="submitToProcess" actionListener="#{logic.submit}" process="@this">
+        <f:setPropertyActionListener target="#{data.request}" value="#{createRequestBean.request}" />
+      </p:remoteCommand>
+    </ui:define>
+
+  </ui:composition>
+</h:body>
+</html>

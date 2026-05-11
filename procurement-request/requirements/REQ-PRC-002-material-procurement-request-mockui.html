@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REQ-PRC-002 – Material Procurement Request</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 14px;
+      background: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    /* ── Top Navigation Bar ──────────────────────────────────────── */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 24px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .navbar-left { display: flex; align-items: center; gap: 16px; }
+    .navbar-logo { font-weight: 700; font-size: 15px; color: #333; display: flex; align-items: center; gap: 8px; }
+    .navbar-logo span { color: #7c4dff; }
+    .navbar-search {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 13px;
+      width: 200px;
+      outline: none;
+      color: #555;
+    }
+    .navbar-right { display: flex; align-items: center; gap: 12px; }
+    .navbar-icon { width: 28px; height: 28px; border-radius: 50%; background: #7c4dff; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .navbar-user { font-size: 13px; color: #555; }
+    .moon-icon { font-size: 16px; cursor: pointer; color: #777; }
+
+    /* ── Page Task Bar ───────────────────────────────────────────── */
+    .taskbar {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #666;
+    }
+    .taskbar svg { width: 16px; height: 16px; color: #7c4dff; }
+    .taskbar-title { font-weight: 600; color: #333; }
+
+    /* ── Main Layout ─────────────────────────────────────────────── */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 16px;
+      padding: 16px 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ── Process Header Card ─────────────────────────────────────── */
+    .process-header {
+      background: linear-gradient(135deg, #5c35cc 0%, #7c4dff 100%);
+      border-radius: 8px 8px 0 0;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+    .process-header-left { display: flex; align-items: center; gap: 10px; }
+    .process-header-icon {
+      width: 28px; height: 28px;
+      background: rgba(255,255,255,.2);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .process-header h2 { font-size: 15px; font-weight: 600; }
+    .process-header-subtitle { font-size: 12px; opacity: .8; margin-top: 2px; }
+    .required-note { font-size: 12px; opacity: .85; }
+
+    /* ── Card Shell ──────────────────────────────────────────────── */
+    .card {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      border: 1px solid #e0e0e0;
+      border-top: none;
+      overflow: hidden;
+    }
+    .section-card {
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    /* ── Section Header ─────────────────────────────────────────── */
+    .section-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-header-left { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px; color: #444; }
+    .section-icon { color: #7c4dff; font-size: 14px; }
+
+    /* ── Form Grid ───────────────────────────────────────────────── */
+    .form-body { padding: 20px; }
+    .form-grid { display: grid; gap: 16px; }
+    .form-grid-2 { grid-template-columns: 1fr 1fr; }
+    .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .col-span-2 { grid-column: span 2; }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .field label .req { color: #e53935; }
+    .field input, .field select, .field textarea {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: #333;
+      outline: none;
+      transition: border-color .15s;
+      background: #fff;
+      width: 100%;
+      font-family: inherit;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: #7c4dff;
+      box-shadow: 0 0 0 3px rgba(124,77,255,.12);
+    }
+    .field input[readonly], .field input:disabled {
+      background: #f7f7f7;
+      color: #888;
+      cursor: not-allowed;
+    }
+    .field input::placeholder,
+    .field textarea::placeholder { color: #bbb; }
+    .field textarea { resize: vertical; min-height: 68px; }
+
+    /* ── Material List Table ─────────────────────────────────────── */
+    .material-list-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .material-list-title {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 600; font-size: 13px; color: #444;
+    }
+    .btn-add-row {
+      background: #0097a7;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background .15s;
+    }
+    .btn-add-row:hover { background: #00838f; }
+
+    .table-wrapper { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    thead th {
+      background: #fafafa;
+      border-bottom: 1px solid #e8e0ff;
+      padding: 9px 10px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid #f2f2f2; }
+    tbody tr:hover { background: #faf8ff; }
+    tbody td { padding: 8px 10px; vertical-align: middle; }
+    td.pos-cell { color: #aaa; font-size: 12px; text-align: center; width: 36px; }
+
+    td input, td select {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 12px;
+      outline: none;
+      background: #fff;
+      width: 100%;
+      font-family: inherit;
+      color: #333;
+      transition: border-color .15s;
+    }
+    td input:focus, td select:focus {
+      border-color: #7c4dff;
+      box-shadow: 0 0 0 2px rgba(124,77,255,.1);
+    }
+    td input::placeholder { color: #bbb; }
+    td input[type="number"] { width: 80px; }
+    td .total-cell { font-weight: 600; color: #333; text-align: right; min-width: 70px; display: block; }
+    .col-narrow { width: 60px; }
+    .col-unit { width: 110px; }
+    .col-total { width: 100px; text-align: right; }
+    .col-delete { width: 36px; text-align: center; }
+    .btn-delete-row {
+      background: none;
+      border: none;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color .15s;
+    }
+    .btn-delete-row:hover { color: #e53935; }
+
+    /* ── Summary Footer Row ──────────────────────────────────────── */
+    .table-summary {
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 32px;
+      border-top: 1px solid #f0f0f0;
+      font-size: 13px;
+      color: #666;
+    }
+    .summary-item { display: flex; align-items: center; gap: 8px; }
+    .summary-label { color: #888; }
+    .summary-value { font-weight: 700; font-size: 16px; color: #333; }
+    .summary-value.total { color: #5c35cc; font-size: 18px; }
+
+    /* ── Card Footer ─────────────────────────────────────────────── */
+    .card-footer {
+      background: #fafafa;
+      border-top: 1px solid #e8e0ff;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-submit {
+      background: linear-gradient(135deg, #5c35cc, #7c4dff);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 9px 22px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity .15s;
+    }
+    .btn-submit:hover { opacity: .88; }
+
+    /* ── AI Assistant Panel ──────────────────────────────────────── */
+    .ai-panel {
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      position: sticky;
+      top: 72px;
+    }
+    .ai-header {
+      background: linear-gradient(135deg, #5c35cc, #7c4dff);
+      border-radius: 8px 8px 0 0;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ai-header-left { display: flex; align-items: center; gap: 10px; }
+    .ai-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .ai-name { font-size: 13px; font-weight: 700; color: #fff; }
+    .ai-sub { font-size: 11px; color: rgba(255,255,255,.7); }
+    .ai-close { color: rgba(255,255,255,.7); cursor: pointer; font-size: 16px; }
+
+    .ai-body { padding: 16px; flex: 1; min-height: 240px; display: flex; flex-direction: column; gap: 8px; }
+    .ai-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #bbb;
+      font-size: 12px;
+      text-align: center;
+    }
+    .ai-empty-icon { font-size: 32px; opacity: .4; }
+
+    .ai-footer {
+      border-top: 1px solid #e0e0e0;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ai-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .ai-input {
+      flex: 1;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      outline: none;
+      font-family: inherit;
+      color: #555;
+    }
+    .ai-input:focus { border-color: #7c4dff; }
+    .ai-send {
+      background: #7c4dff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      width: 32px; height: 32px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .btn-ai-add {
+      background: #0097a7;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      justify-content: center;
+      transition: background .15s;
+    }
+    .btn-ai-add:hover { background: #00838f; }
+
+    /* ── Helpers ─────────────────────────────────────────────────── */
+    .gap-16 { display: flex; flex-direction: column; gap: 16px; }
+    .mb-0 { margin-bottom: 0; }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .main-layout { grid-template-columns: 1fr; }
+      .ai-panel { display: none; }
+      .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+      .col-span-2 { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation Bar ──────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-logo">⬡ <span>Axon Ivy</span> Portal</div>
+      <input class="navbar-search" type="text" placeholder="Search …" />
+    </div>
+    <div class="navbar-right">
+      <span class="moon-icon">☽</span>
+      <div class="navbar-icon">🔔</div>
+      <div class="navbar-icon">Du</div>
+      <span class="navbar-user">Developer user</span>
+    </div>
+  </nav>
+
+  <!-- ── Task Bar ────────────────────────────────────────────── -->
+  <div class="taskbar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+      <rect x="9" y="3" width="6" height="4" rx="1"/>
+      <path d="M9 12h6M9 16h4"/>
+    </svg>
+    <span class="taskbar-title">Material Procurement Request</span>
+  </div>
+
+  <!-- ── Main Layout ─────────────────────────────────────────── -->
+  <div class="main-layout">
+
+    <!-- ── Left: Main Form ───────────────────────────────────── -->
+    <div class="gap-16">
+
+      <!-- Process Header + Project Header Card -->
+      <div>
+        <div class="process-header">
+          <div class="process-header-left">
+            <div class="process-header-icon">📋</div>
+            <div>
+              <div style="font-weight:700;font-size:15px;">Material Procurement Request</div>
+              <div class="process-header-subtitle">REQ-PRC-002 · Construction Procurement</div>
+            </div>
+          </div>
+          <span class="required-note">ⓘ Required fields marked with *</span>
+        </div>
+
+        <div class="card">
+
+          <!-- Project Header Section -->
+          <div class="section-header">
+            <div class="section-header-left">
+              <span class="section-icon">🏗️</span>
+              <span>Project Header</span>
+            </div>
+          </div>
+
+          <div class="form-body">
+            <!-- Row 1: Project Name | Project Number / Cost Center -->
+            <div class="form-grid form-grid-2" style="margin-bottom:16px;">
+              <div class="field">
+                <label>Project Name <span class="req">*</span></label>
+                <input type="text" placeholder="e.g. New Warehouse, Munich-North" />
+              </div>
+              <div class="field">
+                <label>Project Number / Cost Center <span class="req">*</span></label>
+                <input type="text" placeholder="e.g. PRJ-2025-042" />
+              </div>
+            </div>
+
+            <!-- Row 2: Construction Site / Delivery Address (full width) -->
+            <div class="form-grid" style="margin-bottom:16px;">
+              <div class="field">
+                <label>Construction Site / Delivery Address <span class="req">*</span></label>
+                <textarea placeholder="Delivery address of the construction site"></textarea>
+              </div>
+            </div>
+
+            <!-- Row 3: Required Delivery Date | Priority | Requester -->
+            <div class="form-grid form-grid-3" style="margin-bottom:16px;">
+              <div class="field">
+                <label>Required Delivery Date <span class="req">*</span></label>
+                <input type="date" />
+              </div>
+              <div class="field">
+                <label>Priority</label>
+                <select>
+                  <option>Normal</option>
+                  <option>High</option>
+                  <option>Urgent</option>
+                  <option>Low</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Requester</label>
+                <input type="text" value="Developer user" readonly />
+              </div>
+            </div>
+
+            <!-- Row 4: Order Notes (full width) -->
+            <div class="form-grid">
+              <div class="field">
+                <label>Order Notes</label>
+                <textarea placeholder="Optional notes for purchasing"></textarea>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Material List Card -->
+      <div class="section-card">
+
+        <!-- Section Header with Add Row button -->
+        <div class="material-list-header">
+          <div class="material-list-title">
+            <span style="color:#7c4dff;">≡</span>
+            <span>Material List</span>
+          </div>
+          <button class="btn-add-row">+ Add Row</button>
+        </div>
+
+        <!-- Material Table -->
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:36px;">Pos.</th>
+                <th style="min-width:130px;">Material Description <span style="color:#e53935;">*</span></th>
+                <th style="min-width:110px;">Standard / Grade / Class</th>
+                <th style="width:80px;">Quantity <span style="color:#e53935;">*</span></th>
+                <th style="width:110px;">Unit</th>
+                <th style="min-width:100px;">Supplier</th>
+                <th style="width:110px;">Unit Price net (¥)</th>
+                <th style="width:110px;">Total Price net (¥)</th>
+                <th style="min-width:100px;">Purpose <span style="color:#e53935;">*</span></th>
+                <th style="min-width:90px;">Comment</th>
+                <th style="width:36px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="pos-cell">1</td>
+                <td><input type="text" placeholder="e.g. Cement" /></td>
+                <td><input type="text" placeholder="e.g. DIN EN 197" /></td>
+                <td><input type="number" value="0.00" min="0" step="0.01" /></td>
+                <td>
+                  <select>
+                    <option value="">– select –</option>
+                    <option>pcs</option>
+                    <option>kg</option>
+                    <option>t</option>
+                    <option>m</option>
+                    <option>m²</option>
+                    <option>m³</option>
+                    <option>l</option>
+                    <option>bag</option>
+                    <option>pallet</option>
+                    <option>roll</option>
+                  </select>
+                </td>
+                <td><input type="text" placeholder="Optional" /></td>
+                <td><input type="number" value="0.00" min="0" step="0.01" /></td>
+                <td><span class="total-cell">0.00</span></td>
+                <td><input type="text" placeholder="e.g. Foundation" /></td>
+                <td><input type="text" placeholder="Optional" /></td>
+                <td><button class="btn-delete-row" title="Remove row">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Summary Row -->
+        <div class="table-summary">
+          <div class="summary-item">
+            <span class="summary-label">Request Date:</span>
+            <span style="color:#555;font-weight:500;">07.05.2026</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Total net:</span>
+            <span class="summary-value total">0 ¥</span>
+          </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="card-footer">
+          <button class="btn-submit">▶ Submit Request</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Right: AI Assistant Panel ─────────────────────────── -->
+    <div class="ai-panel">
+      <div class="ai-header">
+        <div class="ai-header-left">
+          <div class="ai-avatar">🤖</div>
+          <div>
+            <div class="ai-name">AI Assistant</div>
+            <div class="ai-sub">Material Procurement Construction</div>
+          </div>
+        </div>
+        <span class="ai-close">✕</span>
+      </div>
+
+      <div class="ai-body">
+        <div class="ai-empty">
+          <div class="ai-empty-icon">💬</div>
+          <div>Ask about materials, quantity<br/>calculation, standards…</div>
+        </div>
+      </div>
+
+      <div class="ai-footer">
+        <div class="ai-input-row">
+          <input class="ai-input" type="text" placeholder="Ask about materials, quantity calculation, standards…" />
+          <button class="ai-send">➤</button>
+        </div>
+        <button class="btn-ai-add">✦ Add Materials to Order</button>
+        <button class="btn-submit" style="width:100%;justify-content:center;">▶ Submit Request</button>
+      </div>
+    </div>
+
+  </div><!-- /.main-layout -->
+
+</body>
+</html>

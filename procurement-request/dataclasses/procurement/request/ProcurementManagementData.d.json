@@ -1,0 +1,15 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "ProcurementManagementData",
+  "namespace" : "procurement.request",
+  "fields" : [ {
+    "name" : "request",
+    "type" : "procurement.request.model.MaterialProcurementRequest",
+    "modifiers" : [ ],
+    "comment" : "The active procurement request being processed"
+  }, {
+    "name" : "approvalComment",
+    "modifiers" : [ ],
+    "comment" : "Comment entered by the Purchasing Manager when approving or rejecting"
+  } ]
+}
