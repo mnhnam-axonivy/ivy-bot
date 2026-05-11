@@ -1,0 +1,400 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Finish Demo — Smart Workflow AI step wizard
+   Classes prefixed fd- to avoid conflicts.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Wizard layout ──────────────────────────────────────────────────── */
+.fd-wizard {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+}
+
+/* ── Page header ────────────────────────────────────────────────────── */
+.fd-wizard-header {
+  margin-bottom: 24px;
+}
+
+.fd-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ede9fe 100%);
+  border: 1px solid #c7d2fe;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 20px rgba(99,102,241,.10);
+}
+
+.fd-hero-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  background: #fff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: #6366f1;
+  box-shadow: 0 2px 10px rgba(99,102,241,.18);
+}
+
+.fd-hero-body {
+  flex: 1;
+}
+
+.fd-hero-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.fd-hero-sub {
+  color: #475569;
+  line-height: 1.65;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.fd-section-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #1e293b;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+/* ── Flow navigation strip ──────────────────────────────────────────── */
+.fd-flow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  border: 1px solid #f1f5f9;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.fd-flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.fd-flow-step:hover .fd-flow-bubble {
+  box-shadow: 0 4px 12px rgba(99,102,241,.25);
+  transform: scale(1.08);
+}
+
+.fd-flow-bubble {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  transition: transform .25s ease, box-shadow .25s ease;
+  flex-shrink: 0;
+}
+
+.fd-flow-step-label {
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 8px;
+  line-height: 1.3;
+  max-width: 72px;
+  transition: color .2s, font-weight .2s;
+}
+
+/* Active step highlight */
+.fd-step-active .fd-flow-bubble {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #6366f1;
+  transform: scale(1.18);
+}
+
+.fd-step-active .fd-flow-step-label {
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+/* Arrow connector */
+.fd-flow-arrow {
+  flex-shrink: 0;
+  margin: 25px 4px 0;
+  width: 28px;
+  height: 2px;
+  position: relative;
+}
+
+.fd-flow-arrow::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 8px;
+  height: 2px;
+  background: #cbd5e1;
+}
+
+.fd-flow-arrow::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-left: 8px solid #cbd5e1;
+}
+
+/* Icon colour tokens */
+.fd-cap-icon--blue   { background: #dbeafe; color: #2563eb; }
+.fd-cap-icon--purple { background: #ede9fe; color: #7c3aed; }
+.fd-cap-icon--amber  { background: #fef3c7; color: #d97706; }
+.fd-cap-icon--green  { background: #d1fae5; color: #059669; }
+.fd-cap-icon--indigo { background: #e0e7ff; color: #4f46e5; }
+
+/* ── Step navigator ─────────────────────────────────────────────────── */
+.fd-step-navigator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+/* Arrow buttons */
+.fd-nav-btn {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #475569;
+  transition: border-color .2s, color .2s, background .2s, box-shadow .2s, transform .15s;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.fd-nav-btn:hover:not(:disabled) {
+  border-color: #6366f1;
+  color: #6366f1;
+  background: #f5f3ff;
+  box-shadow: 0 6px 20px rgba(99,102,241,.22);
+  transform: scale(1.06);
+}
+
+.fd-nav-btn:active:not(:disabled) {
+  transform: scale(.96);
+}
+
+.fd-nav-btn:disabled {
+  opacity: .28;
+  cursor: not-allowed;
+}
+
+/* ── Step panels ────────────────────────────────────────────────────── */
+.fd-steps-wrapper {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.fd-step-panel {
+  display: none;
+}
+
+.fd-step-panel.fd-active {
+  display: block;
+  animation: fdSlideInRight .38s cubic-bezier(.4,0,.2,1) both;
+}
+
+.fd-go-back .fd-step-panel.fd-active {
+  animation: fdSlideInLeft .38s cubic-bezier(.4,0,.2,1) both;
+}
+
+@keyframes fdSlideInRight {
+  from { opacity: 0; transform: translateX(52px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fdSlideInLeft {
+  from { opacity: 0; transform: translateX(-52px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Panel card ─────────────────────────────────────────────────────── */
+.fd-panel-inner {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 16px rgba(0,0,0,.06);
+  border: 1px solid #f1f5f9;
+  min-height: 300px;
+}
+
+.fd-panel-left {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.fd-panel-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+}
+
+.fd-type-user { background: #eff6ff; color: #3b82f6; border: 1px solid #bfdbfe; }
+.fd-type-ai   { background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; }
+.fd-type-done { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+
+.fd-panel-right {
+  flex: 1;
+  min-width: 0;
+}
+
+.fd-panel-num {
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.fd-panel-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1e293b;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.fd-panel-desc {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+
+.fd-panel-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding: 18px 20px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #f1f5f9;
+}
+
+.fd-panel-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.fd-panel-detail-item > i {
+  color: #22c55e;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Tags */
+.fd-cap-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 7px;
+}
+
+.fd-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
+}
+
+.fd-tag-form {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.fd-tag i { font-size: 13px; }
+
+/* ── Dot indicators ─────────────────────────────────────────────────── */
+.fd-step-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.fd-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: width .3s ease, background .3s ease, border-radius .3s ease;
+}
+
+.fd-dot.fd-dot-active {
+  width: 28px;
+  border-radius: 4px;
+  background: #6366f1;
+}
+
+/* Progress text */
+.fd-progress-wrap {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .fd-wizard { padding: 16px; }
+  .fd-panel-inner {
+    flex-direction: column;
+    padding: 24px;
+    gap: 20px;
+    min-height: unset;
+  }
+  .fd-nav-btn { width: 42px; height: 42px; font-size: 20px; }
+  .fd-panel-title { font-size: 1.25rem; }
+  .fd-flow { display: none; }
+}
+

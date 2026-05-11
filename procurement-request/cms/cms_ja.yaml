@@ -101,6 +101,59 @@ Dialogs:
         ParseFailedMessage: 'ドキュメントの解析に失敗しました：{0}'
         AgentErrorMessage: 'エラー：{0}'
         AgentNoResponseMessage: リクエストを処理できませんでした。
+      WelcomePage:
+        PageTitle: 調達依頼デモ
+        PrevButton: 前へ
+        NextButton: 次へ
+        CancelButton: キャンセル
+        ProceedButton: 次へ進む
+        Dot0Title: AI機能
+        Dot1Title: 従来型 vs AI
+        Dot2Title: さあ始めよう
+        HeroTitle1: AIが支援する
+        HeroTitle2: 資材調達
+        HeroSubtitle: PDFファイル一枚から、AIが自動分析した調達依頼を数秒で作成します。
+        ParseTitle: AI文書解析
+        ParseDesc: PDF調達書類をアップロードするだけで、AIビジョンモデルが内容を読み取り、資材種別・品目・数量・用途など、すべての依頼フィールドを自動入力します。手入力は不要です。
+        StockTitle: 在庫・棚卸し分析
+        StockDesc: 抽出後、AIがすべての要求品目をリポジトリの実データと照合し、在庫切れ・発注点割れ・補充期限切れなどの問題をフラグで通知します。
+        AlternativeTitle: 代替品提案
+        AlternativeDesc: 在庫問題のある品目について、AIがカタログから同一資材種別・同等仕様の代替品を自動検索し、申請者がすぐに対応できるよう提示します。
+        TranslateTitle: 多言語翻訳
+        TranslateDesc: 抽出されたテキスト（品目説明・用途・コメントなど）はすべてワンクリックでユーザーの言語に翻訳できるため、グローバルチームも単一のソースで作業できます。
+        CompareTitle: '従来型 vs AI主導の調達業務'
+        CompareSubtitle: 手動ワークフローの限界とAIがすべての工程を変える方法
+        Stat1Before: 1〜3日
+        Stat1After: 数分
+        Stat1Label: 依頼作成時間
+        Stat2Before: 誤入力率〜40%
+        Stat2After: ほぼゼロのエラー
+        Stat2Label: データ入力精度
+        Stat3Before: 可視性なし
+        Stat3After: リアルタイム警告
+        Stat3Label: 在庫問題の検出
+        TraditionalHeader: 従来のプロセス
+        AiHeader: AIが支援するスマートワークフロー
+        TraditionalItem1: 申請者が用紙リストから品目説明・コード・数量をすべて手入力する
+        TraditionalItem2: 自動チェックがないため、在庫切れ品目が現場納品失敗まで気づかれない
+        TraditionalItem3: 代替品の探索には手動のカタログ検索が必要で、数時間〜数日かかる
+        TraditionalItem4: 外国語書類は翻訳者の手配が必要で遅延を招く
+        TraditionalItem5: 転記ミスが誤発注・返品コスト・プロジェクト遅延につながる
+        AiItem1: PDFをアップロードするだけで、AIがすべてのフィールドを即時抽出。手入力ゼロ
+        AiItem2: 全品目が実在庫と照合され、提出前に在庫問題がフラグで通知される
+        AiItem3: 在庫問題のある品目にAIが即座に代替品を提案
+        AiItem4: ワンクリックでユーザーの言語に翻訳。外部業者不要
+        AiItem5: 構造化された監査可能な依頼データ。手直し不要で承認に即対応
+        ReadyTitle: 試してみましょう
+        ReadyDesc: サンプル資材カタログを生成し、デモで使用するモック調達依頼PDFをダウンロードしてください。
+        DownloadTitle: サンプル調達依頼書（PDF）
+        DownloadDesc: デモで書類アップロードを求められた際にこのPDFを使用してください。AIが自動解析し、すべてのフィールドを入力します。
+        DownloadButton: PDFをダウンロード
+        GenerateButton: モックデータを生成
+        GenStepTitle: 資材カタログを生成
+        GenStepHint: 資材種別・品目・在庫エントリー
+        DoneBannerPre: カタログの準備ができました。
+        DoneBannerPost: をクリックしてデモを開始してください！
 
 KnowledgeBase:
   procurement:

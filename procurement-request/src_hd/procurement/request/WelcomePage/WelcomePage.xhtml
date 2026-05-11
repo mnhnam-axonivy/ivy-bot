@@ -1,0 +1,287 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/PageTitle')}</ui:define>
+    <ui:define name="content">
+
+      <h:outputStylesheet library="css" name="supplier-onboarding.css" />
+      <h:outputStylesheet library="css" name="finish-demo.css" />
+      <h:outputStylesheet library="css" name="procurement-welcome.css" />
+      <h:outputScript library="js" name="procurement-welcome.js" target="body" />
+
+      <div class="pw-page">
+
+        <!-- ── Step navigator ── -->
+        <div class="fd-step-navigator">
+
+          <button id="pw-prev" class="fd-nav-btn" type="button"
+            onclick="pwPrevSlide()" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/PrevButton')}">
+            <i class="ti ti-chevron-left"></i>
+          </button>
+
+          <div class="fd-steps-wrapper">
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 0 — What this demo does (AI capabilities)
+                 ═══════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="0">
+              <div class="pw-slide-body pw-welcome">
+
+                <div class="pw-hero-title">
+                  #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/HeroTitle1')}<br/><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/HeroTitle2')}</span>
+                </div>
+                <div class="text-lg mt-2">
+                  #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/HeroSubtitle')}
+                </div>
+
+                <div class="pw-ai-grid">
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--blue">
+                      <i class="ti ti-file-text-ai"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/ParseTitle')}</div>
+                      <div class="pw-ai-desc">
+                        #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/ParseDesc')}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--amber">
+                      <i class="ti ti-package-search"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/StockTitle')}</div>
+                      <div class="pw-ai-desc">
+                        #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/StockDesc')}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--purple">
+                      <i class="ti ti-replace"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/AlternativeTitle')}</div>
+                      <div class="pw-ai-desc">
+                        #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/AlternativeDesc')}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--green">
+                      <i class="ti ti-language"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/TranslateTitle')}</div>
+                      <div class="pw-ai-desc">
+                        #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/TranslateDesc')}
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 1 — How it transforms the real-life process
+                 ═══════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="1">
+              <div class="pw-slide-body">
+
+                <div class="pw-slide-header">
+                  <div class="pw-slide-title">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/CompareTitle')}</div>
+                  <div>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/CompareSubtitle')}</div>
+                </div>
+
+                <!-- Key metrics -->
+                <div class="pw-compare-stats">
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat1Before')}</span>
+                      <span class="pw-stat-arrow"><i class="ti ti-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat1After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat1Label')}</div>
+                  </div>
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat2Before')}</span>
+                      <span class="pw-stat-arrow"><i class="ti ti-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat2After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat2Label')}</div>
+                  </div>
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat3Before')}</span>
+                      <span class="pw-stat-arrow"><i class="ti ti-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat3After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Stat3Label')}</div>
+                  </div>
+                </div>
+
+                <!-- Side-by-side -->
+                <div class="pw-compare-grid">
+
+                  <div class="pw-compare-col pw-compare-before">
+                    <div class="pw-compare-col-header">
+                      <i class="ti ti-mood-sad"></i> #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/TraditionalHeader')}
+                    </div>
+                    <ul class="pw-compare-list">
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/TraditionalItem1')}</span></li>
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/TraditionalItem2')}</span></li>
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/TraditionalItem3')}</span></li>
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/TraditionalItem4')}</span></li>
+                      <li><i class="ti ti-x"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/TraditionalItem5')}</span></li>
+                    </ul>
+                  </div>
+
+                  <div class="pw-compare-col pw-compare-after">
+                    <div class="pw-compare-col-header">
+                      <i class="ti ti-sparkles"></i> #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/AiHeader')}
+                    </div>
+                    <ul class="pw-compare-list">
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/AiItem1')}</span></li>
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/AiItem2')}</span></li>
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/AiItem3')}</span></li>
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/AiItem4')}</span></li>
+                      <li><i class="ti ti-check"></i><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/AiItem5')}</span></li>
+                    </ul>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 2 — Generate mock data + download sample PDF
+                 ═══════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="2">
+              <div class="pw-slide-body">
+
+                <div class="pw-ready-hero">
+                  <div class="pw-slide-title">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/ReadyTitle')}</div>
+                  <div>
+                    #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/ReadyDesc')}
+                  </div>
+                </div>
+
+                <!-- ── Download mock PDF ──────────────────────────────── -->
+                <h:form id="pw-download-form">
+                  <div class="pw-download-section">
+                    <div class="pw-download-header">
+                      <div class="pw-download-header-left">
+                        <i class="ti ti-file-type-pdf"></i>
+                        <div>
+                          <div class="pw-download-title">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/DownloadTitle')}</div>
+                          <div class="pw-download-desc">
+                            #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/DownloadDesc')}
+                          </div>
+                        </div>
+                      </div>
+                      <p:commandButton value="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/DownloadButton')}" icon="ti ti-download"
+                        ajax="false" immediate="true">
+                        <p:fileDownload value="#{welcomePageBean.downloadMockPdf()}" />
+                      </p:commandButton>
+                    </div>
+                  </div>
+                </h:form>
+
+                <!-- ── Generate mock data ─────────────────────────────── -->
+                <h:form id="pw-gen-form">
+
+                  <p:remoteCommand name="pwGenStep1"
+                    actionListener="#{welcomePageBean.generateMockData}"
+                    update="pw-gen-panel"
+                    oncomplete="pwGen.onStepDone(1);"
+                    onerror="pwGen.onStepError(1);"
+                    global="false" />
+
+                  <!-- Generate button -->
+                  <div class="flex justify-content-center mb-3">
+                    <p:commandButton id="pwGenBtn" value="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/GenerateButton')}"
+                      icon="ti ti-database-plus"
+                      styleClass="ui-button-primary"
+                      onclick="pwGen.start(); return false;"
+                      type="button" />
+                  </div>
+
+                  <!-- Timeline panel -->
+                  <h:panelGroup id="pw-gen-panel" layout="block">
+                    <div class="pw-gen-timeline js-pw-gen-timeline #{welcomePageBean.generationStarted ? '' : 'hidden'}">
+                      <div class="so-tl js-pw-tl">
+
+                        <!-- Step 1: Generate catalog -->
+                        <div class="#{welcomePageBean.getStepClass(welcomePageBean.step1Status)}">
+                          <div class="so-tl-left">
+                            <div class="#{welcomePageBean.getBubbleClass(welcomePageBean.step1Status)}">
+                              <i class="#{welcomePageBean.getStatusIcon(welcomePageBean.step1Status)}" />
+                            </div>
+                            <div class="so-tl-line" />
+                          </div>
+                          <div class="so-tl-card">
+                            <div class="so-tl-card-header">
+                              <span class="so-tl-card-title">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/GenStepTitle')}</span>
+                              <span class="pw-gen-step-hint">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/GenStepHint')}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div><!-- .so-tl -->
+
+                      <ui:fragment rendered="#{welcomePageBean.generationDone}">
+                        <div class="pw-gen-done-banner">
+                          <i class="ti ti-circle-check" />
+                          #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/DoneBannerPre')} <strong>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/ProceedButton')}</strong> #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/DoneBannerPost')}
+                        </div>
+                      </ui:fragment>
+
+                    </div><!-- .pw-gen-timeline -->
+                  </h:panelGroup>
+
+                </h:form>
+
+              </div><!-- .pw-slide-body -->
+            </div>
+
+          </div><!-- .fd-steps-wrapper -->
+
+          <button id="pw-next" class="fd-nav-btn" type="button"
+            onclick="pwNextSlide()" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/NextButton')}">
+            <i class="ti ti-chevron-right"></i>
+          </button>
+
+        </div><!-- .fd-step-navigator -->
+
+        <!-- ── Dot indicators ────────────────────────────────────── -->
+        <div class="fd-step-dots">
+          <span class="fd-dot" onclick="pwGoToSlide(0)" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Dot0Title')}"></span>
+          <span class="fd-dot" onclick="pwGoToSlide(1)" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Dot1Title')}"></span>
+          <span class="fd-dot" onclick="pwGoToSlide(2)" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Dot2Title')}"></span>
+        </div>
+
+        <!-- ── Footer: Cancel + Proceed ─────────────────────────── -->
+        <h:form id="pw-footer-form" styleClass="pw-footer">
+          <p:commandLink id="cancel" actionListener="#{ivyWorkflowView.cancel()}" process="@this" value="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/CancelButton')}" />
+          <p:commandButton id="proceed" actionListener="#{logic.close}" value="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/ProceedButton')}" icon="pi pi-check" />
+        </h:form>
+
+      </div><!-- .pw-page -->
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

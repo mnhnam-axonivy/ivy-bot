@@ -101,6 +101,59 @@ Dialogs:
         ParseFailedMessage: 'Failed to parse document: {0}'
         AgentErrorMessage: 'Error: {0}'
         AgentNoResponseMessage: I could not process your request.
+      WelcomePage:
+        PageTitle: Procurement Request Demo
+        PrevButton: Previous
+        NextButton: Next
+        CancelButton: Cancel
+        ProceedButton: Proceed
+        Dot0Title: AI Features
+        Dot1Title: Traditional vs AI
+        Dot2Title: Get Started
+        HeroTitle1: AI-Powered
+        HeroTitle2: Material Procurement
+        HeroSubtitle: 'From a single PDF to a fully validated, AI-analyzed procurement request — in seconds.'
+        ParseTitle: AI Document Parsing
+        ParseDesc: 'Upload a PDF procurement request. The AI vision model reads the document and auto-fills all request fields — material type, items, quantities, purpose, and more — without any manual entry.'
+        StockTitle: Inventory & Stock Analysis
+        StockDesc: 'After extraction, the AI cross-checks every requested item against live repository data — flagging items that are out of stock, below reorder threshold, or have an expired restocking date.'
+        AlternativeTitle: Alternative Item Suggestions
+        AlternativeDesc: 'For any item with a stock issue the AI automatically searches the catalog for suitable alternatives — same material type, comparable spec — so the requester can act immediately.'
+        TranslateTitle: Multilingual Translation
+        TranslateDesc: 'All extracted text — item descriptions, purposes, comments — can be translated into the user''s preferred language on demand, enabling global teams to work from a single source.'
+        CompareTitle: Traditional vs. AI-Powered Procurement
+        CompareSubtitle: Why manual workflows break down — and how AI changes every step
+        Stat1Before: 1–3 days
+        Stat1After: Minutes
+        Stat1Label: Request creation time
+        Stat2Before: '~40% error rate'
+        Stat2After: Near-zero errors
+        Stat2Label: Data entry accuracy
+        Stat3Before: No visibility
+        Stat3After: Real-time alerts
+        Stat3Label: Stock issue detection
+        TraditionalHeader: Traditional Process
+        AiHeader: AI-Powered Smart Workflow
+        TraditionalItem1: Requester manually types every item description, code, and quantity from a paper list
+        TraditionalItem2: 'No automatic cross-check — out-of-stock items go unnoticed until site delivery fails'
+        TraditionalItem3: 'Finding alternatives requires manual catalog lookup, taking hours or days'
+        TraditionalItem4: Foreign-language documents cause delays while translators are engaged
+        TraditionalItem5: 'Errors in transcription lead to wrong orders, costly returns, and project delays'
+        AiItem1: 'Upload one PDF — AI extracts all fields instantly with zero manual typing'
+        AiItem2: 'Every item is checked against live inventory; stock problems are flagged before submission'
+        AiItem3: AI proposes ready-to-use alternatives for any item with an availability issue
+        AiItem4: 'One-click translation into the user''s language — no third-party involvement'
+        AiItem5: 'Structured, auditable request data — ready for approval without rework'
+        ReadyTitle: Ready to Explore?
+        ReadyDesc: 'Generate the sample material catalog and download the mock procurement request PDF to use as input when the demo asks you to upload a document.'
+        DownloadTitle: Sample Procurement Request (PDF)
+        DownloadDesc: 'Use this document when the demo asks you to upload a procurement request. The AI will parse it and fill in all fields automatically.'
+        DownloadButton: Download PDF
+        GenerateButton: Generate Mock Data
+        GenStepTitle: Generate Material Catalog
+        GenStepHint: 'Material types, items & inventory entries'
+        DoneBannerPre: 'Catalog ready — click'
+        DoneBannerPost: to start the demo!
 
 KnowledgeBase:
   procurement:

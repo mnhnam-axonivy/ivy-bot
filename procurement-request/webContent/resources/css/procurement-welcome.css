@@ -1,0 +1,347 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Procurement Request — Welcome / Start Demo landing page.
+   pw- prefix for procurement-welcome content/layout.
+   Carousel mechanics fully reuse fd- classes from finish-demo.css:
+     fd-step-navigator, fd-steps-wrapper, fd-step-panel, fd-active,
+     fd-go-back, fdSlideInRight/Left, fd-nav-btn, fd-step-dots,
+     fd-dot, fd-dot-active, fd-cap-icon--.
+   Timeline states reuse so-checklist-item / so-tl-* from supplier-onboarding.css.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Page layout ─────────────────────────────────────────────────── */
+.pw-page {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* ── Stable carousel height ──────────────────────────────────────── */
+.pw-page .fd-steps-wrapper {
+  height: 70vh;
+}
+
+.pw-page .fd-step-panel {
+  height: 100%;
+}
+
+.pw-page .fd-step-panel.fd-active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Slide body card ─────────────────────────────────────────────── */
+.pw-slide-body {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 2px 16px rgba(0,0,0,.06);
+  border: 1px solid #f1f5f9;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ── Welcome slide (Slide 0) ─────────────────────────────────────── */
+.pw-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 40px 32px;
+}
+
+.pw-hero-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #1e293b;
+  line-height: 1.15;
+  margin-bottom: 14px;
+  letter-spacing: -.5px;
+}
+
+.pw-hero-title span {
+  color: var(--primary-color, #6366f1);
+}
+
+/* ── Slide header ────────────────────────────────────────────────── */
+.pw-slide-header {
+  margin-bottom: 22px;
+}
+
+.pw-slide-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+/* ── AI features grid (Slide 0) ──────────────────────────────────── */
+.pw-ai-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.pw-ai-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #f1f5f9;
+  text-align: left;
+  transition: box-shadow .2s, border-color .2s;
+}
+
+.pw-ai-card:hover {
+  box-shadow: 0 4px 16px rgba(99,102,241,.1);
+  border-color: #e0e7ff;
+}
+
+.pw-ai-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.pw-ai-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+.pw-ai-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* ── Before / After comparison slide (Slide 1) ───────────────────── */
+.pw-compare-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.pw-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pw-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.pw-stat-before {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #dc2626;
+  text-decoration: line-through;
+  opacity: .75;
+}
+
+.pw-stat-arrow {
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.pw-stat-after {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+.pw-stat-label {
+  font-size: 11px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.pw-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.pw-compare-col {
+  border-radius: 14px;
+  padding: 18px 20px;
+  border: 1px solid;
+}
+
+.pw-compare-before {
+  background: #fff5f5;
+  border-color: #fecaca;
+}
+
+.pw-compare-after {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.pw-compare-col-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+}
+
+.pw-compare-before .pw-compare-col-header {
+  color: #b91c1c;
+  border-bottom-color: #fecaca;
+}
+
+.pw-compare-after .pw-compare-col-header {
+  color: #15803d;
+  border-bottom-color: #bbf7d0;
+}
+
+.pw-compare-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pw-compare-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.pw-compare-list li i {
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pw-compare-before .pw-compare-list li i { color: #ef4444; }
+.pw-compare-after  .pw-compare-list li i { color: #22c55e; }
+
+/* ── Ready slide (Slide 2) ───────────────────────────────────────── */
+.pw-ready-hero {
+  padding: 4px 0 20px;
+}
+
+/* ── Mock document download ──────────────────────────────────────── */
+.pw-download-section {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 22px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+  padding: 16px 20px;
+}
+
+.pw-download-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pw-download-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pw-download-header-left i {
+  font-size: 20px;
+  color: #6366f1;
+}
+
+.pw-download-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.pw-download-desc {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* ── Generate data section ───────────────────────────────────────── */
+.pw-gen-timeline {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.pw-gen-step-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.pw-gen-done-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 12px 18px;
+  background: #d1fae5;
+  border: 1px solid #6ee7b7;
+  border-radius: 10px;
+  color: #065f46;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pw-gen-done-banner .ti {
+  font-size: 20px;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+.pw-footer {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 14px 0 4px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 16px;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .pw-hero-title { font-size: 1.8rem; }
+  .pw-slide-body { padding: 20px; }
+  .pw-ai-grid { grid-template-columns: 1fr; }
+  .pw-compare-grid { grid-template-columns: 1fr; }
+  .pw-compare-stats { gap: 20px; }
+  .pw-footer { flex-wrap: wrap; gap: 12px; }
+  .pw-page .fd-steps-wrapper { height: clamp(480px, 72vh, 680px); }
+}
