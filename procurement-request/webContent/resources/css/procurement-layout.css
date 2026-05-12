@@ -88,6 +88,7 @@ body.dark .pr-page-footer {
 }
 
 .trouble-row > td { background-color: #fff0f0 !important; }
+.changed-row > td { background-color: #f0fff4 !important; }
 
 /* ── Form field placeholder text ───────────────────────────────── */
 .pr-main input::placeholder,

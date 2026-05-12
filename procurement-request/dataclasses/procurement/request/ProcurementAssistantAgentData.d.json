@@ -73,6 +73,9 @@
     "comment" : "Subset of material items flagged with hasTrouble, collected at the start of the findAlternativeItems loop",
     "modifiers" : [ ]
   }, {
+    "name" : "rankedAnalysis",
+    "comment" : "Structured ranked analysis of alternative inventory items produced before the final selection agent"
+  }, {
     "name" : "command",
     "comment" : "Modification instruction from the user for the modifyRequest tool"
   }, {

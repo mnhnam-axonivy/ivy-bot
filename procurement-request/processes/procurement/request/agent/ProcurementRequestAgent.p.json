@@ -56,8 +56,12 @@
         "at" : { "x" : 280, "y" : 408 }
       },
       "connect" : [
-        { "id" : "c30", "to" : "f12" },
-        { "id" : "c40", "to" : "f50", "via" : [ { "x" : 280, "y" : 280 } ] },
+        { "id" : "c30", "to" : "f12", "label" : {
+            "name" : "Has text content"
+          } },
+        { "id" : "c40", "to" : "f50", "via" : [ { "x" : 280, "y" : 280 } ], "label" : {
+            "name" : "Has PDF/binary"
+          } },
         { "id" : "c31", "to" : "f15", "label" : {
             "name" : "No document",
             "offset" : { "x" : 57, "y" : -82 }
@@ -206,178 +210,6 @@
       "type" : "CallSubEnd",
       "visual" : {
         "at" : { "x" : 1232, "y" : 408 }
-      }
-    }, {
-      "id" : "f60",
-      "type" : "CallSubStart",
-      "name" : "applyFeedbackReplacements(MaterialProcurementRequest, List, List)",
-      "config" : {
-        "signature" : "applyFeedbackReplacements",
-        "input" : {
-          "params" : [
-            { "name" : "request", "type" : "procurement.request.model.MaterialProcurementRequest", "desc" : "The procurement request with items to update" },
-            { "name" : "feedbacks", "type" : "java.util.List<procurement.request.agent.feedback.AgentFeedback>", "desc" : "List of feedbacks from the agent analysis" },
-            { "name" : "chatHistoryList", "type" : "java.util.List<String>", "desc" : "Conversation history for context" }
-          ],
-          "map" : {
-            "out.request" : "param.request",
-            "out.feedbacks" : "param.feedbacks",
-            "out.chatHistoryList" : "param.chatHistoryList"
-          }
-        },
-        "result" : {
-          "params" : [
-            { "name" : "updatedRequest", "type" : "procurement.request.model.MaterialProcurementRequest", "desc" : "The updated procurement request with replacements applied" }
-          ],
-          "map" : {
-            "result.updatedRequest" : "in.request"
-          }
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 88, "y" : 728 }
-      },
-      "connect" : [
-        { "id" : "f60c", "to" : "f61" }
-      ]
-    }, {
-      "id" : "f61",
-      "type" : "Script",
-      "name" : "Init trouble items and count",
-      "config" : {
-        "output" : {
-          "code" : [
-            "in.troubleItems = new java.util.ArrayList();",
-            "for (procurement.request.model.MaterialItem mi : in.request.getMaterialItems()) {",
-            "    if (mi.isHasTrouble()) {",
-            "        in.troubleItems.add(mi);",
-            "    }",
-            "}",
-            "in.count = 0;"
-          ]
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 280, "y" : 728 }
-      },
-      "connect" : [
-        { "id" : "f61c", "to" : "f62" }
-      ]
-    }, {
-      "id" : "f62",
-      "type" : "Alternative",
-      "name" : "Has next trouble item?",
-      "config" : {
-        "conditions" : {
-          "f62t" : "in.count < in.troubleItems.size()"
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 440, "y" : 728 },
-        "labelOffset" : { "x" : 64, "y" : 24 }
-      },
-      "connect" : [
-        { "id" : "f62t", "to" : "f63" },
-        { "id" : "f62f", "to" : "f67", "label" : {
-            "name" : "Done",
-            "segment" : 0.26,
-            "offset" : { "x" : 49, "y" : -64 }
-          } }
-      ]
-    }, {
-      "id" : "f63",
-      "type" : "Script",
-      "name" : "Load item and find matched feedback",
-      "config" : {
-        "output" : {
-          "code" : [
-            "in.materialItem = in.troubleItems.get(in.count);",
-            "in.matchedFeedback = null;",
-            "for (procurement.request.agent.feedback.AgentFeedback fb : in.feedbacks) {",
-            "    if (in.materialItem.getId() != null && in.materialItem.getId().equals(fb.getId())) {",
-            "        in.matchedFeedback = fb;",
-            "        break;",
-            "    }",
-            "}"
-          ]
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 640, "y" : 728 },
-        "size" : { "width" : 160, "height" : 62 }
-      },
-      "connect" : [
-        { "id" : "f63c", "to" : "f64" }
-      ]
-    }, {
-      "id" : "f64",
-      "type" : "Alternative",
-      "name" : "Has option feedback?",
-      "config" : {
-        "conditions" : {
-          "f64t" : "in.matchedFeedback != null && procurement.request.agent.feedback.FeedbackType.OPTION.equals(in.matchedFeedback.getType()) && in.matchedFeedback.getFeedbackOption() != null && in.matchedFeedback.getFeedbackOption().getOptionId() != null"
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 848, "y" : 728 }
-      },
-      "connect" : [
-        { "id" : "f64t", "to" : "f65" },
-        { "id" : "f64f", "to" : "f66" }
-      ]
-    }, {
-      "id" : "f65",
-      "type" : "Script",
-      "name" : "Resolve inventory item and apply replacement",
-      "config" : {
-        "output" : {
-          "code" : [
-            "import procurement.request.repository.InventoryRepository;",
-            "String optionId = in.matchedFeedback.getFeedbackOption().getOptionId();",
-            "in.inventoryItem = InventoryRepository.getInstance().findById(optionId);",
-            "if (in.inventoryItem != null) {",
-            "    procurement.request.model.MaterialItem refItem = in.inventoryItem.getMaterialItem();",
-            "    if (refItem != null) {",
-            "        in.materialItem.setMaterialTypeId(refItem.getMaterialTypeId());",
-            "        in.materialItem.setMaterialDescription(refItem.getMaterialDescription());",
-            "        in.materialItem.setStandardGradeClass(refItem.getStandardGradeClass());",
-            "        in.materialItem.setUnit(in.materialItem.getUnit() != null ? in.materialItem.getUnit() : refItem.getUnit());",
-            "        in.materialItem.setUnitPriceNet(refItem.getUnitPriceNet());",
-            "        in.materialItem.setHasTrouble(false);",
-            "        in.materialItem.setAiComment(in.matchedFeedback.getFeedbackOption().getDescription());",
-            "    }",
-            "}",
-            "in.count = in.count + 1;"
-          ]
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 1056, "y" : 728 },
-        "size" : { "width" : 192, "height" : 62 }
-      },
-      "connect" : [
-        { "id" : "f65c", "to" : "f62", "via" : [ { "x" : 1280, "y" : 728 }, { "x" : 1280, "y" : 960 }, { "x" : 440, "y" : 960 } ] }
-      ]
-    }, {
-      "id" : "f66",
-      "type" : "Script",
-      "name" : "Skip - no matching option feedback",
-      "config" : {
-        "output" : {
-          "code" : "in.count = in.count + 1;"
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 848, "y" : 888 }
-      },
-      "connect" : [
-        { "id" : "f66c", "to" : "f62", "via" : [ { "x" : 1040, "y" : 888 }, { "x" : 1040, "y" : 960 }, { "x" : 440, "y" : 960 } ] }
-      ]
-    }, {
-      "id" : "f67",
-      "type" : "CallSubEnd",
-      "visual" : {
-        "at" : { "x" : 88, "y" : 888 }
       }
     } ]
 }

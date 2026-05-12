@@ -33,41 +33,5 @@
   }, {
     "name" : "parseFeedback",
     "comment" : "Parse status message for the caller"
-  }, {
-    "name" : "request",
-    "type" : "procurement.request.model.MaterialProcurementRequest",
-    "modifiers" : [ ]
-  }, {
-    "name" : "feedbacks",
-    "type" : "java.util.List<procurement.request.agent.feedback.AgentFeedback>",
-    "modifiers" : [ ]
-  }, {
-    "name" : "chatHistoryList",
-    "type" : "java.util.List<String>",
-    "modifiers" : [ ]
-  }, {
-    "name" : "troubleItems",
-    "type" : "java.util.List<procurement.request.model.MaterialItem>",
-    "modifiers" : [ ]
-  }, {
-    "name" : "count",
-    "type" : "java.lang.Integer",
-    "modifiers" : [ ]
-  }, {
-    "name" : "materialItem",
-    "type" : "procurement.request.model.MaterialItem",
-    "modifiers" : [ ]
-  }, {
-    "name" : "matchedFeedback",
-    "type" : "procurement.request.agent.feedback.AgentFeedback",
-    "modifiers" : [ ]
-  }, {
-    "name" : "inventoryItem",
-    "type" : "procurement.request.model.InventoryItem",
-    "modifiers" : [ ]
-  }, {
-    "name" : "replacementItem",
-    "type" : "procurement.request.model.MaterialItem",
-    "modifiers" : [ ]
   } ]
 }

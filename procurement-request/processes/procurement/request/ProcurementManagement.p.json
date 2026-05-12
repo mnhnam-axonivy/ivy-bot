@@ -33,7 +33,7 @@
       "type" : "Script",
       "name" : "Init Request",
       "visual" : {
-        "at" : { "x" : 560, "y" : 96 }
+        "at" : { "x" : 408, "y" : 96 }
       },
       "connect" : [
         { "id" : "seq2", "to" : "f2" }
@@ -64,7 +64,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 728, "y" : 96 },
+        "at" : { "x" : 576, "y" : 96 },
         "size" : { "width" : 128 }
       },
       "connect" : [
@@ -74,27 +74,8 @@
       "id" : "f4",
       "type" : "TaskEnd",
       "visual" : {
-        "at" : { "x" : 1040, "y" : 96 }
+        "at" : { "x" : 728, "y" : 96 }
       }
-    }, {
-      "id" : "f5",
-      "type" : "Script",
-      "name" : "Create mock",
-      "config" : {
-        "output" : {
-          "code" : [
-            "import procurement.request.mock.GenerateMock;",
-            "",
-            "GenerateMock.create();"
-          ]
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 384, "y" : 96 }
-      },
-      "connect" : [
-        { "id" : "f6", "to" : "f1", "color" : "default" }
-      ]
     }, {
       "id" : "f8",
       "type" : "DialogCall",
@@ -106,7 +87,7 @@
         "at" : { "x" : 224, "y" : 96 }
       },
       "connect" : [
-        { "id" : "f9", "to" : "f5", "color" : "default" }
+        { "id" : "f9", "to" : "f1" }
       ]
     } ],
   "layout" : {

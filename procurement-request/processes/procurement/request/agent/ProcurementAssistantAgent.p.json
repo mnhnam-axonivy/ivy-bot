@@ -91,7 +91,7 @@
       "config" : {
         "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
         "userConfig" : {
-          "system" : "Today's date: <%= in.today %>.\n<%= in.request == null ? \"\" : \"Current Procurement Request:\\n\\n\" + dev.langchain4j.internal.Json.toJson(in.request) %>\n\n## Tool Routing\n- For any question about procurement policies, procedures, rules, or guidelines: always call the answerProcurementQuestion tool.\n- To check whether the current request can be fulfilled from inventory: call the analyzeRequest tool.\n- When the user asks to find alternatives, resolve trouble items, suggest substitutes, or help with failed items: call findAlternativeItems once with the current request — the tool handles all trouble items internally.\n- When the user wants to add, remove, or change items or header fields in the request: call modifyRequest with the current request and a clear description of the change.\n- When the user confirms which alternative(s) to apply: call applyFeedbackReplacements with the current request and the feedbackList from the previous findAlternativeItems response.\n- Never answer procurement policy questions from your own knowledge — always delegate to the appropriate tool.\n\n## After analyzeRequest Returns\n- The `feedbackList` must exactly match the tool output. Do not modify, summarize, reorder, or omit any entries.\n- No failures in feedbackList: keep `result` to max 20 words; do not repeat or summarize feedbackList content.\n- One or more failures in feedbackList: set `result` to ask the user whether they want help finding alternatives.\n\n## After findAlternativeItems Returns (all calls complete)\n- Set feedbackList to all collected AgentFeedback objects.\n- Keep `result` short (max 20 words), e.g. \"Here are alternative suggestions for the trouble items.\"\n\n## After applyFeedbackReplacements Returns\n- Keep `result` short (max 20 words), e.g. \"Replacements have been applied to your request.\"\n",
+          "system" : "Today's date: <%= in.today %>.\n<%= in.request == null ? \"\" : \"Current Procurement Request:\\n\\n\" + dev.langchain4j.internal.Json.toJson(in.request) %>\n\n## Tool Routing\n- For any question about procurement policies, procedures, rules, or guidelines: always call the answerProcurementQuestion tool.\n- To check whether the current request can be fulfilled from inventory: call the analyzeRequest tool.\n- When the user wants to resolve trouble items, find alternatives, or fix failed items: check the conversation history first. If findAlternativeItems has NOT been called yet (no alternative suggestions in the history), call findAlternativeItems. If alternatives were already presented in the history, call applyFeedbackReplacements with the current request and the feedbackList from the previous findAlternativeItems response.\n- When the user wants to add, remove, or change items or header fields in the request: call modifyRequest with the current request and a clear description of the change.\n- Never answer procurement policy questions from your own knowledge — always delegate to the appropriate tool.\n\n## After analyzeRequest Returns\n- The `feedbackList` must exactly match the tool output. Do not modify, summarize, reorder, or omit any entries.\n- No failures in feedbackList: keep `result` to max 20 words; do not repeat or summarize feedbackList content.\n- One or more failures in feedbackList: set `result` to ask the user whether they want help finding alternatives.\n\n## After findAlternativeItems Returns (all calls complete)\n- The `feedbackList` must contains ranking results of the alternatives.\n- Set `result` to briefly present the alternatives and ask the user if they want to apply them (max 30 words), e.g. \"Here are alternative suggestions for the trouble items. Would you like to apply these replacements?\"\n\n## After applyFeedbackReplacements Returns\n- Keep `result` short (max 20 words), e.g. \"Replacements have been applied to your request.\"",
           "tools" : "[\"answerProcurementQuestion\", \"analyzeRequest\", \"findAlternativeItems\", \"applyFeedbackReplacements\"]",
           "resultType" : "procurement.request.ProcurementAgentResponse.class",
           "resultMapping" : "in.agentResponse",
@@ -528,7 +528,27 @@
         "size" : { "width" : 160, "height" : 62 }
       },
       "connect" : [
-        { "id" : "b74", "to" : "f80" }
+        { "id" : "b74", "to" : "f86" }
+      ]
+    }, {
+      "id" : "f86",
+      "type" : "ProgramInterface",
+      "name" : "Analyze & Rank Alternatives",
+      "config" : {
+        "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
+        "userConfig" : {
+          "system" : "You are a procurement analyst.\r\nEvaluate all available inventory alternatives for a requested material item and produce a structured ranked analysis.\r\n\r\n## Evaluation Criteria — score each candidate 1–5 on:\r\n1. Specification match — material type, grade, class, technical specs\r\n2. Quantity availability — can inventory stock cover the requested quantity?\r\n3. Unit compatibility — same unit or cleanly convertible\r\n4. Price reasonableness — unit price vs requested item (lower/comparable is better)\r\n\r\n## Reasoning Process\r\n- For each candidate, reason step-by-step through each criterion before assigning a score.\r\n- Compute a total score (max 20) and rank all candidates from best to worst.\r\n- If no alternatives are available, state that clearly.\r\n\r\n## Output Format\r\nReturn ONLY the ranked list in this exact format:\r\n\r\nRANK 1: [Item Name] (ID: <id>) — Total: <X>/20\r\n  Spec: <score>/5 — <reason>\r\n  Qty: <score>/5 — <reason>\r\n  Unit: <score>/5 — <reason>\r\n  Price: <score>/5 — <reason>\r\n  Verdict: <why this is the best substitute>\r\n\r\nRANK 2: ...\r\n(continue for all candidates)",
+          "tools" : "[]",
+          "resultMapping" : "in.rankedAnalysis",
+          "query" : "Requested item:\r\n<%= dev.langchain4j.internal.Json.toJson(in.materialItem) %>\r\n\r\nAvailable alternatives in inventory:\r\n<%= dev.langchain4j.internal.Json.toJson(in.inventoryItems) %>"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 832, "y" : 784 },
+        "size" : { "width" : 192, "height" : 62 }
+      },
+      "connect" : [
+        { "id" : "b77", "to" : "f80" }
       ]
     }, {
       "id" : "f80",
@@ -537,15 +557,15 @@
       "config" : {
         "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
         "userConfig" : {
-          "system" : "You are a procurement analyst.\r\nGiven a requested material item and a list of available inventory items of the same type, identify the single best alternative that could substitute for the requested item.\r\nYou MUST populate the result as follows:\r\n- Set feedbackOption.optionId to the id field of the chosen inventory item (this is mandatory).\r\n- Set feedbackOption.description with a concise reason why the chosen alternative is a suitable substitute.\r\n- Set message with a short human-readable summary of your recommendation.",
+          "system" : "You are a procurement analyst.\r\nYou have been given a requested material item, the list of available inventory alternatives, and a structured ranked analysis.\r\n\r\nUsing the ranked analysis as your primary guide, select the single best alternative (RANK 1 unless it has zero quantity or is clearly unsuitable — in that case fall back to RANK 2).\r\n\r\n## Output Rules (MANDATORY)\r\n- Set feedbackOption.optionId to the id field of the chosen inventory item.\r\n- Set feedbackOption.description with a brief justification referencing the top ranking score and criteria.\r\n- Set message with a concise 1–2 sentence human-readable recommendation.",
           "tools" : "[]",
           "resultType" : "procurement.request.agent.feedback.AgentFeedback.class",
           "resultMapping" : "in.agentFeedback",
-          "query" : "Requested item:\r\n<%= dev.langchain4j.internal.Json.toJson(in.materialItem) %>\r\n\r\nAvailable alternatives in inventory:\r\n<%= dev.langchain4j.internal.Json.toJson(in.inventoryItems) %>"
+          "query" : "Requested item:\r\n<%= dev.langchain4j.internal.Json.toJson(in.materialItem) %>\r\n\r\nAvailable alternatives in inventory:\r\n<%= dev.langchain4j.internal.Json.toJson(in.inventoryItems) %>\r\n\r\nRanked analysis:\r\n<%= in.rankedAnalysis %>"
         }
       },
       "visual" : {
-        "at" : { "x" : 832, "y" : 784 },
+        "at" : { "x" : 1080, "y" : 784 },
         "size" : { "width" : 192, "height" : 62 }
       },
       "connect" : [
@@ -565,17 +585,23 @@
             "if (in.agentFeedback.getFeedbackOption() == null) {",
             "    in.agentFeedback.setFeedbackOption(new FeedbackOption());",
             "}",
+            "in.agentFeedback.setRankingAnalysis(in.rankedAnalysis);",
+            "if (in.rankedAnalysis != null && !in.rankedAnalysis.isBlank()) {",
+            "    String existing = in.agentFeedback.getMessage() != null ? in.agentFeedback.getMessage() : \"\";",
+            "    String sep = existing.isEmpty() ? \"\" : \"\\n\\n\";",
+            "    in.agentFeedback.setMessage(existing + sep + in.rankedAnalysis);",
+            "}",
             "in.agentFeedbackList.add(in.agentFeedback);",
             "in.count = in.count + 1;"
           ]
         }
       },
       "visual" : {
-        "at" : { "x" : 1080, "y" : 784 },
+        "at" : { "x" : 1328, "y" : 784 },
         "size" : { "width" : 160, "height" : 62 }
       },
       "connect" : [
-        { "id" : "b75", "to" : "f83", "via" : [ { "x" : 1208, "y" : 784 }, { "x" : 1208, "y" : 880 }, { "x" : 440, "y" : 880 } ] }
+        { "id" : "b75", "to" : "f83", "via" : [ { "x" : 1504, "y" : 784 }, { "x" : 1504, "y" : 880 }, { "x" : 440, "y" : 880 } ] }
       ]
     }, {
       "id" : "f85",
@@ -611,6 +637,18 @@
       "config" : {
         "output" : {
           "code" : [
+            "if (in.agentResponse != null",
+            "  && in.agentResponse.getFeedbackList() != null",
+            "  && in.agentResponse.getFeedbackList().size() == 1",
+            "  && !procurement.request.agent.feedback.FeedbackType.OPTION.equals(in.agentResponse.getFeedbackList().get(0).getType())) {",
+            "    in.agentResponse.setFeedbackList(null);",
+            "  }",
+            "",
+            "  import dev.langchain4j.internal.Json;",
+            "",
+            "ivy.log.error(\"second\");",
+            "ivy.log.error(Json.toJson(in.agentResponse));",
+            "",
             "if (in.agentResponse != null",
             "  && in.agentResponse.getFeedbackList() != null",
             "  && in.agentResponse.getFeedbackList().size() == 1",
@@ -871,6 +909,7 @@
             "        in.materialItem.setUnit(in.materialItem.getUnit() != null ? in.materialItem.getUnit() : refItem.getUnit());",
             "        in.materialItem.setUnitPriceNet(refItem.getUnitPriceNet());",
             "        in.materialItem.setHasTrouble(false);",
+            "        in.materialItem.setChanged(true);",
             "        in.materialItem.setAiComment(in.matchedFeedback.getFeedbackOption().getDescription());",
             "    }",
             "}",

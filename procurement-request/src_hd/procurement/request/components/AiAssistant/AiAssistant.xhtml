@@ -119,7 +119,6 @@
             <h:panelGroup rendered="#{not msg.user}" layout="block"
               styleClass="assistant-message-row mb-3">
               <div class="assistant-content">
-                <div class="assistant-name font-semibold mb-1">#{ivy.cms.co('/Dialogs/procurement/request/components/AiAssistant/AssistantName')}</div>
                 <div class="message-content"><h:outputText value="#{msg.content.trim()}" escape="true" /></div>
                 <ui:fragment rendered="#{not empty msg.feedbackList}">
                   <div class="so-ai-feedback-card">
@@ -163,7 +162,6 @@
           <!-- Thinking indicator — shown by JS while the agent is processing -->
           <div class="assistant-message-row mb-3 thinking-status rag-hidden" id="#{cc.clientId}-thinking">
             <div class="assistant-content">
-              <div class="assistant-name font-semibold mb-1">#{ivy.cms.co('/Dialogs/procurement/request/components/AiAssistant/AssistantName')}</div>
               <div class="flex align-items-center gap-2">
                 <div class="thinking-spinner">
                   <span class="thinking-dot" /><span class="thinking-dot" /><span class="thinking-dot" />

@@ -23,6 +23,9 @@ public class AgentFeedback implements Serializable {
   @Description("If the feedback type is OPTION, this field contains the details of the feedback option.")
   private FeedbackOption feedbackOption;
 
+  @Description("Full ranked analysis of all evaluated alternatives, produced before the final selection.")
+  private String rankingAnalysis;
+
   public String getId() { return id; }
   public void setId(String id) { this.id = id; }
 
@@ -37,4 +40,7 @@ public class AgentFeedback implements Serializable {
 
   public FeedbackOption getFeedbackOption() { return feedbackOption; }
   public void setFeedbackOption(FeedbackOption feedbackOption) { this.feedbackOption = feedbackOption; }
+
+  public String getRankingAnalysis() { return rankingAnalysis; }
+  public void setRankingAnalysis(String rankingAnalysis) { this.rankingAnalysis = rankingAnalysis; }
 }

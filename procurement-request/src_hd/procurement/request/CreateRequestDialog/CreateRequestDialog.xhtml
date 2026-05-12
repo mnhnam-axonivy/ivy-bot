@@ -108,7 +108,7 @@
               var="item"
               rowIndexVar="rowIdx"
               rowKey="#{item.id}"
-              rowStyleClass="#{item.hasTrouble ? 'trouble-row' : ''}"
+              rowStyleClass="#{item.hasTrouble ? 'trouble-row' : item.changed ? 'changed-row' : ''}"
               emptyMessage="#{ivy.cms.co('/Dialogs/procurement/request/CreateRequestDialog/EmptyMessage')}"
               styleClass="w-full">
 

@@ -323,6 +323,11 @@ public class CreateRequestBean implements Serializable {
     if (agentUserMessage == null || agentUserMessage.isBlank()) {
       return;
     }
+    if (request != null && request.getMaterialItems() != null) {
+      for (MaterialItem item : request.getMaterialItems()) {
+        item.setChanged(false);
+      }
+    }
     List<AssistantChatMessage> history = new ArrayList<>(agentChatHistory);
     history.add(new AssistantChatMessage("user", agentUserMessage.trim()));
     agentChatHistory = history;
@@ -378,7 +383,7 @@ public class CreateRequestBean implements Serializable {
 
       Optional.ofNullable(agentResponse)
           .map(ProcurementAgentResponse::getRequest)
-          .ifPresent(updatedRequest -> applyParsedDraft(request));
+          .ifPresent(updatedRequest -> applyParsedDraft(updatedRequest));
 
       addAssistantMessage(agentResponse);
     } catch (Exception e) {

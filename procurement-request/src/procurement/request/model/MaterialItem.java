@@ -42,6 +42,9 @@ public class MaterialItem implements Serializable {
   @Description("If the agent identified an issue with this material item, this field contains the feedback option suggesting how to resolve it (e.g., alternative materials or suppliers). This is only populated if hasTrouble is true.")
   private FeedbackOption feedbackOption;
 
+  @Description("Indicates whether this item was recently changed by an automated replacement (e.g., applyFeedbackReplacements). Reset to false on each new agent message.")
+  private boolean changed;
+
   public MaterialItem() {
     this.id = UUID.randomUUID().toString();
     this.quantity = 0.0;
@@ -106,4 +109,7 @@ public class MaterialItem implements Serializable {
 
   public FeedbackOption getFeedbackOption() { return feedbackOption; }
   public void setFeedbackOption(FeedbackOption feedbackOption) { this.feedbackOption = feedbackOption; }
+
+  public boolean isChanged() { return changed; }
+  public void setChanged(boolean changed) { this.changed = changed; }
 }

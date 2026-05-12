@@ -11,8 +11,9 @@
       "config" : {
         "signature" : "ivyBot",
         "request" : {
-          "name" : "My Chatbot",
-          "description" : "Launches the HR chatbot dialog directly, allowing users to ask HR-related questions, submit leave requests, and look up employee information."
+          "name" : "Chatbot without Welcome page",
+          "description" : "For Portal custom widget",
+          "isVisibleOnStartList" : false
         },
         "task" : {
           "name" : "Chatbot Session",
