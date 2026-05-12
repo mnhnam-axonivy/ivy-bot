@@ -91,8 +91,8 @@
       "config" : {
         "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
         "userConfig" : {
-          "system" : "Today's date: <%= in.today %>.\n<%= in.request == null ? \"\" : \"Current Procurement Request:\\n\\n\" + dev.langchain4j.internal.Json.toJson(in.request) %>\n\n## Tool Routing\n- For any question about procurement policies, procedures, rules, or guidelines: always call the answerProcurementQuestion tool.\n- To check whether the current request can be fulfilled from inventory: call the analyzeRequest tool.\n- When the user asks to find alternatives, resolve trouble items, suggest substitutes, or help with failed items: call findAlternativeItems once with the current request — the tool handles all trouble items internally.\n- When the user wants to add, remove, or change items or header fields in the request: call modifyRequest with the current request and a clear description of the change.\n- Never answer procurement policy questions from your own knowledge — always delegate to the appropriate tool.\n\n## After analyzeRequest Returns\n- The `feedbackList` must exactly match the tool output. Do not modify, summarize, reorder, or omit any entries.\n- No failures in feedbackList: keep `result` to max 20 words; do not repeat or summarize feedbackList content.\n- One or more failures in feedbackList: set `result` to ask the user whether they want help finding alternatives.\n\n## After findAlternativeItems Returns (all calls complete)\n- Set feedbackList to all collected AgentFeedback objects.\n- Keep `result` short (max 20 words), e.g. \"Here are alternative suggestions for the trouble items.\"\n",
-          "tools" : "[\"answerProcurementQuestion\", \"analyzeRequest\", \"findAlternativeItems\", \"modifyRequest\"]",
+          "system" : "Today's date: <%= in.today %>.\n<%= in.request == null ? \"\" : \"Current Procurement Request:\\n\\n\" + dev.langchain4j.internal.Json.toJson(in.request) %>\n\n## Tool Routing\n- For any question about procurement policies, procedures, rules, or guidelines: always call the answerProcurementQuestion tool.\n- To check whether the current request can be fulfilled from inventory: call the analyzeRequest tool.\n- When the user asks to find alternatives, resolve trouble items, suggest substitutes, or help with failed items: call findAlternativeItems once with the current request — the tool handles all trouble items internally.\n- When the user wants to add, remove, or change items or header fields in the request: call modifyRequest with the current request and a clear description of the change.\n- When the user confirms which alternative(s) to apply: call applyFeedbackReplacements with the current request and the feedbackList from the previous findAlternativeItems response.\n- Never answer procurement policy questions from your own knowledge — always delegate to the appropriate tool.\n\n## After analyzeRequest Returns\n- The `feedbackList` must exactly match the tool output. Do not modify, summarize, reorder, or omit any entries.\n- No failures in feedbackList: keep `result` to max 20 words; do not repeat or summarize feedbackList content.\n- One or more failures in feedbackList: set `result` to ask the user whether they want help finding alternatives.\n\n## After findAlternativeItems Returns (all calls complete)\n- Set feedbackList to all collected AgentFeedback objects.\n- Keep `result` short (max 20 words), e.g. \"Here are alternative suggestions for the trouble items.\"\n\n## After applyFeedbackReplacements Returns\n- Keep `result` short (max 20 words), e.g. \"Replacements have been applied to your request.\"\n",
+          "tools" : "[\"answerProcurementQuestion\", \"analyzeRequest\", \"findAlternativeItems\", \"applyFeedbackReplacements\"]",
           "resultType" : "procurement.request.ProcurementAgentResponse.class",
           "resultMapping" : "in.agentResponse",
           "query" : "Conversation history:\r\n<%= in.formattedHistory %>\r\n\r\n---\r\n\r\nNew user message:\r\n<%= in.query %>"
@@ -364,11 +364,7 @@
       "config" : {
         "output" : {
           "code" : [
-            "import procurement.request.agent.feedback.FeedbackOption;",
-            "if (in.agentFeedback.getFeedbackOption() == null) {",
-            "    in.agentFeedback.setFeedbackOption(new FeedbackOption());",
-            "}",
-            "in.agentFeedback.getFeedbackOption().setOptionId(in.materialItem.getId());",
+            "in.agentFeedback.setId(in.materialItem.getId());",
             "in.agentFeedbackList.add(in.agentFeedback);",
             "in.materialItem.setHasTrouble(!in.agentFeedback.isSuccess());",
             "in.count = in.count + 1;"
@@ -390,12 +386,9 @@
         "output" : {
           "code" : [
             "import procurement.request.agent.feedback.AgentFeedback;",
-            "import procurement.request.agent.feedback.FeedbackOption;",
             "AgentFeedback fb = new AgentFeedback();",
+            "fb.setId(in.materialItem.getId());",
             "fb.setSuccess(false);",
-            "FeedbackOption opt = new FeedbackOption();",
-            "opt.setOptionId(in.materialItem.getId());",
-            "fb.setFeedbackOption(opt);",
             "fb.setMessage(\"Material '\" + in.materialItem.getMaterialDescription() + \"' does not exist in inventory.\");",
             "in.agentFeedback = fb;"
           ]
@@ -544,7 +537,7 @@
       "config" : {
         "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
         "userConfig" : {
-          "system" : "You are a procurement analyst.\r\nGiven a requested material item and a list of available inventory items of the same type, identify the best alternatives that could substitute for the requested item. Summarize concisely which alternatives are suitable and why.\r\nPopulate feedbackOption.description with a concise reason why the alternative is a suitable substitute and should propose strongly the most suitable solution.",
+          "system" : "You are a procurement analyst.\r\nGiven a requested material item and a list of available inventory items of the same type, identify the single best alternative that could substitute for the requested item.\r\nYou MUST populate the result as follows:\r\n- Set feedbackOption.optionId to the id field of the chosen inventory item (this is mandatory).\r\n- Set feedbackOption.description with a concise reason why the chosen alternative is a suitable substitute.\r\n- Set message with a short human-readable summary of your recommendation.",
           "tools" : "[]",
           "resultType" : "procurement.request.agent.feedback.AgentFeedback.class",
           "resultMapping" : "in.agentFeedback",
@@ -566,16 +559,12 @@
         "output" : {
           "code" : [
             "import procurement.request.agent.feedback.FeedbackType;",
-            "",
-            "import dev.langchain4j.internal.Json;",
-            "ivy.log.error(Json.toJson(in.agentFeedback));",
-            "",
             "import procurement.request.agent.feedback.FeedbackOption;",
+            "in.agentFeedback.setId(in.materialItem.getId());",
             "in.agentFeedback.setType(FeedbackType.OPTION);",
             "if (in.agentFeedback.getFeedbackOption() == null) {",
             "    in.agentFeedback.setFeedbackOption(new FeedbackOption());",
             "}",
-            "in.agentFeedback.getFeedbackOption().setOptionId(in.materialItem.getId());",
             "in.agentFeedbackList.add(in.agentFeedback);",
             "in.count = in.count + 1;"
           ]
@@ -638,111 +627,12 @@
         { "id" : "f78", "to" : "f100", "color" : "default" }
       ]
     }, {
-      "id" : "f90",
-      "type" : "CallSubStart",
-      "name" : "modifyRequest(MaterialProcurementRequest, String, String)",
-      "config" : {
-        "signature" : "modifyRequest",
-        "input" : {
-          "params" : [
-            { "name" : "request", "type" : "procurement.request.model.MaterialProcurementRequest", "desc" : "The current procurement request to modify" },
-            { "name" : "command", "type" : "String", "desc" : "The modification instruction, e.g. 'add 5 bags of cement', 'remove item 2', 'set priority to urgent'" },
-            { "name" : "chatHistory", "type" : "String", "desc" : "The conversation history providing context for the modification" }
-          ],
-          "map" : {
-            "out.command" : "param.command",
-            "out.formattedHistory" : "param.chatHistory",
-            "out.request" : "param.request"
-          }
-        },
-        "result" : {
-          "params" : [
-            { "name" : "agentResponse", "type" : "procurement.request.ProcurementAgentResponse", "desc" : "Confirmation of the applied changes" }
-          ],
-          "map" : {
-            "result.agentResponse" : "in.agentResponse",
-            "result.agentResponse.request" : "in.request"
-          }
-        }
-      },
-      "tags" : [
-        "tool"
-      ],
-      "visual" : {
-        "at" : { "x" : 80, "y" : 1040 },
-        "description" : "Modifies the current procurement request based on a user command. Use this to add, remove, or update material items or header fields."
-      },
-      "connect" : [
-        { "id" : "c90", "to" : "f91" }
-      ]
-    }, {
-      "id" : "f91",
-      "type" : "ProgramInterface",
-      "name" : "Modify Request Agent",
-      "config" : {
-        "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
-        "userConfig" : {
-          "system" : "You are a procurement request editor.\r\nReturn the complete updated MaterialProcurementRequest with ONLY the requested change applied.\r\nPreserve all existing fields exactly. Keep IDs, dates, status, and requester unchanged.\r\nWhen adding items: assign the next available position number.\r\nWhen removing items: reindex remaining positions starting from 1.",
-          "tools" : "[]",
-          "resultType" : "procurement.request.model.MaterialProcurementRequest.class",
-          "resultMapping" : "in.modifiedRequest",
-          "query" : "Conversation history:\r\n<%= in.formattedHistory %>\r\n\r\n---\r\n\r\nCurrent request:\r\n<%= dev.langchain4j.internal.Json.toJson(in.request) %>\r\n\r\nModification command:\r\n<%= in.command %>"
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 352, "y" : 1040 },
-        "size" : { "width" : 192, "height" : 62 }
-      },
-      "connect" : [
-        { "id" : "c91", "to" : "f92" }
-      ]
-    }, {
-      "id" : "f92",
-      "type" : "Script",
-      "name" : "Apply modifications",
-      "config" : {
-        "output" : {
-          "code" : [
-            "if (in.modifiedRequest != null) {",
-            "    in.request.setProjectName(in.modifiedRequest.getProjectName());",
-            "    in.request.setProjectNumberCostCenter(in.modifiedRequest.getProjectNumberCostCenter());",
-            "    in.request.setConstructionSiteDeliveryAddress(in.modifiedRequest.getConstructionSiteDeliveryAddress());",
-            "    in.request.setRequiredDeliveryDate(in.modifiedRequest.getRequiredDeliveryDate());",
-            "    in.request.setPriority(in.modifiedRequest.getPriority());",
-            "    in.request.setOrderNotes(in.modifiedRequest.getOrderNotes());",
-            "    if (in.modifiedRequest.getMaterialItems() != null) {",
-            "        in.request.setMaterialItems(in.modifiedRequest.getMaterialItems());",
-            "        in.request.reindexItems();",
-            "    }",
-            "    in.request.calculateTotalNetAmount();",
-            "}",
-            "import procurement.request.ProcurementAgentResponse;",
-            "ProcurementAgentResponse resp = new ProcurementAgentResponse();",
-            "resp.setResult(\"The request has been updated.\");",
-            "resp.setRequest(in.request);",
-            "in.agentResponse = resp;"
-          ]
-        }
-      },
-      "visual" : {
-        "at" : { "x" : 608, "y" : 1040 }
-      },
-      "connect" : [
-        { "id" : "c92", "to" : "f93" }
-      ]
-    }, {
-      "id" : "f93",
-      "type" : "CallSubEnd",
-      "visual" : {
-        "at" : { "x" : 816, "y" : 1040 }
-      }
-    }, {
       "id" : "f100",
       "type" : "Alternative",
       "name" : "Translate?",
       "config" : {
         "conditions" : {
-          "c100" : "!\"English\".equals(in.userLanguage)"
+          "c100" : "!\"english\".equalsIgnoreCase(in.userLanguage)"
         }
       },
       "visual" : {
@@ -841,12 +731,208 @@
       "connect" : [
         { "id" : "c103", "to" : "f1", "via" : [ { "x" : 1464, "y" : 152 } ] }
       ]
+    }, {
+      "id" : "fa0",
+      "type" : "CallSubStart",
+      "name" : "applyFeedbackReplacements(MaterialProcurementRequest, List)",
+      "config" : {
+        "signature" : "applyFeedbackReplacements",
+        "input" : {
+          "params" : [
+            { "name" : "request", "type" : "procurement.request.model.MaterialProcurementRequest", "desc" : "The procurement request with trouble items to update" },
+            { "name" : "feedbacks", "type" : "java.util.List<procurement.request.agent.feedback.AgentFeedback>", "desc" : "List of feedbacks with selected alternatives from findAlternativeItems" }
+          ],
+          "map" : {
+            "out.request" : "param.request",
+            "out.feedbacks" : "param.feedbacks"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "agentResponse", "type" : "procurement.request.ProcurementAgentResponse", "desc" : "Response confirming replacements applied, with updated request" }
+          ],
+          "map" : {
+            "result.agentResponse" : "in.agentResponse",
+            "result.agentResponse.request" : "in.request"
+          }
+        }
+      },
+      "tags" : [
+        "tool"
+      ],
+      "visual" : {
+        "at" : { "x" : 72, "y" : 1024 },
+        "description" : "Applies the selected alternative inventory items to the trouble items in the request. Call this when the user confirms which alternatives to apply after findAlternativeItems."
+      },
+      "connect" : [
+        { "id" : "fa0c", "to" : "fa1" }
+      ]
+    }, {
+      "id" : "fa1",
+      "type" : "Script",
+      "name" : "Init trouble items and count",
+      "config" : {
+        "output" : {
+          "code" : [
+            "in.troubleItems = new java.util.ArrayList();",
+            "for (procurement.request.model.MaterialItem mi : in.request.getMaterialItems()) {",
+            "    if (mi.isHasTrouble()) {",
+            "        in.troubleItems.add(mi);",
+            "    }",
+            "}",
+            "in.count = 0;"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 264, "y" : 1024 }
+      },
+      "connect" : [
+        { "id" : "fa1c", "to" : "fa2" }
+      ]
+    }, {
+      "id" : "fa2",
+      "type" : "Alternative",
+      "name" : "Has next trouble item?",
+      "config" : {
+        "conditions" : {
+          "fa2t" : "in.count < in.troubleItems.size()"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 424, "y" : 1024 },
+        "labelOffset" : { "x" : 64, "y" : 24 }
+      },
+      "connect" : [
+        { "id" : "fa2t", "to" : "fa3" },
+        { "id" : "fa2f", "to" : "fa7", "label" : {
+            "name" : "Done",
+            "segment" : 0.26,
+            "offset" : { "x" : 49, "y" : -64 }
+          } }
+      ]
+    }, {
+      "id" : "fa3",
+      "type" : "Script",
+      "name" : "Load item and find matched feedback",
+      "config" : {
+        "output" : {
+          "code" : [
+            "in.materialItem = in.troubleItems.get(in.count);",
+            "in.matchedFeedback = null;",
+            "for (procurement.request.agent.feedback.AgentFeedback fb : in.feedbacks) {",
+            "    if (in.materialItem.getId() != null && in.materialItem.getId().equals(fb.getId())) {",
+            "        in.matchedFeedback = fb;",
+            "        break;",
+            "    }",
+            "}"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 624, "y" : 1024 },
+        "size" : { "width" : 160, "height" : 62 }
+      },
+      "connect" : [
+        { "id" : "fa3c", "to" : "fa4" }
+      ]
+    }, {
+      "id" : "fa4",
+      "type" : "Alternative",
+      "name" : "Has option feedback?",
+      "config" : {
+        "conditions" : {
+          "fa4t" : "in.matchedFeedback != null && procurement.request.agent.feedback.FeedbackType.OPTION.equals(in.matchedFeedback.getType()) && in.matchedFeedback.getFeedbackOption() != null && in.matchedFeedback.getFeedbackOption().getOptionId() != null"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 832, "y" : 1024 }
+      },
+      "connect" : [
+        { "id" : "fa4t", "to" : "fa5" },
+        { "id" : "fa4f", "to" : "fa6" }
+      ]
+    }, {
+      "id" : "fa5",
+      "type" : "Script",
+      "name" : "Resolve inventory item and apply replacement",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import procurement.request.repository.InventoryRepository;",
+            "String optionId = in.matchedFeedback.getFeedbackOption().getOptionId();",
+            "in.inventoryItem = InventoryRepository.getInstance().findById(optionId);",
+            "if (in.inventoryItem != null) {",
+            "    procurement.request.model.MaterialItem refItem = in.inventoryItem.getMaterialItem();",
+            "    if (refItem != null) {",
+            "        in.materialItem.setMaterialTypeId(refItem.getMaterialTypeId());",
+            "        in.materialItem.setMaterialDescription(refItem.getMaterialDescription());",
+            "        in.materialItem.setStandardGradeClass(refItem.getStandardGradeClass());",
+            "        in.materialItem.setUnit(in.materialItem.getUnit() != null ? in.materialItem.getUnit() : refItem.getUnit());",
+            "        in.materialItem.setUnitPriceNet(refItem.getUnitPriceNet());",
+            "        in.materialItem.setHasTrouble(false);",
+            "        in.materialItem.setAiComment(in.matchedFeedback.getFeedbackOption().getDescription());",
+            "    }",
+            "}",
+            "in.count = in.count + 1;"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 1040, "y" : 1024 },
+        "size" : { "width" : 192, "height" : 62 }
+      },
+      "connect" : [
+        { "id" : "fa5c", "to" : "fa2", "via" : [ { "x" : 1264, "y" : 1024 }, { "x" : 1264, "y" : 1264 }, { "x" : 424, "y" : 1264 } ] }
+      ]
+    }, {
+      "id" : "fa6",
+      "type" : "Script",
+      "name" : "Skip - no matching option feedback",
+      "config" : {
+        "output" : {
+          "code" : "in.count = in.count + 1;"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 832, "y" : 1120 }
+      },
+      "connect" : [
+        { "id" : "fa6c", "to" : "fa2", "via" : [ { "x" : 424, "y" : 1120 } ] }
+      ]
+    }, {
+      "id" : "fa7",
+      "type" : "Script",
+      "name" : "Build replacement response",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import procurement.request.ProcurementAgentResponse;",
+            "ProcurementAgentResponse resp = new ProcurementAgentResponse();",
+            "resp.setResult(\"Replacements have been applied to your request.\");",
+            "resp.setRequest(in.request);",
+            "in.agentResponse = resp;"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 264, "y" : 1152 }
+      },
+      "connect" : [
+        { "id" : "fa7c", "to" : "fa8" }
+      ]
+    }, {
+      "id" : "fa8",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 72, "y" : 1152 }
+      }
     } ],
   "layout" : {
     "lanes" : [ {
         "name" : "Tools of Procurement Assistant Agent",
         "offset" : 208,
-        "size" : 936
+        "size" : 1104
       } ]
   }
 }

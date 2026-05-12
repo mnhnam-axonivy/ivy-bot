@@ -14,9 +14,9 @@
   margin: 0 auto;
 }
 
-/* ── Stable carousel height ──────────────────────────────────────── */
+/* ── Adaptive carousel height — fills viewport minus nav, dots, footer chrome ─ */
 .pw-page .fd-steps-wrapper {
-  height: 70vh;
+  height: clamp(400px, calc(100vh - 220px), 720px);
 }
 
 .pw-page .fd-step-panel {
@@ -41,22 +41,23 @@
 }
 
 /* ── Welcome slide (Slide 0) ─────────────────────────────────────── */
+/* justify-content:center clips the top when content overflows — use flex-start */
 .pw-welcome {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
-  height: 100%;
-  padding: 40px 32px;
+  padding: 28px 32px;
+  overflow-y: auto;
 }
 
 .pw-hero-title {
-  font-size: 2.4rem;
+  font-size: 2.1rem;
   font-weight: 800;
   color: #1e293b;
   line-height: 1.15;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   letter-spacing: -.5px;
 }
 
@@ -246,7 +247,7 @@
 
 /* ── Ready slide (Slide 2) ───────────────────────────────────────── */
 .pw-ready-hero {
-  padding: 4px 0 20px;
+  padding: 4px 0 12px;
 }
 
 /* ── Mock document download ──────────────────────────────────────── */
@@ -337,11 +338,34 @@
 
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .pw-hero-title { font-size: 1.8rem; }
-  .pw-slide-body { padding: 20px; }
+  .pw-hero-title { font-size: 1.7rem; }
+  .pw-slide-body { padding: 16px; }
   .pw-ai-grid { grid-template-columns: 1fr; }
   .pw-compare-grid { grid-template-columns: 1fr; }
   .pw-compare-stats { gap: 20px; }
   .pw-footer { flex-wrap: wrap; gap: 12px; }
-  .pw-page .fd-steps-wrapper { height: clamp(480px, 72vh, 680px); }
+}
+
+/* ── Demo focus slide (Slide 0) ─────────────────────────────────── */
+.pw-focus-para {
+  margin-top: 24px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #475569;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* Compact layout for smaller laptop heights (≤ 800px) */
+@media (max-height: 800px) {
+  .pw-slide-body { padding: 20px 24px; }
+  .pw-welcome { padding: 20px 24px; }
+  .pw-hero-title { font-size: 1.85rem; margin-bottom: 8px; }
+  .pw-ai-grid { gap: 10px; margin-top: 16px; }
+  .pw-ai-card { padding: 12px; }
+  .pw-ai-icon { width: 40px; height: 40px; font-size: 20px; }
+  .pw-compare-stats { margin-bottom: 14px; }
+  .pw-slide-header { margin-bottom: 14px; }
+  .pw-download-section { padding: 12px 16px; margin-bottom: 12px; }
+  .pw-focus-para { margin-top: 16px; font-size: 14px; }
 }

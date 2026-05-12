@@ -2,6 +2,22 @@ Dialogs:
   hr:
     talent:
       acquisition:
+        CandidateDetails:
+          AiSummaryTitle: AI-Generated Summary
+          ContactInfoTitle: Contact Information
+          EducationTitle: Education
+          GitHubLink: GitHub Profile
+          LevelSuffix: LEVEL
+          LinkedInLink: LinkedIn Profile
+          Present: Present
+          ProfSummaryTitle: Professional Summary
+          SkillsMatrixTitle: Skills Score Matrix
+          TabEducation: Education
+          TabOverview: Overview
+          TabSkills: Skills
+          TabWorkHistory: Work History
+          TechnicalSkillsTitle: Technical Skills
+          WorkHistoryTitle: Work History
         TalentManagement:
           AiParsingDesc: Our AI automatically extracts contact info, skills, work history, and education from CVs.
           AiParsingTitle: AI-Powered Parsing
@@ -48,9 +64,11 @@ Dialogs:
           CancelButton: Cancel
           CompareSubtitle: See how AI compares to traditional manual CV screening.
           CompareTitle: Transform Your Hiring Process
-          Dot0Title: AI Capabilities
-          Dot1Title: 'Before & After'
-          Dot2Title: Get Started
+          Dot0Title: What's Different
+          Dot1Title: AI Capabilities
+          Dot2Title: 'Before & After'
+          Dot3Title: Get Started
+          FocusPara: Unlike typical HR tools that require manual data entry, this demo shows a pipeline where uploading a CV is the entire process — no forms, no copy-pasting. The AI reads unstructured PDFs, builds a complete structured candidate profile, classifies experience as ENTRY, MID, or SENIOR, scores every technical skill, and writes a professional summary. All automatically.
           DownloadButton: Download PDF
           DownloadCv1Desc: A realistic developer CV in PDF format — ready to upload and test the AI parser.
           DownloadCv1Title: Sample CV — Candidate 1

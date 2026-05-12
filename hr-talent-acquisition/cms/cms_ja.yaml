@@ -2,6 +2,22 @@ Dialogs:
   hr:
     talent:
       acquisition:
+        CandidateDetails:
+          AiSummaryTitle: AIによる要約
+          ContactInfoTitle: 連絡先情報
+          EducationTitle: 学歴
+          GitHubLink: GitHubプロフィール
+          LevelSuffix: レベル
+          LinkedInLink: LinkedInプロフィール
+          Present: 現在
+          ProfSummaryTitle: 職務要約
+          SkillsMatrixTitle: スキルスコアマトリクス
+          TabEducation: 学歴
+          TabOverview: 概要
+          TabSkills: スキル
+          TabWorkHistory: 職務経歴
+          TechnicalSkillsTitle: 技術スキル
+          WorkHistoryTitle: 職務経歴
         TalentManagement:
           AiParsingDesc: AIが連絡先情報、スキル、職歴、学歴をCVから自動的に抽出します。
           AiParsingTitle: AIによる解析

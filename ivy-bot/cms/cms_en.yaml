@@ -1,0 +1,72 @@
+Dialogs:
+  ivy:
+    bot:
+      ChatBot:
+        AssistantLabel: Assistant
+        InputPlaceholder: Type your message...
+        PageTitle: Axon Ivy Chatbot
+        ShowOriginal: Show original
+        ShowTranslation: Show translation
+        ThinkingText: Thinking...
+        WelcomeSubtitle: Ask me anything and I'll do my best to assist you.
+        WelcomeTitle: Hello, how can I help you?
+      ChatbotWelcomePage:
+        AiHeader: AI-Powered Assistant
+        AiItem1: Instant answers — no wait time
+        AiItem2: 24/7 availability for HR questions
+        AiItem3: Leave requests submitted in seconds
+        AiItem4: Accurate policy lookups with source context
+        AiItem5: Multi-turn conversation with full context memory
+        CancelButton: Cancel
+        CompareSubtitle: See how the AI assistant transforms day-to-day HR interactions.
+        CompareTitle: Traditional HR vs. AI Assistant
+        ConversationDesc: Handles greetings and off-topic messages gracefully, always guiding you back to what it does best.
+        ConversationTitle: Natural Conversation
+        Dot0Title: What's Different
+        Dot1Title: Capabilities
+        Dot2Title: Before & After
+        Dot3Title: Get Started
+        FocusPara: Unlike traditional HR portals with rigid menus and forms, this demo shows a chatbot that IS the workflow. Describe a leave request in plain language and it gets submitted for real. Answers are grounded in an actual HR knowledge base, conversations carry context across multiple turns, and the bot responds in your own language — automatically.
+        EmployeeDesc: Instantly retrieve your own employee record and profile information without contacting HR.
+        EmployeeTitle: Employee Lookup
+        Feature1Hint: Ask about benefits, leave, dress code, work hours, and more.
+        Feature1Name: HR Policy Q&A
+        Feature2Hint: 'Try: "I need 3 days off next week for a personal matter."'
+        Feature2Name: Leave Request
+        Feature3Hint: 'Try: "Look up my employee profile."'
+        Feature3Name: Employee Lookup
+        Feature4Name: Dual-Language Support
+        Feature4Hint: Chat in your language — the AI translates your messages to English and replies back in your language automatically.
+        DemoNoteTitle: Demo Accounts
+        DemoEmployeeName: John Employee (john)
+        DemoEmployeeHint: Log in as John to submit leave requests and ask HR policy questions
+        DemoManagerName: Jane Manager (jane)
+        DemoManagerHint: Log in as Jane to approve leave requests and manage team workflows
+        HeroSubtitle: Your intelligent HR assistant — policies, leave, and employee info, all in one conversation.
+        HeroTitle1: Meet Your
+        HeroTitle2: AI HR Assistant
+        LeaveDesc: Submit vacation, sick leave, parental leave, and more — just describe what you need in plain language.
+        LeaveTitle: Leave Requests
+        NextButton: Next
+        PageTitle: Axon Ivy Chatbot
+        PolicyDesc: Ask about benefits, leave policies, dress code, work hours, or any workplace rules and get instant answers.
+        PolicyTitle: HR Policy Q&A
+        PrevButton: Previous
+        ProceedButton: Start Chatting
+        ReadyDesc: The assistant is ready to help. You can ask questions in plain language — no special commands needed.
+        ReadyTitle: 'Ready to chat?'
+        Stat1After: Instant
+        Stat1Before: 15+ min
+        Stat1Label: Policy lookup time
+        Stat2After: Seconds
+        Stat2Before: 2+ days
+        Stat2Label: Leave request submission
+        Stat3After: Always
+        Stat3Before: Office hours
+        Stat3Label: Availability
+        TraditionalHeader: Traditional Approach
+        TraditionalItem1: Searching through policy documents manually
+        TraditionalItem2: Waiting for HR to respond to emails
+        TraditionalItem3: Complex leave request forms and approvals
+        TraditionalItem4: Limited to office hours support
+        TraditionalItem5: No memory of previous conversations

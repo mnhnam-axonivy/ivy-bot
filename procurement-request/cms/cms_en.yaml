@@ -107,9 +107,11 @@ Dialogs:
         NextButton: Next
         CancelButton: Cancel
         ProceedButton: Proceed
-        Dot0Title: AI Features
-        Dot1Title: Traditional vs AI
-        Dot2Title: Get Started
+        Dot0Title: What's Different
+        Dot1Title: AI Features
+        Dot2Title: Traditional vs AI
+        Dot3Title: Get Started
+        FocusPara: Unlike standard procurement forms, this demo shows a workflow where a single PDF upload replaces all manual data entry. The AI reads the document, fills every field, cross-checks each requested item against live inventory, flags stock issues, and proposes ready-to-use alternatives — all before you have typed a single character.
         HeroTitle1: AI-Powered
         HeroTitle2: Material Procurement
         HeroSubtitle: 'From a single PDF to a fully validated, AI-analyzed procurement request — in seconds.'

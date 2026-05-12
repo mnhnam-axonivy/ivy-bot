@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var TOTAL_SLIDES = 3;
+  var TOTAL_SLIDES = 4;
   var currentSlide = 0;
   var wrapper = null;
 

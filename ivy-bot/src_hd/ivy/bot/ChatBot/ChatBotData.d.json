@@ -14,6 +14,11 @@
     "type" : "entity.Message",
     "modifiers" : [ ]
   }, {
+    "name" : "lastUserMessage",
+    "type" : "entity.Message",
+    "comment" : "Temporary holder for the user message during translation",
+    "modifiers" : [ ]
+  }, {
     "name" : "pastConversation",
     "comment" : "Serialized past conversation to pass to ChatAgent",
     "modifiers" : [ ]

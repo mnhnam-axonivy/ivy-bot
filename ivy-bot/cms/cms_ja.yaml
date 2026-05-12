@@ -1,0 +1,70 @@
+Dialogs:
+  ivy:
+    bot:
+      ChatBot:
+        AssistantLabel: アシスタント
+        InputPlaceholder: メッセージを入力してください...
+        PageTitle: Axon Ivy チャットボット
+        ShowOriginal: 原文を表示
+        ShowTranslation: 翻訳を表示
+        ThinkingText: 考え中...
+        WelcomeSubtitle: 何でも聞いてください。できる限りお手伝いします。
+        WelcomeTitle: こんにちは、何かお手伝いできますか？
+      ChatbotWelcomePage:
+        AiHeader: AIアシスタント
+        AiItem1: 即座に回答 — 待ち時間なし
+        AiItem2: HR質問に24時間365日対応
+        AiItem3: 数秒で休暇申請を送信
+        AiItem4: ソースコンテキスト付きの正確なポリシー検索
+        AiItem5: 完全なコンテキストメモリによる複数ターンの会話
+        CancelButton: キャンセル
+        CompareSubtitle: AIアシスタントが日常のHRインタラクションをどのように変えるかをご覧ください。
+        CompareTitle: 従来のHR vs. AIアシスタント
+        ConversationDesc: 挨拶やトピック外のメッセージを丁寧に処理し、常に得意分野へ誘導します。
+        ConversationTitle: 自然な会話
+        Dot0Title: 機能
+        Dot1Title: 比較
+        Dot2Title: 開始
+        EmployeeDesc: HRに連絡することなく、自分の従業員記録やプロフィール情報を即座に取得できます。
+        EmployeeTitle: 従業員検索
+        Feature1Hint: 福利厚生、休暇、服装規定、勤務時間などについてお尋ねください。
+        Feature1Name: HRポリシーQ&A
+        Feature2Hint: '例: 「来週3日間の個人的な休暇が必要です。」'
+        Feature2Name: 休暇申請
+        Feature3Hint: '例: 「私の従業員プロフィールを検索してください。」'
+        Feature3Name: 従業員検索
+        Feature4Name: 2言語サポート
+        Feature4Hint: あなたの言語でチャットできます — AIがメッセージを英語に翻訳し、返答を自動的にあなたの言語で返します。
+        DemoNoteTitle: デモアカウント
+        DemoEmployeeName: John Employee (john)
+        DemoEmployeeHint: Johnとしてログインして休暇申請の送信やHRポリシーの質問ができます
+        DemoManagerName: Jane Manager (jane)
+        DemoManagerHint: Janeとしてログインして休暇申請の承認やチームワークフローの管理ができます
+        HeroSubtitle: インテリジェントなHRアシスタント — ポリシー、休暇、従業員情報をすべて一つの会話で。
+        HeroTitle1: あなたの
+        HeroTitle2: AI HRアシスタント
+        LeaveDesc: 有給休暇、病気休暇、育児休暇などを普通の言葉で説明するだけで申請できます。
+        LeaveTitle: 休暇申請
+        NextButton: 次へ
+        PageTitle: Axon Ivy チャットボット
+        PolicyDesc: 福利厚生、休暇ポリシー、服装規定、勤務時間、職場のルールなどについて質問して、即座に回答を得られます。
+        PolicyTitle: HRポリシーQ&A
+        PrevButton: 前へ
+        ProceedButton: チャットを開始
+        ReadyDesc: アシスタントはいつでもお手伝いする準備ができています。特別なコマンドは不要です。普通の言葉で質問してください。
+        ReadyTitle: チャットを始めましょう
+        Stat1After: 即座
+        Stat1Before: 15分以上
+        Stat1Label: ポリシー検索時間
+        Stat2After: 数秒
+        Stat2Before: 2日以上
+        Stat2Label: 休暇申請送信時間
+        Stat3After: 常時
+        Stat3Before: 営業時間のみ
+        Stat3Label: 対応可能時間
+        TraditionalHeader: 従来のアプローチ
+        TraditionalItem1: ポリシー文書を手動で検索
+        TraditionalItem2: HRからのメール返信を待つ
+        TraditionalItem3: 複雑な休暇申請フォームと承認プロセス
+        TraditionalItem4: 営業時間内のサポートのみ
+        TraditionalItem5: 過去の会話の記憶なし

@@ -1,0 +1,23 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "TranslationAgentData",
+  "namespace" : "ivy.bot",
+  "fields" : [ {
+    "name" : "message",
+    "type" : "entity.Message",
+    "comment" : "The AI message to translate",
+    "modifiers" : [ ]
+  }, {
+    "name" : "userLanguage",
+    "comment" : "Detected user locale language (English display name)",
+    "modifiers" : [ ]
+  }, {
+    "name" : "targetLanguage",
+    "comment" : "Target language for translation; defaults to user session language if blank",
+    "modifiers" : [ ]
+  }, {
+    "name" : "translatedText",
+    "comment" : "Raw translated string returned by the AI translator",
+    "modifiers" : [ ]
+  } ]
+}

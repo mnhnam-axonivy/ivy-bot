@@ -11,7 +11,16 @@
       "config" : {
         "signature" : "candidateManagement",
         "request" : {
-          "name" : "Candidate Management"
+          "name" : "Candidate Management",
+          "description" : "Launches the Talent Acquisition portal where recruiters and HR managers can manage candidates, track applications, and oversee the hiring pipeline."
+        },
+        "task" : {
+          "name" : "Candidate Management Session",
+          "description" : "Active talent acquisition session for reviewing and managing candidates."
+        },
+        "case" : {
+          "name" : "Talent Acquisition — <%= ivy.session.getSessionUserName() %>",
+          "description" : "Candidate management session started by <%= ivy.session.getSessionUserName() %>."
         }
       },
       "visual" : {

@@ -11,20 +11,29 @@
       "config" : {
         "signature" : "ivyBot",
         "request" : {
-          "name" : "My Chatbot"
+          "name" : "My Chatbot",
+          "description" : "Launches the HR chatbot dialog directly, allowing users to ask HR-related questions, submit leave requests, and look up employee information."
+        },
+        "task" : {
+          "name" : "Chatbot Session",
+          "description" : "Interactive HR chatbot session for the current user."
+        },
+        "case" : {
+          "name" : "Chatbot — <%= ivy.session.getSessionUserName() %>",
+          "description" : "HR chatbot conversation started by <%= ivy.session.getSessionUserName() %>."
         }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 }
       },
       "connect" : [
-        { "id" : "f2", "to" : "f3" }
+        { "id" : "f2", "to" : "f9" }
       ]
     }, {
       "id" : "f1",
       "type" : "TaskEnd",
       "visual" : {
-        "at" : { "x" : 360, "y" : 64 }
+        "at" : { "x" : 672, "y" : 64 }
       }
     }, {
       "id" : "f3",
@@ -34,10 +43,61 @@
         "dialog" : "ivy.bot.ChatBot:start()"
       },
       "visual" : {
-        "at" : { "x" : 232, "y" : 64 }
+        "at" : { "x" : 544, "y" : 64 }
       },
       "connect" : [
         { "id" : "f4", "to" : "f1", "color" : "default" }
+      ]
+    }, {
+      "id" : "f5",
+      "type" : "RequestStart",
+      "name" : "ivyBotWithWelcomePage",
+      "config" : {
+        "signature" : "ivyBotWithWelcomePage",
+        "request" : {
+          "name" : "Chatbot with Welcome page",
+          "description" : "Launches the HR chatbot with an introductory welcome page that highlights key features before opening the chat dialog."
+        },
+        "task" : {
+          "name" : "Chatbot Session (with Welcome)",
+          "description" : "Interactive HR chatbot session preceded by the welcome/onboarding page."
+        },
+        "case" : {
+          "name" : "Chatbot — <%= ivy.session.getSessionUserName() %>",
+          "description" : "HR chatbot conversation (with welcome page) started by <%= ivy.session.getSessionUserName() %>."
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 184 }
+      },
+      "connect" : [
+        { "id" : "f8", "to" : "f6" }
+      ]
+    }, {
+      "id" : "f6",
+      "type" : "DialogCall",
+      "name" : "Welcome page",
+      "config" : {
+        "dialog" : "ivy.bot.ChatbotWelcomePage:start()"
+      },
+      "visual" : {
+        "at" : { "x" : 312, "y" : 184 }
+      },
+      "connect" : [
+        { "id" : "f7", "to" : "f9" }
+      ]
+    }, {
+      "id" : "f9",
+      "type" : "TriggerCall",
+      "name" : "Create demo data",
+      "config" : {
+        "processCall" : "hr/workflow/CreateDemoData:createDemoData()"
+      },
+      "visual" : {
+        "at" : { "x" : 312, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f10", "to" : "f3", "color" : "default" }
       ]
     } ]
 }

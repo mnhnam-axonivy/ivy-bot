@@ -1,0 +1,126 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/process.json",
+  "id" : "19E17E44F2A23EDC",
+  "kind" : "CALLABLE_SUB",
+  "config" : {
+    "data" : "ivy.bot.TranslationAgentData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "CallSubStart",
+      "name" : "translate(entity.Message)",
+      "config" : {
+        "signature" : "translate",
+        "input" : {
+          "params" : [
+            { "name" : "message", "type" : "entity.Message", "desc" : "The message to translate" },
+            { "name" : "targetLanguage", "type" : "String", "desc" : "Target language; leave blank to use user's session language" }
+          ],
+          "map" : {
+            "out.message" : "param.message",
+            "out.targetLanguage" : "param.targetLanguage"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "message", "type" : "entity.Message", "desc" : "The message with translated field populated" }
+          ],
+          "map" : {
+            "result.message" : "in.message"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "e0", "to" : "f2" }
+      ]
+    }, {
+      "id" : "f2",
+      "type" : "Script",
+      "name" : "Detect User Language",
+      "config" : {
+        "output" : {
+          "code" : [
+            "in.userLanguage = ivy.session.getContentLocale().getDisplayLanguage(java.util.Locale.ENGLISH);",
+            "if (in.targetLanguage == null || in.targetLanguage.isBlank()) {",
+            "    in.targetLanguage = in.userLanguage;",
+            "}"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 240, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "e2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f3",
+      "type" : "Alternative",
+      "name" : "Translate?",
+      "config" : {
+        "conditions" : {
+          "c3yes" : "!\"english\".equalsIgnoreCase(in.userLanguage)"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 400, "y" : 64 },
+        "labelOffset" : { "y" : -24 }
+      },
+      "connect" : [
+        { "id" : "c3yes", "to" : "f4" },
+        { "id" : "c3no", "to" : "f1", "via" : [ { "x" : 400, "y" : 160 }, { "x" : 1024, "y" : 160 } ], "label" : {
+            "name" : "English",
+            "segment" : 1.49,
+            "offset" : { "x" : 48, "y" : -16 }
+          } }
+      ]
+    }, {
+      "id" : "f4",
+      "type" : "ProgramInterface",
+      "name" : "Translate Message",
+      "config" : {
+        "javaClass" : "com.axonivy.utils.smart.workflow.AgenticProcessCall",
+        "userConfig" : {
+          "system" : "You are a professional translator.\nRules:\n- Preserve exactly: proper nouns, names, technical terms, numeric values, and identifiers.\n- Translate only the surrounding natural-language prose and sentences.\n- Return only the translated text with no explanations.",
+          "tools" : "[]",
+          "resultMapping" : "in.translatedText",
+          "query" : "Translate to <%= in.targetLanguage %>:\n\n<%= in.message != null ? in.message.getContent() : \"\" %>"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 592, "y" : 64 },
+        "size" : { "width" : 192, "height" : 62 }
+      },
+      "connect" : [
+        { "id" : "e4", "to" : "f5" }
+      ]
+    }, {
+      "id" : "f5",
+      "type" : "Script",
+      "name" : "Apply Translation",
+      "config" : {
+        "output" : {
+          "code" : [
+            "if (in.message != null && in.translatedText != null && !in.translatedText.isBlank()) {",
+            "    in.message.setTranslated(in.translatedText);",
+            "}"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 848, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "e5", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 1024, "y" : 64 }
+      }
+    } ]
+}

@@ -24,8 +24,9 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
 import ch.ivyteam.ivy.environment.Ivy;
-import procurement.request.agent.feedback.AgentFeedback;
 import procurement.request.ProcurementAgentResponse;
+import procurement.request.agent.feedback.AgentFeedback;
+import procurement.request.agent.feedback.FeedbackType;
 import procurement.request.assistant.AgentGuidance;
 import procurement.request.assistant.AssistantChatMessage;
 import procurement.request.model.MaterialItem;
@@ -356,6 +357,24 @@ public class CreateRequestBean implements Serializable {
       ProcurementAgentResponse agentResponse = (result != null)
           ? (ProcurementAgentResponse) result.get("agentResponse")
           : null;
+
+      if (Optional.ofNullable(agentResponse).map(ProcurementAgentResponse::getFeedbackList).isPresent()) {
+        for (AgentFeedback feedback : agentResponse.getFeedbackList()) {
+          if (feedback.getType() == FeedbackType.EVALUATION && !feedback.isSuccess()) {
+            request.getMaterialItems().stream()
+                .filter(item -> item.getId().equals(feedback.getId()))
+                .findFirst()
+                .ifPresent(item -> item.setHasTrouble(true));
+          }
+
+          if (feedback.getType() == FeedbackType.OPTION && feedback.getFeedbackOption() != null) {
+            request.getMaterialItems().stream()
+                .filter(item -> item.getId().equals(feedback.getId()))
+                .findFirst()
+                .ifPresent(item -> item.setFeedbackOption(feedback.getFeedbackOption()));
+          }
+        }
+      } 
 
       Optional.ofNullable(agentResponse)
           .map(ProcurementAgentResponse::getRequest)

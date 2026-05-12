@@ -89,5 +89,15 @@
   }, {
     "name" : "translatedResult",
     "comment" : "Translated combined text returned by the translation agent; split on ---SEG--- to restore individual segments"
+  }, {
+    "name" : "feedbacks",
+    "type" : "java.util.List<procurement.request.agent.feedback.AgentFeedback>",
+    "comment" : "Input feedbacks list for applyFeedbackReplacements tool (from a previous findAlternativeItems response)",
+    "modifiers" : [ ]
+  }, {
+    "name" : "matchedFeedback",
+    "type" : "procurement.request.agent.feedback.AgentFeedback",
+    "comment" : "Feedback entry matched to the current trouble item in the applyFeedbackReplacements loop",
+    "modifiers" : [ ]
   } ]
 }

@@ -11,7 +11,16 @@
       "config" : {
         "signature" : "createDemoData",
         "request" : {
-          "name" : "Create demo data"
+          "name" : "Create demo data",
+          "isVisibleOnStartList" : false
+        },
+        "triggerable" : true,
+        "task" : {
+          "responsible" : {
+            "roles" : [
+              "SYSTEM"
+            ]
+          }
         }
       },
       "visual" : {

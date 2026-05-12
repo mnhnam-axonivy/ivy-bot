@@ -8,6 +8,9 @@ public class AgentFeedback implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @Description("The ID of the item this feedback refers to (e.g., the material item ID being analyzed).")
+  private String id;
+
   @Description("A message describing the feedback from the agent, such as success or error details.")
   private String message;
 
@@ -19,6 +22,9 @@ public class AgentFeedback implements Serializable {
 
   @Description("If the feedback type is OPTION, this field contains the details of the feedback option.")
   private FeedbackOption feedbackOption;
+
+  public String getId() { return id; }
+  public void setId(String id) { this.id = id; }
 
   public String getMessage() { return message; }
   public void setMessage(String message) { this.message = message; }

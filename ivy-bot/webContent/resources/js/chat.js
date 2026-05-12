@@ -56,6 +56,47 @@ function renderMarkdown() {
 }
 
 // ---------------------------------------------------------------------------
+// Translation toggle
+// ---------------------------------------------------------------------------
+
+/**
+ * Toggles between original and translated text for any message bubble.
+ *
+ * For AI messages (data-showing-original="false"):
+ *   default view = translated (user's language) → toggle shows original (English)
+ * For USER messages (data-showing-original="true"):
+ *   default view = original (user's language) → toggle shows translated (English)
+ */
+function toggleOriginal(link) {
+  var wrapper = link.closest('.assistant-content') || link.closest('.user-bubble');
+  if (!wrapper) { return; }
+  var contentDiv = wrapper.querySelector('[data-original]');
+  if (!contentDiv) { return; }
+
+  var isShowingOriginal = link.dataset.showingOriginal === 'true';
+  var labelShowOriginal = link.dataset.labelShowOriginal || 'Show original';
+  var labelShowTranslation = link.dataset.labelShowTranslation || 'Show translation';
+
+  if (isShowingOriginal) {
+    // Switch to translated view
+    var translated = contentDiv.dataset.translated;
+    contentDiv.innerHTML = typeof marked !== 'undefined' ? marked.parse(translated) : translated;
+    link.textContent = labelShowOriginal;
+    link.dataset.showingOriginal = 'false';
+  } else {
+    // Switch to original view
+    var original = contentDiv.dataset.original;
+    contentDiv.innerHTML = typeof marked !== 'undefined' ? marked.parse(original) : original;
+    link.textContent = labelShowTranslation;
+    link.dataset.showingOriginal = 'true';
+  }
+}
+
+function initTranslationToggles() {
+  // Labels are initialized via HTML data attributes — nothing to do here
+}
+
+// ---------------------------------------------------------------------------
 // Thinking indicator
 // ---------------------------------------------------------------------------
 
@@ -131,6 +172,7 @@ function onChatComplete() {
   setThinkingVisible(false);
   removeTempMessages();
   renderMarkdown();
+  initTranslationToggles();
   setInputEnabled(true);
 
   var input = getChatInput();
@@ -161,6 +203,7 @@ function handleChatInputKeydown(event) {
 // ---------------------------------------------------------------------------
 $(document).ready(function () {
   renderMarkdown();
+  initTranslationToggles();
   scrollToBottom();
   var input = getChatInput();
   if (input) { input.focus(); }

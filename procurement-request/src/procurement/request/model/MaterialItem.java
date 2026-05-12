@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import dev.langchain4j.model.output.structured.Description;
+import procurement.request.agent.feedback.FeedbackOption;
 
 public class MaterialItem implements Serializable {
 
@@ -37,6 +38,9 @@ public class MaterialItem implements Serializable {
   private String aiComment;
   @Description("Indicates whether this material item was flagged as problematic during analysis (e.g., insufficient stock or not found in inventory)")
   private boolean hasTrouble;
+
+  @Description("If the agent identified an issue with this material item, this field contains the feedback option suggesting how to resolve it (e.g., alternative materials or suppliers). This is only populated if hasTrouble is true.")
+  private FeedbackOption feedbackOption;
 
   public MaterialItem() {
     this.id = UUID.randomUUID().toString();
@@ -99,4 +103,7 @@ public class MaterialItem implements Serializable {
 
   public boolean isHasTrouble() { return hasTrouble; }
   public void setHasTrouble(boolean hasTrouble) { this.hasTrouble = hasTrouble; }
+
+  public FeedbackOption getFeedbackOption() { return feedbackOption; }
+  public void setFeedbackOption(FeedbackOption feedbackOption) { this.feedbackOption = feedbackOption; }
 }

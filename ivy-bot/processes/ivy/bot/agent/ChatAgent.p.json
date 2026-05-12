@@ -40,7 +40,7 @@
       "id" : "f1",
       "type" : "CallSubEnd",
       "visual" : {
-        "at" : { "x" : 528, "y" : 208 }
+        "at" : { "x" : 800, "y" : 208 }
       }
     }, {
       "id" : "f5",
@@ -57,10 +57,35 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 304, "y" : 208 }
+        "at" : { "x" : 288, "y" : 208 }
       },
       "connect" : [
-        { "id" : "f7", "to" : "f1" }
+        { "id" : "f7", "to" : "f100" }
+      ]
+    }, {
+      "id" : "f100",
+      "type" : "SubProcessCall",
+      "name" : "Call TranslationAgent",
+      "config" : {
+        "processCall" : "ivy/bot/agent/TranslationAgent:translate(entity.Message,String)",
+        "call" : {
+          "map" : {
+            "param.message" : "in.answer",
+            "param.targetLanguage" : "\"\""
+          }
+        },
+        "output" : {
+          "map" : {
+            "out.answer" : "result.message"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 568, "y" : 208 },
+        "size" : { "width" : 192, "height" : 62 }
+      },
+      "connect" : [
+        { "id" : "f100c", "to" : "f1" }
       ]
     }, {
       "id" : "f8",
@@ -89,7 +114,7 @@
         "tool"
       ],
       "visual" : {
-        "at" : { "x" : 96, "y" : 400 },
+        "at" : { "x" : 120, "y" : 448 },
         "description" : "Use this tool when the user is asking about company policies, including benefits, leave, HR rules, dress code, work hours, code of conduct, or any workplace-related policy questions"
       },
       "connect" : [
@@ -114,7 +139,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 304, "y" : 400 }
+        "at" : { "x" : 328, "y" : 448 }
       },
       "connect" : [
         { "id" : "f12", "to" : "f10" }
@@ -123,7 +148,7 @@
       "id" : "f10",
       "type" : "CallSubEnd",
       "visual" : {
-        "at" : { "x" : 528, "y" : 400 }
+        "at" : { "x" : 552, "y" : 448 }
       }
     }, {
       "id" : "f13",
@@ -152,7 +177,7 @@
         "tool"
       ],
       "visual" : {
-        "at" : { "x" : 96, "y" : 512 },
+        "at" : { "x" : 120, "y" : 560 },
         "description" : "Use this tool when the user's message is informal, casual, or not related to Axon Ivy or company policies, such as greetings, jokes, or off-topic questions"
       },
       "connect" : [
@@ -168,7 +193,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 304, "y" : 512 }
+        "at" : { "x" : 328, "y" : 560 }
       },
       "connect" : [
         { "id" : "f17", "to" : "f15" }
@@ -177,7 +202,7 @@
       "id" : "f15",
       "type" : "CallSubEnd",
       "visual" : {
-        "at" : { "x" : 528, "y" : 512 }
+        "at" : { "x" : 552, "y" : 560 }
       }
     }, {
       "id" : "f20",
@@ -208,7 +233,7 @@
         "tool"
       ],
       "visual" : {
-        "at" : { "x" : 96, "y" : 624 },
+        "at" : { "x" : 120, "y" : 672 },
         "description" : "Use when the user has a request related to personnel"
       },
       "connect" : [
@@ -234,7 +259,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 324, "y" : 625 },
+        "at" : { "x" : 348, "y" : 673 },
         "size" : { "width" : 152, "height" : 62 }
       },
       "connect" : [
@@ -244,13 +269,13 @@
       "id" : "f22",
       "type" : "CallSubEnd",
       "visual" : {
-        "at" : { "x" : 528, "y" : 624 }
+        "at" : { "x" : 552, "y" : 672 }
       }
     } ],
   "layout" : {
     "lanes" : [ {
         "name" : "Tools of Chat Agent",
-        "offset" : 320,
+        "offset" : 384,
         "size" : 424
       } ]
   }

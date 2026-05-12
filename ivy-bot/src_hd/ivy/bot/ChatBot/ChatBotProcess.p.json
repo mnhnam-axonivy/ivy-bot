@@ -107,7 +107,7 @@
     }, {
       "id" : "f5",
       "type" : "Script",
-      "name" : "Add user message",
+      "name" : "Create user message",
       "config" : {
         "output" : {
           "code" : [
@@ -117,7 +117,7 @@
             "msg.setRole(\"USER\");",
             "msg.setContent(in.message);",
             "",
-            "in.messages.add(msg);"
+            "in.lastUserMessage = msg;"
           ]
         }
       },
@@ -125,7 +125,47 @@
         "at" : { "x" : 480, "y" : 256 }
       },
       "connect" : [
-        { "id" : "f14", "to" : "f6" }
+        { "id" : "f14", "to" : "f30" }
+      ]
+    }, {
+      "id" : "f30",
+      "type" : "SubProcessCall",
+      "name" : "Translate User Message",
+      "config" : {
+        "processCall" : "ivy/bot/agent/TranslationAgent:translate(entity.Message,String)",
+        "call" : {
+          "map" : {
+            "param.message" : "in.lastUserMessage"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.lastUserMessage" : "result.message"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 688, "y" : 256 },
+        "size" : { "width" : 160, "height" : 62 }
+      },
+      "connect" : [
+        { "id" : "f30c", "to" : "f31" }
+      ]
+    }, {
+      "id" : "f31",
+      "type" : "Script",
+      "name" : "Add user message",
+      "config" : {
+        "output" : {
+          "code" : "in.messages.add(in.lastUserMessage);"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 880, "y" : 256 }
+      },
+      "connect" : [
+        { "id" : "f31c", "to" : "f6" }
       ]
     }, {
       "id" : "f6",
@@ -135,7 +175,7 @@
         "processCall" : "ivy/bot/agent/ChatAgent:chat(String,String)",
         "call" : {
           "map" : {
-            "param.query" : "in.message",
+            "param.query" : "in.lastUserMessage.getContent()",
             "param.pastConversation" : "in.pastConversation"
           }
         },
@@ -147,7 +187,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 656, "y" : 256 },
+        "at" : { "x" : 1064, "y" : 256 },
         "size" : { "width" : 128 }
       },
       "connect" : [
@@ -157,7 +197,7 @@
       "id" : "f8",
       "type" : "HtmlDialogEnd",
       "visual" : {
-        "at" : { "x" : 1160, "y" : 256 }
+        "at" : { "x" : 1544, "y" : 256 }
       }
     }, {
       "id" : "f17",
@@ -191,7 +231,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 840, "y" : 256 }
+        "at" : { "x" : 1232, "y" : 256 }
       },
       "connect" : [
         { "id" : "f21", "to" : "f22", "color" : "default" }
@@ -206,7 +246,7 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 1008, "y" : 256 }
+        "at" : { "x" : 1400, "y" : 256 }
       },
       "connect" : [
         { "id" : "f23", "to" : "f8", "color" : "default" }

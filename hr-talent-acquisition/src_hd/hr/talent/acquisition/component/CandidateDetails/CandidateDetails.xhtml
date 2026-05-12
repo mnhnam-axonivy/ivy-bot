@@ -27,7 +27,7 @@
           </div>
         </div>
         <span class="px-3 py-2 border-round bg-white-alpha-20 text-white font-semibold">
-          #{cc.attrs.managedBean.selectedCandidate.level} LEVEL
+          #{cc.attrs.managedBean.selectedCandidate.level} #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/LevelSuffix')}
         </span>
       </div>
 
@@ -35,14 +35,14 @@
       <p:tabView styleClass="candidate-tabs">
 
         <!-- Tab 1: Overview -->
-        <p:tab title="Overview">
+        <p:tab title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/TabOverview')}">
           <div class="grid pt-3">
         <!-- Contact Info -->
         <div class="col-12 md:col-6">
           <div class="card h-full surface-50">
             <h4 class="mt-0 flex align-items-center">
               <i class="pi pi-id-card text-primary mr-2"></i>
-              Contact Information
+              #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/ContactInfoTitle')}
             </h4>
             <div class="flex align-items-center mb-2">
               <i class="pi pi-envelope text-500 mr-2 contact-icon"></i>
@@ -64,7 +64,7 @@
               <div class="flex align-items-center mb-2">
                 <i class="pi pi-linkedin text-500 mr-2 contact-icon"></i>
                 <h:outputLink value="#{cc.attrs.managedBean.selectedCandidate.linkedInUrl}" target="_blank" styleClass="text-primary">
-                  LinkedIn Profile
+                  #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/LinkedInLink')}
                 </h:outputLink>
               </div>
             </p:outputPanel>
@@ -72,7 +72,7 @@
               <div class="flex align-items-center">
                 <i class="pi pi-github text-500 mr-2 contact-icon"></i>
                 <h:outputLink value="#{cc.attrs.managedBean.selectedCandidate.githubUrl}" target="_blank" styleClass="text-primary">
-                  GitHub Profile
+                  #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/GitHubLink')}
                 </h:outputLink>
               </div>
             </p:outputPanel>
@@ -84,7 +84,7 @@
           <div class="card h-full ai-summary-card">
             <h4 class="mt-0 flex align-items-center">
               <i class="pi pi-bolt text-primary mr-2"></i>
-              AI-Generated Summary
+              #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/AiSummaryTitle')}
             </h4>
             <p class="text-700 line-height-3 m-0">#{cc.attrs.managedBean.selectedCandidate.aiGeneratedSummary}</p>
           </div>
@@ -95,7 +95,7 @@
           <div class="card">
             <h4 class="mt-0 flex align-items-center">
               <i class="pi pi-align-left text-primary mr-2"></i>
-              Professional Summary
+              #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/ProfSummaryTitle')}
             </h4>
             <p class="text-700 line-height-3 m-0">#{cc.attrs.managedBean.selectedCandidate.professionalSummary}</p>
           </div>
@@ -105,14 +105,14 @@
     </p:tab>
 
     <!-- Tab 2: Skills -->
-    <p:tab title="Skills">
+    <p:tab title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/TabSkills')}">
       <div class="grid pt-3">
         <!-- Technical Skills -->
         <div class="col-12 md:col-6">
           <div class="card">
             <h4 class="mt-0 flex align-items-center">
               <i class="pi pi-code text-primary mr-2"></i>
-              Technical Skills
+              #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/TechnicalSkillsTitle')}
               <p:badge value="#{cc.attrs.managedBean.selectedCandidate.technicalSkills.size()}" severity="info" styleClass="ml-2" />
             </h4>
             <div class="flex flex-wrap">
@@ -132,7 +132,7 @@
           <div class="card">
             <h4 class="mt-0 flex align-items-center">
               <i class="pi pi-chart-bar text-primary mr-2"></i>
-              Skills Score Matrix
+              #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/SkillsMatrixTitle')}
             </h4>
             <div class="flex justify-content-center align-items-center" style="min-height: 300px;">
               <canvas id="skillsRadarChart" width="400" height="300"></canvas>
@@ -144,14 +144,14 @@
     </p:tab>
 
     <!-- Tab 3: Work History -->
-    <p:tab title="Work History">
+    <p:tab title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/TabWorkHistory')}">
       <div class="pt-3">
         <!-- Work History -->
         <p:outputPanel styleClass="col-12" rendered="#{not empty cc.attrs.managedBean.selectedCandidate.workHistories}">
           <div class="card">
             <h4 class="mt-0 flex align-items-center">
               <i class="pi pi-briefcase text-primary mr-2"></i>
-              Work History
+              #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/WorkHistoryTitle')}
             </h4>
             <ui:repeat value="#{cc.attrs.managedBean.selectedCandidate.workHistories}" var="work" varStatus="status">
               <p:outputPanel styleClass="#{status.last ? '' : 'border-bottom-1 surface-border pb-3 mb-3'}">
@@ -164,7 +164,7 @@
                     <p class="text-primary font-medium mt-1 mb-1">#{work.employer}</p>
                     <p class="text-500 text-sm m-0">
                       <i class="pi pi-calendar mr-1"></i>
-                      #{work.periodStart} - #{work.periodEnd != null ? work.periodEnd : 'Present'}
+                      #{work.periodStart} - #{work.periodEnd != null ? work.periodEnd : ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/Present')}
                       <span class="mx-2">•</span>
                       <span class="text-xs px-2 py-1 border-round surface-200">#{work.employerCategory}</span>
                     </p>
@@ -182,14 +182,14 @@
     </p:tab>
 
     <!-- Tab 4: Education -->
-    <p:tab title="Education">
+    <p:tab title="#{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/TabEducation')}">
       <div class="pt-3">
         <!-- Education -->
         <p:outputPanel styleClass="col-12" rendered="#{not empty cc.attrs.managedBean.selectedCandidate.educationRecords}">
           <div class="card">
             <h4 class="mt-0 flex align-items-center">
               <i class="pi pi-graduation-cap text-primary mr-2"></i>
-              Education
+              #{ivy.cms.co('/Dialogs/hr/talent/acquisition/CandidateDetails/EducationTitle')}
             </h4>
             <ui:repeat value="#{cc.attrs.managedBean.selectedCandidate.educationRecords}" var="edu" varStatus="status">
               <p:outputPanel styleClass="flex align-items-start #{status.last ? '' : 'mb-3'}">

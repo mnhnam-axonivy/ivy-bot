@@ -1,6 +1,6 @@
 /**
- * Talent Acquisition — Welcome page 3-slide carousel.
- * Reuses fd- CSS classes (bundled in talent-welcome.css) for panel
+ * Chatbot — Welcome page 3-slide carousel.
+ * Reuses fd- CSS classes (bundled in chatbot-welcome.css) for panel
  * visibility and animation. Button IDs are pw-prev / pw-next.
  */
 (function () {

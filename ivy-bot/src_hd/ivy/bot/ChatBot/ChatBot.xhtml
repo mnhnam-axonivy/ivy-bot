@@ -3,7 +3,7 @@
   xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui">
 <h:body>
   <ui:composition template="/layouts/frame-10-full-width.xhtml">
-    <ui:define name="title">Axon Ivy Chatbot</ui:define>
+    <ui:define name="title">#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/PageTitle')}</ui:define>
     <ui:define name="content">
 
       <h:outputStylesheet library="css" name="chatbot.css" />
@@ -28,9 +28,9 @@
                   <div class="welcome-icon flex align-items-center justify-content-center border-circle mb-3">
                     <i class="pi pi-comments text-white"></i>
                   </div>
-                  <div class="text-2xl font-semibold text-color mb-2">Hello, how can I help you?</div>
+                  <div class="text-2xl font-semibold text-color mb-2">#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/WelcomeTitle')}</div>
                   <p class="text-center text-color-secondary m-0 line-height-3">
-                    Ask me anything and I'll do my best to assist you.
+                    #{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/WelcomeSubtitle')}
                   </p>
                 </div>
               </h:panelGroup>
@@ -40,9 +40,18 @@
                 <h:panelGroup rendered="#{message.role eq 'USER'}" layout="block"
                               styleClass="flex justify-content-end mb-3">
                   <div class="user-bubble">
-                    <div class="user-bubble-content p-3 border-round-xl text-white">
+                    <div class="user-bubble-content p-3 border-round-xl text-white"
+                         data-original="#{message.content}"
+                         data-translated="#{not empty message.translated ? message.translated : ''}">
                       <h:outputText value="#{message.content}" />
                     </div>
+                    <h:panelGroup rendered="#{not empty message.translated}" layout="block" styleClass="text-right">
+                      <a href="#" class="ai-toggle-link user-toggle-link"
+                         data-showing-original="true"
+                         data-label-show-original="#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/ShowOriginal')}"
+                         data-label-show-translation="#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/ShowTranslation')}"
+                         onclick="toggleOriginal(this); return false;">#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/ShowTranslation')}</a>
+                    </h:panelGroup>
                   </div>
                 </h:panelGroup>
 
@@ -53,10 +62,19 @@
                       <i class="pi pi-comments text-white"></i>
                     </div>
                     <div class="assistant-content flex-1">
-                      <div class="text-sm font-semibold text-color mb-1">Assistant</div>
-                      <div class="p-3 ai-markdown-content">
-                        <h:outputText value="#{message.content}" />
+                      <div class="text-sm font-semibold text-color mb-1">#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/AssistantLabel')}</div>
+                      <div class="p-3 ai-markdown-content"
+                           data-translated="#{not empty message.translated ? message.translated : ''}"
+                           data-original="#{message.content}">
+                        <h:outputText value="#{not empty message.translated ? message.translated : message.content}" />
                       </div>
+                      <h:panelGroup rendered="#{not empty message.translated}" layout="block">
+                        <a href="#" class="ai-toggle-link"
+                           data-showing-original="false"
+                           data-label-show-original="#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/ShowOriginal')}"
+                           data-label-show-translation="#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/ShowTranslation')}"
+                           onclick="toggleOriginal(this); return false;">#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/ShowOriginal')}</a>
+                      </h:panelGroup>
                     </div>
                   </div>
                 </h:panelGroup>
@@ -69,13 +87,13 @@
                     <i class="pi pi-comments text-white"></i>
                   </div>
                   <div class="assistant-content flex-1">
-                    <div class="text-sm font-semibold text-color mb-1">Assistant</div>
+                    <div class="text-sm font-semibold text-color mb-1">#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/AssistantLabel')}</div>
                     <div class="p-3">
                       <div class="typing-dots">
                         <span></span>
                         <span></span>
                         <span></span>
-                        <span class="typing-text text-color-secondary">Thinking...</span>
+                        <span class="typing-text text-color-secondary">#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/ThinkingText')}</span>
                       </div>
                     </div>
                   </div>
@@ -95,15 +113,14 @@
                                 autoResize="true"
                                 maxlength="2000"
                                 styleClass="w-full"
-                                placeholder="Type your message..."
+                                placeholder="#{ivy.cms.co('/Dialogs/ivy/bot/ChatBot/InputPlaceholder')}"
                                 onkeydown="handleChatInputKeydown(event)" />
               </div>
-              <p:commandButton id="sendBtn" icon="pi pi-send" styleClass="p-button-rounded">
-                <p:ajax event="click" listener="#{logic.chat}"
-                  process="chatInput" update="chatForm" global="false"
-                  onstart="showThinking();"
-                  oncomplete="onChatComplete();" />
-              </p:commandButton>
+              <p:commandButton id="sendBtn" icon="pi pi-send" styleClass="p-button-rounded"
+                               action="#{logic.chat}"
+                               process="chatInput" update="chatForm" global="false"
+                               onstart="showThinking();"
+                               oncomplete="onChatComplete();" />
             </div>
           </div>
 

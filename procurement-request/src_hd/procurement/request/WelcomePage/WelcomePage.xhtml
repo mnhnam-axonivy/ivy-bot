@@ -25,9 +25,27 @@
           <div class="fd-steps-wrapper">
 
             <!-- ═══════════════════════════════════════════════════════
-                 Slide 0 — What this demo does (AI capabilities)
-                 ═══════════════════════════════════════════════════════ -->
+                 Slide 0 — What makes this demo unique
+                 ═══════════════════════════════════════════════════════════ -->
             <div class="fd-step-panel" data-step="0">
+              <div class="pw-slide-body pw-welcome">
+
+                <div class="pw-hero-title">
+                  #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/HeroTitle1')}<br/><span>#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/HeroTitle2')}</span>
+                </div>
+                <div class="text-lg mt-2">
+                  #{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/HeroSubtitle')}
+                </div>
+
+                <p class="pw-focus-para">#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/FocusPara')}</p>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 Slide 1 — What this demo does (AI capabilities)
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="1">
               <div class="pw-slide-body pw-welcome">
 
                 <div class="pw-hero-title">
@@ -93,9 +111,9 @@
             </div>
 
             <!-- ═══════════════════════════════════════════════════════
-                 Slide 1 — How it transforms the real-life process
-                 ═══════════════════════════════════════════════════════ -->
-            <div class="fd-step-panel" data-step="1">
+                 Slide 2 — How it transforms the real-life process
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="2">
               <div class="pw-slide-body">
 
                 <div class="pw-slide-header">
@@ -166,9 +184,9 @@
             </div>
 
             <!-- ═══════════════════════════════════════════════════════
-                 Slide 2 — Generate mock data + download sample PDF
-                 ═══════════════════════════════════════════════════════ -->
-            <div class="fd-step-panel" data-step="2">
+                 Slide 3 — Generate mock data + download sample PDF
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="3">
               <div class="pw-slide-body">
 
                 <div class="pw-ready-hero">
@@ -270,6 +288,7 @@
           <span class="fd-dot" onclick="pwGoToSlide(0)" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Dot0Title')}"></span>
           <span class="fd-dot" onclick="pwGoToSlide(1)" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Dot1Title')}"></span>
           <span class="fd-dot" onclick="pwGoToSlide(2)" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Dot2Title')}"></span>
+          <span class="fd-dot" onclick="pwGoToSlide(3)" title="#{ivy.cms.co('/Dialogs/procurement/request/WelcomePage/Dot3Title')}"></span>
         </div>
 
         <!-- ── Footer: Cancel + Proceed ─────────────────────────── -->

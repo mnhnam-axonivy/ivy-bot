@@ -1,8 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Talent Acquisition — Welcome / Start page (3-slide carousel).
+   Chatbot — Welcome / Start page (3-slide carousel).
    Self-contained: bundles all fd-* carousel classes so this project
-   has no dependency on procurement-request CSS.
-   tw- prefix for talent-welcome-specific additions.
+   has no external CSS dependencies.
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Icon colour tokens (fd-cap-icon--*) ─────────────────────────── */
@@ -119,7 +118,7 @@
 
 /* Adaptive carousel height — fills viewport minus nav, dots, footer chrome */
 .pw-page .fd-steps-wrapper {
-  height: clamp(400px, calc(100vh - 220px), 720px);
+  height: 70vh;
 }
 
 .pw-page .fd-step-panel {
@@ -353,47 +352,121 @@
   padding: 4px 0 12px;
 }
 
-/* ── Sample CV download sections ─────────────────────────────────── */
-.pw-download-section {
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 16px;
-  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
-  padding: 16px 20px;
+/* ── Chatbot feature highlights (Slide 2) ────────────────────────── */
+.cw-feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
 }
 
-.pw-download-header {
+.cw-feature-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 14px;
+  border: 1px solid #f1f5f9;
+  transition: box-shadow .2s, border-color .2s;
 }
 
-.pw-download-header-left {
+.cw-feature-item:hover {
+  box-shadow: 0 4px 16px rgba(99,102,241,.1);
+  border-color: #e0e7ff;
+}
+
+.cw-feature-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
 }
 
-.pw-download-header-left i {
-  font-size: 20px;
-  color: #6366f1;
+.cw-feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.tw-download-md-section .pw-download-header-left i {
-  color: #059669;
-}
-
-.pw-download-title {
+.cw-feature-name {
   font-size: 14px;
   font-weight: 700;
   color: #1e293b;
-  margin-bottom: 2px;
 }
 
-.pw-download-desc {
+.cw-feature-hint {
   font-size: 12px;
+  color: #64748b;
+}
+
+/* ── Demo credentials note ───────────────────────────────────────── */
+.cw-demo-note {
+  margin-top: 12px;
+  border: 1.5px dashed #c7d2fe;
+  border-radius: 14px;
+  background: #f5f3ff;
+  padding: 12px 16px;
+}
+
+.cw-demo-note-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6366f1;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cw-demo-credentials {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cw-demo-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  border: 1px solid #e0e7ff;
+}
+
+.cw-demo-user-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.cw-demo-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+
+.cw-demo-user-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.cw-demo-user-hint {
+  font-size: 11px;
   color: #64748b;
 }
 
@@ -440,6 +513,5 @@
   .pw-ai-icon { width: 40px; height: 40px; font-size: 20px; }
   .pw-compare-stats { margin-bottom: 14px; }
   .pw-slide-header { margin-bottom: 14px; }
-  .pw-download-section { padding: 12px 16px; margin-bottom: 10px; }
   .pw-focus-para { margin-top: 16px; font-size: 14px; }
 }

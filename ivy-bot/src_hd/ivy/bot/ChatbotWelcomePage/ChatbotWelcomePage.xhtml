@@ -1,0 +1,297 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+  <ui:composition template="/layouts/frame-10-full-width.xhtml">
+    <ui:define name="title">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/PageTitle')}</ui:define>
+    <ui:define name="content">
+
+      <h:outputStylesheet library="css" name="chatbot-welcome.css" />
+      <h:outputScript library="js" name="chatbot-welcome.js" target="body" />
+
+      <div class="pw-page">
+
+        <!-- ── Step navigator ── -->
+        <div class="fd-step-navigator">
+
+          <button id="pw-prev" class="fd-nav-btn" type="button"
+            onclick="pwPrevSlide()" title="#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/PrevButton')}">
+            <i class="pi pi-chevron-left"></i>
+          </button>
+
+          <div class="fd-steps-wrapper">
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 0 — What makes this demo unique
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="0">
+              <div class="pw-slide-body pw-welcome">
+
+                <div class="pw-hero-title">
+                  #{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/HeroTitle1')}<br/><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/HeroTitle2')}</span>
+                </div>
+                <div class="text-lg mt-2">
+                  #{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/HeroSubtitle')}
+                </div>
+
+                <p class="pw-focus-para">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/FocusPara')}</p>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 Slide 1 — What the chatbot can do
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="1">
+              <div class="pw-slide-body pw-welcome">
+
+                <div class="pw-hero-title">
+                  #{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/HeroTitle1')}<br/><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/HeroTitle2')}</span>
+                </div>
+                <div class="text-lg mt-2">
+                  #{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/HeroSubtitle')}
+                </div>
+
+                <div class="pw-ai-grid">
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--blue">
+                      <i class="pi pi-book"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/PolicyTitle')}</div>
+                      <div class="pw-ai-desc">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/PolicyDesc')}</div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--green">
+                      <i class="pi pi-calendar-plus"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/LeaveTitle')}</div>
+                      <div class="pw-ai-desc">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/LeaveDesc')}</div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--purple">
+                      <i class="pi pi-id-card"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/EmployeeTitle')}</div>
+                      <div class="pw-ai-desc">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/EmployeeDesc')}</div>
+                    </div>
+                  </div>
+
+                  <div class="pw-ai-card">
+                    <div class="pw-ai-icon fd-cap-icon--amber">
+                      <i class="pi pi-comments"></i>
+                    </div>
+                    <div>
+                      <div class="pw-ai-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/ConversationTitle')}</div>
+                      <div class="pw-ai-desc">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/ConversationDesc')}</div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 2 — Traditional vs AI comparison
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="2">
+              <div class="pw-slide-body">
+
+                <div class="pw-slide-header">
+                  <div class="pw-slide-title">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/CompareTitle')}</div>
+                  <div>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/CompareSubtitle')}</div>
+                </div>
+
+                <!-- Key metrics -->
+                <div class="pw-compare-stats">
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat1Before')}</span>
+                      <span class="pw-stat-arrow"><i class="pi pi-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat1After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat1Label')}</div>
+                  </div>
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat2Before')}</span>
+                      <span class="pw-stat-arrow"><i class="pi pi-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat2After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat2Label')}</div>
+                  </div>
+                  <div class="pw-stat">
+                    <div class="pw-stat-row">
+                      <span class="pw-stat-before">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat3Before')}</span>
+                      <span class="pw-stat-arrow"><i class="pi pi-arrow-right"></i></span>
+                      <span class="pw-stat-after">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat3After')}</span>
+                    </div>
+                    <div class="pw-stat-label">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Stat3Label')}</div>
+                  </div>
+                </div>
+
+                <!-- Side-by-side -->
+                <div class="pw-compare-grid">
+
+                  <div class="pw-compare-col pw-compare-before">
+                    <div class="pw-compare-col-header">
+                      <i class="pi pi-times-circle"></i> #{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/TraditionalHeader')}
+                    </div>
+                    <ul class="pw-compare-list">
+                      <li><i class="pi pi-times"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/TraditionalItem1')}</span></li>
+                      <li><i class="pi pi-times"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/TraditionalItem2')}</span></li>
+                      <li><i class="pi pi-times"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/TraditionalItem3')}</span></li>
+                      <li><i class="pi pi-times"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/TraditionalItem4')}</span></li>
+                      <li><i class="pi pi-times"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/TraditionalItem5')}</span></li>
+                    </ul>
+                  </div>
+
+                  <div class="pw-compare-col pw-compare-after">
+                    <div class="pw-compare-col-header">
+                      <i class="pi pi-sparkles"></i> #{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/AiHeader')}
+                    </div>
+                    <ul class="pw-compare-list">
+                      <li><i class="pi pi-check"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/AiItem1')}</span></li>
+                      <li><i class="pi pi-check"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/AiItem2')}</span></li>
+                      <li><i class="pi pi-check"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/AiItem3')}</span></li>
+                      <li><i class="pi pi-check"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/AiItem4')}</span></li>
+                      <li><i class="pi pi-check"></i><span>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/AiItem5')}</span></li>
+                    </ul>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 Slide 3 — Ready to chat
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="fd-step-panel" data-step="3">
+              <div class="pw-slide-body">
+
+                <div class="pw-ready-hero">
+                  <div class="pw-slide-title">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/ReadyTitle')}</div>
+                  <div>#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/ReadyDesc')}</div>
+                </div>
+
+                <div class="cw-feature-list">
+
+                  <div class="cw-feature-item">
+                    <div class="cw-feature-icon fd-cap-icon--blue">
+                      <i class="pi pi-book"></i>
+                    </div>
+                    <div class="cw-feature-text">
+                      <div class="cw-feature-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Feature1Name')}</div>
+                      <div class="cw-feature-hint">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Feature1Hint')}</div>
+                    </div>
+                  </div>
+
+                  <div class="cw-feature-item">
+                    <div class="cw-feature-icon fd-cap-icon--green">
+                      <i class="pi pi-calendar-plus"></i>
+                    </div>
+                    <div class="cw-feature-text">
+                      <div class="cw-feature-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Feature2Name')}</div>
+                      <div class="cw-feature-hint">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Feature2Hint')}</div>
+                    </div>
+                  </div>
+
+                  <div class="cw-feature-item">
+                    <div class="cw-feature-icon fd-cap-icon--purple">
+                      <i class="pi pi-id-card"></i>
+                    </div>
+                    <div class="cw-feature-text">
+                      <div class="cw-feature-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Feature3Name')}</div>
+                      <div class="cw-feature-hint">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Feature3Hint')}</div>
+                    </div>
+                  </div>
+
+                  <div class="cw-feature-item">
+                    <div class="cw-feature-icon fd-cap-icon--amber">
+                      <i class="pi pi-language"></i>
+                    </div>
+                    <div class="cw-feature-text">
+                      <div class="cw-feature-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Feature4Name')}</div>
+                      <div class="cw-feature-hint">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Feature4Hint')}</div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Demo credentials -->
+                <div class="cw-demo-note">
+                  <div class="cw-demo-note-title">
+                    <i class="pi pi-info-circle"></i>
+                    #{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/DemoNoteTitle')}
+                  </div>
+                  <div class="cw-demo-credentials">
+
+                    <div class="cw-demo-user">
+                      <div class="cw-demo-user-icon fd-cap-icon--blue">
+                        <i class="pi pi-user"></i>
+                      </div>
+                      <div class="cw-demo-user-info">
+                        <div class="cw-demo-user-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/DemoEmployeeName')}</div>
+                        <div class="cw-demo-user-hint">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/DemoEmployeeHint')}</div>
+                      </div>
+                    </div>
+
+                    <div class="cw-demo-user">
+                      <div class="cw-demo-user-icon fd-cap-icon--amber">
+                        <i class="pi pi-briefcase"></i>
+                      </div>
+                      <div class="cw-demo-user-info">
+                        <div class="cw-demo-user-name">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/DemoManagerName')}</div>
+                        <div class="cw-demo-user-hint">#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/DemoManagerHint')}</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div><!-- .fd-steps-wrapper -->
+
+          <button id="pw-next" class="fd-nav-btn" type="button"
+            onclick="pwNextSlide()" title="#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/NextButton')}">
+            <i class="pi pi-chevron-right"></i>
+          </button>
+
+        </div><!-- .fd-step-navigator -->
+
+        <!-- ── Dot indicators ────────────────────────────────────── -->
+        <div class="fd-step-dots">
+          <span class="fd-dot" onclick="pwGoToSlide(0)" title="#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Dot0Title')}"></span>
+          <span class="fd-dot" onclick="pwGoToSlide(1)" title="#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Dot1Title')}"></span>
+          <span class="fd-dot" onclick="pwGoToSlide(2)" title="#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Dot2Title')}"></span>
+          <span class="fd-dot" onclick="pwGoToSlide(3)" title="#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/Dot3Title')}"></span>
+        </div>
+
+        <!-- ── Footer: Cancel + Proceed ─────────────────────────── -->
+        <h:form id="pw-footer-form" styleClass="pw-footer">
+          <p:commandLink id="cancel" actionListener="#{ivyWorkflowView.cancel()}" process="@this"
+            value="#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/CancelButton')}" />
+          <p:commandButton id="proceed" actionListener="#{logic.close}"
+            value="#{ivy.cms.co('/Dialogs/ivy/bot/ChatbotWelcomePage/ProceedButton')}"
+            icon="pi pi-check" />
+        </h:form>
+
+      </div><!-- .pw-page -->
+
+    </ui:define>
+  </ui:composition>
+</h:body>
+
+</html>

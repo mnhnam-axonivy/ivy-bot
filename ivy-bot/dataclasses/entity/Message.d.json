@@ -10,5 +10,8 @@
     "name" : "content",
     "comment" : "The message text content",
     "modifiers" : [ ]
+  }, {
+    "name" : "translated",
+    "comment" : "Translated message text content"
   } ]
 }
